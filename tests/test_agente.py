@@ -1,0 +1,242 @@
+"""Testes das regras do agente (app/agente.py): banco -> agente IA -> grava."""
+
+import sys
+import types
+
+import pytest
+
+from app import agente as modulo
+from app.agente import (
+    APRESENTACAO,
+    FALLBACK,
+    FORA_DO_ESCOPO,
+    RESPOSTA_FORA_DO_ESCOPO,
+    Agente,
+    Resposta,
+    perguntar_ao_ollama,
+    usar_ollama,
+)
+from tests.conftest import RESPOSTA_FALSA, OllamaFalso
+
+
+# ---- 10 perguntas da demonstração (seção 10 do checklist) ----------------------
+@pytest.mark.parametrize(
+    "pergunta, esperados",
+    [
+        ("Qual a diferença entre furadeira e parafusadeira?", {"FAQ-001"}),
+        ("Preciso furar concreto, o que uso?", {"FAQ-002", "FAQ-003"}),
+        ("Qual broca é boa para metal?", {"FAQ-015"}),
+        ("Uma bateria de 4 Ah dura mais que uma de 2 Ah?", {"FAQ-021"}),
+        ("Posso colocar disco maior na esmerilhadeira?", {"FAQ-016", "FAQ-038"}),
+        ("Como escolher um multímetro?", {"FAQ-028"}),
+        ("Tem uma Bosch por R$ 300?", {"FAQ-041", "FAQ-042", "FAQ-051"}),
+        ("Vocês entregam na minha cidade?", {"FAQ-043"}),
+        ("Quero devolver uma compra online.", {"FAQ-048"}),
+        ("Não sei qual ferramenta comprar.", {"FAQ-060"}),
+    ],
+)
+def test_perguntas_da_demo_vem_do_banco(agente, ollama, pergunta, esperados):
+    r = agente.responder(pergunta)
+    assert r.origem == "banco"
+    assert r.matchedFaqId in esperados
+    assert ollama.chamadas == 0
+
+
+# ---- variações de linguagem ---------------------------------------------------
+@pytest.mark.parametrize(
+    "pergunta, esperado",
+    [
+        ("parafuzadeira ou furadera?", "FAQ-001"),          # erro de digitação
+        ("FURADEIRA OU PARAFUSADEIRA", "FAQ-001"),          # maiúsculas
+        ("diferenca entre furadeira e aparafusadora", "FAQ-001"),  # sinônimo cadastrado
+        ("que serra usar em madeira", "FAQ-009"),
+        ("posso usar furadeira na chuva?", "FAQ-040"),
+        ("aceita pix?", "FAQ-045"),
+        ("vocês trabalham com makita", "FAQ-051"),
+        ("minha furadeira está esquentando", "FAQ-037"),
+        ("ferramenta 220 na tomada 110", "FAQ-025"),
+    ],
+)
+def test_variacoes_de_linguagem(agente, pergunta, esperado):
+    assert agente.responder(pergunta).matchedFaqId == esperado
+
+
+# ---- saudação -----------------------------------------------------------------
+def test_saudacao(agente, ollama):
+    r = agente.responder("Olá")
+    assert r == Resposta(APRESENTACAO, None, 1.0, "saudacao")
+    assert ollama.chamadas == 0
+
+
+# ---- regras comerciais (nunca inventar preço / nunca passar pelo LLM) -----------
+@pytest.mark.parametrize(
+    "pergunta",
+    ["qual o preço da lixadeira?", "Tem uma Bosch por R$ 300?", "quanto custa o frete pra SP",
+     "vocês parcelam?", "tem cupom de desconto?", "qual a garantia?"],
+)
+def test_comercial_nunca_usa_llm_nem_inventa_preco(agente, ollama, pergunta):
+    r = agente.responder(pergunta)
+    assert r.origem == "banco"
+    assert ollama.chamadas == 0
+    assert "R$" not in r.answer
+
+
+def test_comercial_mista_junta_respostas(agente):
+    r = agente.responder("Tem uma Bosch por R$ 300?")
+    assert "estoque" in r.answer
+    assert "preços" in r.answer
+    assert "marcas" in r.answer
+    assert r.confidence >= modulo.NOTA_MINIMA
+
+
+def test_preco_com_produto_prioriza_comercial(agente):
+    r = agente.responder("qual o preço da lixadeira")
+    assert r.matchedFaqId == "FAQ-042"
+    assert "Talvez também ajude" in r.answer  # sugere a FAQ técnica de lixadeira
+
+
+# ---- empate e baixa confiança -------------------------------------------------
+def test_empate_sugere_segunda_faq(agente):
+    r = agente.responder("bateria serve na minha parafusadeira")
+    assert r.origem == "banco"
+
+
+def test_nota_media_pede_detalhes(agente, monkeypatch):
+    monkeypatch.setattr(modulo, "NOTA_CONFIANTE", 1.01)
+    r = agente.responder("broca para metal hss")
+    assert "me conte mais detalhes" in r.answer
+
+
+def test_nota_alta_nao_pede_detalhes(agente):
+    r = agente.responder("Qual a diferença entre furadeira e parafusadeira?")
+    assert "me conte mais detalhes" not in r.answer
+
+
+# ---- agente completa a base ---------------------------------------------------
+PERGUNTA_NOVA = "Qual a voltagem ideal para um soprador térmico?"
+
+
+def test_pergunta_nova_vai_para_o_agente_e_e_gravada(agente, ollama):
+    r1 = agente.responder(PERGUNTA_NOVA)
+    assert r1 == Resposta(RESPOSTA_FALSA, "FAQ-061", 0.0, "agente")
+    assert len(agente.faqs) == 61
+    assert ollama.perguntas == [PERGUNTA_NOVA]
+
+    r2 = agente.responder(PERGUNTA_NOVA)
+    assert r2.origem == "banco"
+    assert r2.matchedFaqId == "FAQ-061"
+    assert r2.answer == RESPOSTA_FALSA
+    assert ollama.chamadas == 1  # não chamou o LLM de novo
+
+
+def test_pergunta_aprendida_fica_pendente_de_validacao(agente, con):
+    agente.responder(PERGUNTA_NOVA)
+    status, origem = con.execute("SELECT status, origem FROM faq WHERE id='FAQ-061'").fetchone()
+    assert (status, origem) == ("pendente_validacao", "agente")
+
+
+def test_varias_perguntas_novas_geram_ids_sequenciais(agente):
+    a = agente.responder("Qual a voltagem ideal para um soprador térmico?")
+    b = agente.responder("Como funciona uma tupia de bancada?")
+    assert (a.matchedFaqId, b.matchedFaqId) == ("FAQ-061", "FAQ-062")
+
+
+def test_aprendizado_persiste_em_nova_instancia(con, ollama):
+    Agente(con, perguntar=ollama).responder(PERGUNTA_NOVA)
+    outro = Agente(con, perguntar=OllamaFalso("não deveria ser chamado"))
+    r = outro.responder(PERGUNTA_NOVA)
+    assert r.origem == "banco"
+    assert outro.perguntar.chamadas == 0
+
+
+def test_fora_do_escopo_nao_e_gravado(con):
+    ag = Agente(con, perguntar=OllamaFalso(FORA_DO_ESCOPO))
+    r = ag.responder("como fazer bolo de chocolate")
+    assert r == Resposta(RESPOSTA_FORA_DO_ESCOPO, None, 0.0, "fora_do_escopo")
+    assert len(ag.faqs) == 60
+
+
+def test_fora_do_escopo_no_meio_do_texto(con):
+    ag = Agente(con, perguntar=OllamaFalso(f"Desculpe. {FORA_DO_ESCOPO}"))
+    assert ag.responder("qual a capital da França?").origem == "fora_do_escopo"
+
+
+@pytest.mark.parametrize("resposta_llm", [None, ""])
+def test_ollama_indisponivel_gera_fallback(con, resposta_llm):
+    ag = Agente(con, perguntar=OllamaFalso(resposta_llm))
+    r = ag.responder("como funciona um soprador térmico industrial")
+    assert r == Resposta(FALLBACK, None, 0.0, "fallback")
+    assert len(ag.faqs) == 60
+
+
+def test_ollama_desligado_por_variavel_nao_chama_llm(agente, ollama, monkeypatch):
+    monkeypatch.setenv("USAR_OLLAMA", "false")
+    r = agente.responder(PERGUNTA_NOVA)
+    assert r.origem == "fallback"
+    assert ollama.chamadas == 0
+
+
+def test_pergunta_so_com_stopwords_vai_para_o_agente(agente, ollama):
+    agente.responder("o que eu posso fazer?")
+    assert ollama.chamadas == 1
+
+
+def test_espacos_extras_sao_ignorados(agente):
+    assert agente.responder("   aceita pix?   ").matchedFaqId == "FAQ-045"
+
+
+# ---- usar_ollama --------------------------------------------------------------
+@pytest.mark.parametrize("valor, esperado", [("true", True), ("1", True), ("SIM", True), ("false", False), ("0", False), ("nao", False)])
+def test_usar_ollama(monkeypatch, valor, esperado):
+    monkeypatch.setenv("USAR_OLLAMA", valor)
+    assert usar_ollama() is esperado
+
+
+def test_usar_ollama_padrao_e_ligado(monkeypatch):
+    monkeypatch.delenv("USAR_OLLAMA", raising=False)
+    assert usar_ollama() is True
+
+
+# ---- perguntar_ao_ollama (com o pacote ollama simulado) ------------------------
+def _ollama_simulado(monkeypatch, chat):
+    monkeypatch.setitem(sys.modules, "ollama", types.SimpleNamespace(chat=chat))
+
+
+def test_perguntar_ao_ollama_envia_instrucao_e_pergunta(monkeypatch):
+    recebido = {}
+
+    def chat(model, messages, options):
+        recebido.update(model=model, messages=messages, options=options)
+        return {"message": {"content": "  resposta  "}}
+
+    _ollama_simulado(monkeypatch, chat)
+    assert perguntar_ao_ollama("Qual serra?") == "resposta"
+    assert recebido["model"] == modulo.MODELO
+    assert recebido["messages"][0] == {"role": "system", "content": modulo.INSTRUCAO_LLM}
+    assert recebido["messages"][1] == {"role": "user", "content": "Qual serra?"}
+    assert recebido["options"]["temperature"] <= 0.3
+
+
+def test_perguntar_ao_ollama_erro_devolve_none(monkeypatch):
+    def chat(**_):
+        raise ConnectionError("ollama fechado")
+
+    _ollama_simulado(monkeypatch, chat)
+    assert perguntar_ao_ollama("x") is None
+
+
+def test_perguntar_ao_ollama_resposta_vazia_devolve_none(monkeypatch):
+    _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "   "}})
+    assert perguntar_ao_ollama("x") is None
+
+
+def test_instrucao_do_llm_tem_as_regras_de_seguranca():
+    texto = modulo.INSTRUCAO_LLM.lower()
+    for regra in ["preços", "estoque", "garantias", "cpf", "segurança", FORA_DO_ESCOPO.lower()]:
+        assert regra in texto
+
+
+def test_resposta_para_dict():
+    assert Resposta("a", "FAQ-001", 0.5, "banco").para_dict() == {
+        "answer": "a", "matchedFaqId": "FAQ-001", "confidence": 0.5, "origem": "banco",
+    }

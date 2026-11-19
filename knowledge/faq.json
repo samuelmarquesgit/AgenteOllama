@@ -1,0 +1,1200 @@
+[
+  {
+    "id": "FAQ-001",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual a diferença entre furadeira e parafusadeira?",
+    "variacoes": [
+      "furadeira ou parafusadeira",
+      "diferenca entre furadeira e aparafusadora"
+    ],
+    "palavras_chave": [
+      "furadeira",
+      "parafusadeira",
+      "diferenca",
+      "aparafusadora"
+    ],
+    "resposta": "A furadeira é voltada principalmente à perfuração de materiais. A parafusadeira é otimizada para apertar e soltar parafusos, normalmente com controle de torque. Alguns modelos combinam as duas funções.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-002",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual a diferença entre furadeira comum e furadeira de impacto?",
+    "variacoes": [
+      "preciso furar parede",
+      "furadeira com impacto serve para que"
+    ],
+    "palavras_chave": [
+      "furadeira de impacto",
+      "impacto",
+      "percussao",
+      "furar parede",
+      "furar",
+      "parede",
+      "alvenaria",
+      "tijolo"
+    ],
+    "resposta": "A furadeira de impacto acrescenta uma ação de percussão, útil em alvenaria conforme o modelo e a broca. Para concreto mais resistente ou uso intenso, um martelete adequado pode ser mais indicado.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-003",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Quando devo usar um martelete?",
+    "variacoes": [
+      "preciso furar concreto o que uso",
+      "martelete serve para que"
+    ],
+    "palavras_chave": [
+      "martelete",
+      "rompedor",
+      "rompimento",
+      "furar concreto",
+      "concreto",
+      "furar",
+      "laje",
+      "quebrar"
+    ],
+    "resposta": "Marteletes são indicados para determinadas perfurações em concreto e alvenaria. Alguns modelos também fazem rompimento leve. Verifique o tipo de encaixe, a energia de impacto e as aplicações permitidas no manual.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-004",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual é melhor: ferramenta com fio ou a bateria?",
+    "variacoes": [
+      "melhor com fio ou sem fio",
+      "vale a pena ferramenta sem fio"
+    ],
+    "palavras_chave": [
+      "com fio",
+      "bateria",
+      "sem fio",
+      "fio",
+      "cordless",
+      "tomada"
+    ],
+    "resposta": "Modelos com fio dispensam recarga e são úteis em trabalhos prolongados com tomada disponível. Modelos a bateria oferecem mobilidade. A escolha depende de potência, autonomia, peso, frequência de uso e ambiente.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-005",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Parafusadeira 12V ou 20V: qual escolher?",
+    "variacoes": [
+      "parafusadeira 12 ou 20 volts",
+      "18v ou 12v"
+    ],
+    "palavras_chave": [
+      "12v",
+      "20v",
+      "18v",
+      "volts",
+      "tensao",
+      "parafusadeira"
+    ],
+    "resposta": "Modelos de 12V tendem a ser compactos para tarefas leves. Plataformas de tensão maior podem atender trabalhos exigentes, mas tensão sozinha não define torque ou desempenho. Compare especificações e aplicação.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-006",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "O que significa torque em uma parafusadeira?",
+    "variacoes": [
+      "o que e torque",
+      "quanto torque preciso"
+    ],
+    "palavras_chave": [
+      "torque",
+      "nm",
+      "n m",
+      "embreagem",
+      "forca"
+    ],
+    "resposta": "Torque é o momento de força de rotação, normalmente indicado em N·m. A necessidade depende do parafuso, material e tarefa. O ajuste de torque ajuda a evitar aperto excessivo em aplicações compatíveis.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-007",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "O que significa potência em watts?",
+    "variacoes": [
+      "o que significa watts",
+      "mais watts e melhor"
+    ],
+    "palavras_chave": [
+      "potencia",
+      "watts",
+      "watt",
+      "w"
+    ],
+    "resposta": "Watts (W) indicam potência. Em ferramentas elétricas, o valor informado nem sempre equivale à potência útil entregue no eixo. Para comparar desempenho, considere também rotação, torque e aplicação.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-008",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para montar móveis?",
+    "variacoes": [
+      "ferramenta para montar movel",
+      "o que usar para montar guarda roupa"
+    ],
+    "palavras_chave": [
+      "montar moveis",
+      "moveis",
+      "movel",
+      "montagem",
+      "guarda roupa",
+      "armario"
+    ],
+    "resposta": "Uma parafusadeira com ajuste de torque e bits adequados costuma ser útil. Para móveis delicados, prefira controle fino e evite aperto excessivo. Qual material e tipo de montagem você fará?",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-009",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para cortar madeira?",
+    "variacoes": [
+      "que serra usar em madeira",
+      "serra para madeira"
+    ],
+    "palavras_chave": [
+      "cortar madeira",
+      "madeira",
+      "serra circular",
+      "tico tico",
+      "esquadria",
+      "serra",
+      "corte"
+    ],
+    "resposta": "Depende do corte: serra circular para muitos cortes retos, serra tico-tico para curvas e recortes, e serra de esquadria para cortes angulares repetitivos. Informe espessura e tipo de madeira.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-010",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para cortar metal?",
+    "variacoes": [
+      "como cortar ferro",
+      "cortar cano de metal"
+    ],
+    "palavras_chave": [
+      "cortar metal",
+      "metal",
+      "ferro",
+      "aco",
+      "cano",
+      "vergalhao",
+      "serra"
+    ],
+    "resposta": "Depende do metal, espessura e acabamento. Podem ser usados equipamentos específicos, como serras apropriadas ou esmerilhadeiras com acessórios compatíveis. Nunca use discos inadequados ou retire proteções.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-011",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para lixar madeira?",
+    "variacoes": [
+      "lixadeira para madeira",
+      "qual lixadeira comprar"
+    ],
+    "palavras_chave": [
+      "lixar",
+      "lixadeira",
+      "lixa",
+      "orbital",
+      "cinta"
+    ],
+    "resposta": "Lixadeira orbital ou roto-orbital costuma ser adequada para acabamento; lixadeira de cinta remove material mais rapidamente. A escolha depende da área, acabamento e tipo de peça.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-012",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para remover tinta ou ferrugem?",
+    "variacoes": [
+      "tirar ferrugem",
+      "tirar tinta da parede"
+    ],
+    "palavras_chave": [
+      "remover tinta",
+      "tinta",
+      "ferrugem",
+      "remover",
+      "escova",
+      "decapar"
+    ],
+    "resposta": "Pode envolver lixamento, escovação ou métodos químicos específicos, conforme superfície e revestimento. Verifique os riscos de poeira, vapores e materiais antigos antes de iniciar.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-013",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual broca usar em concreto?",
+    "variacoes": [
+      "broca para parede",
+      "broca de concreto"
+    ],
+    "palavras_chave": [
+      "broca",
+      "concreto",
+      "sds",
+      "sds plus",
+      "sds max",
+      "videa",
+      "alvenaria"
+    ],
+    "resposta": "Utilize broca adequada a concreto/alvenaria e compatível com a máquina. Para marteletes, confirme o encaixe exigido, como SDS-plus ou SDS-max, conforme o equipamento.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-014",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual broca usar em madeira?",
+    "variacoes": [
+      "broca para madeira"
+    ],
+    "palavras_chave": [
+      "broca",
+      "madeira",
+      "broca chata"
+    ],
+    "resposta": "Brocas próprias para madeira, como as de ponta centralizadora, ajudam na precisão. O tipo depende do diâmetro, profundidade e acabamento desejado.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-015",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual broca usar em metal?",
+    "variacoes": [
+      "broca boa para metal",
+      "broca para ferro"
+    ],
+    "palavras_chave": [
+      "broca",
+      "metal",
+      "aco",
+      "ferro",
+      "hss",
+      "cobalto"
+    ],
+    "resposta": "Use broca indicada para o metal e a máquina. Ajuste rotação, fixação da peça e lubrificação conforme o material e as instruções do fabricante.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-016",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Posso usar qualquer disco na esmerilhadeira?",
+    "variacoes": [
+      "que disco usar na esmerilhadeira",
+      "disco serve na lixadeira angular"
+    ],
+    "palavras_chave": [
+      "disco",
+      "esmerilhadeira",
+      "lixadeira angular",
+      "qualquer disco"
+    ],
+    "resposta": "Não. O disco deve ser apropriado à operação, ao material, ao diâmetro, ao encaixe e à rotação máxima da máquina. Utilize a proteção indicada e siga o manual.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-017",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual a diferença entre disco de corte e disco de desbaste?",
+    "variacoes": [
+      "diferenca disco corte e desbaste"
+    ],
+    "palavras_chave": [
+      "disco de corte",
+      "disco de desbaste",
+      "desbaste",
+      "disco",
+      "corte"
+    ],
+    "resposta": "Discos de corte são projetados para cortar; discos de desbaste, para remover material. Não use disco de corte para desbastar lateralmente, salvo autorização expressa do fabricante para aquela aplicação.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-018",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Como saber se uma bateria serve na minha ferramenta?",
+    "variacoes": [
+      "bateria serve na minha parafusadeira",
+      "bateria compativel"
+    ],
+    "palavras_chave": [
+      "bateria",
+      "serve",
+      "compativel",
+      "compatibilidade",
+      "plataforma"
+    ],
+    "resposta": "Verifique marca, plataforma, modelo, tensão nominal e lista oficial de compatibilidade. Baterias visualmente parecidas podem não ser compatíveis.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-019",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Bits de parafusadeira são universais?",
+    "variacoes": [
+      "ponteira serve em qualquer parafusadeira"
+    ],
+    "palavras_chave": [
+      "bit",
+      "bits",
+      "ponteira",
+      "universal",
+      "phillips",
+      "philips",
+      "fenda",
+      "torx"
+    ],
+    "resposta": "Muitos bits usam encaixes padronizados, mas é necessário conferir tipo, tamanho e compatibilidade com porta-bits e parafuso. Usar bit errado pode danificar a cabeça do parafuso.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-020",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Posso usar adaptadores entre encaixes diferentes?",
+    "variacoes": [
+      "posso usar adaptador sds",
+      "adaptador de encaixe"
+    ],
+    "palavras_chave": [
+      "adaptador",
+      "adaptadores",
+      "encaixe",
+      "mandril",
+      "sds"
+    ],
+    "resposta": "Somente adaptadores aprovados para o equipamento e a aplicação. Adaptadores inadequados podem comprometer fixação, rotação e segurança.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-021",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "O que significa Ah na bateria?",
+    "variacoes": [
+      "o que e ah",
+      "bateria 4ah dura mais que 2ah"
+    ],
+    "palavras_chave": [
+      "ah",
+      "amperes hora",
+      "ampere hora",
+      "capacidade",
+      "bateria"
+    ],
+    "resposta": "Ampère-hora (Ah) é uma medida de capacidade elétrica. Dentro da mesma plataforma e condições de uso, maior capacidade costuma permitir mais autonomia, mas também pode aumentar peso e tempo de carga.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-022",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Posso usar bateria de maior Ah?",
+    "variacoes": [
+      "posso usar bateria 5ah na minha ferramenta"
+    ],
+    "palavras_chave": [
+      "maior ah",
+      "ah",
+      "bateria maior",
+      "bateria"
+    ],
+    "resposta": "Em muitos sistemas, sim, desde que a bateria pertença à mesma plataforma e seja aprovada pelo fabricante para a ferramenta e carregador. Confirme a compatibilidade exata.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-023",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Quanto tempo dura a bateria?",
+    "variacoes": [
+      "quanto dura a bateria",
+      "autonomia da bateria"
+    ],
+    "palavras_chave": [
+      "duracao",
+      "dura",
+      "autonomia",
+      "tempo",
+      "bateria",
+      "quanto tempo"
+    ],
+    "resposta": "Depende da capacidade, ferramenta, carga de trabalho, temperatura e estado da bateria. Para estimar, informe o modelo da ferramenta, a bateria e a tarefa.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-024",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Posso carregar uma bateria em qualquer carregador?",
+    "variacoes": [
+      "posso usar outro carregador",
+      "carregador universal"
+    ],
+    "palavras_chave": [
+      "carregador",
+      "carregar",
+      "carga",
+      "bateria"
+    ],
+    "resposta": "Não. Utilize carregador compatível e aprovado pelo fabricante para a bateria. Carregadores inadequados podem causar aquecimento, danos ou incêndio.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-025",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Ferramenta 220V funciona em tomada 127V?",
+    "variacoes": [
+      "ferramenta 220 na tomada 110",
+      "posso ligar 220v em 127v"
+    ],
+    "palavras_chave": [
+      "220v",
+      "127v",
+      "110v",
+      "voltagem",
+      "bivolt",
+      "tomada",
+      "transformador"
+    ],
+    "resposta": "Em geral, uma ferramenta projetada apenas para 220V não deve ser ligada diretamente em 127V. Verifique a etiqueta e o manual; modelos bivolt têm regras próprias. Não improvise adaptações elétricas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-026",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Como guardar baterias de ferramentas?",
+    "variacoes": [
+      "como armazenar bateria"
+    ],
+    "palavras_chave": [
+      "guardar",
+      "armazenar",
+      "armazenamento",
+      "bateria",
+      "conservar bateria"
+    ],
+    "resposta": "Siga o manual do fabricante. Em geral, armazene em local seco, fresco e protegido de calor, umidade e objetos metálicos nos terminais. Evite baterias danificadas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-027",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Qual a diferença entre multímetro e alicate amperímetro?",
+    "variacoes": [
+      "multimetro ou alicate amperimetro"
+    ],
+    "palavras_chave": [
+      "multimetro",
+      "alicate amperimetro",
+      "amperimetro",
+      "alicate",
+      "diferenca"
+    ],
+    "resposta": "O multímetro mede grandezas como tensão e resistência; alguns também medem corrente por pontas de prova. O alicate amperímetro mede corrente por uma garra, conforme o tipo e as especificações.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-028",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Qual multímetro escolher?",
+    "variacoes": [
+      "como escolher um multimetro",
+      "qual multimetro comprar"
+    ],
+    "palavras_chave": [
+      "multimetro",
+      "escolher",
+      "cat",
+      "precisao"
+    ],
+    "resposta": "Considere as grandezas a medir, precisão, faixa de tensão, categoria de medição (CAT), ambiente e recursos. Para instalações elétricas, escolha equipamento adequado e siga procedimentos de segurança.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-029",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Posso medir tomada com qualquer multímetro?",
+    "variacoes": [
+      "como medir tensao da tomada"
+    ],
+    "palavras_chave": [
+      "medir tomada",
+      "tomada",
+      "multimetro",
+      "rede eletrica",
+      "medir"
+    ],
+    "resposta": "Não. Medições em rede elétrica exigem instrumento, pontas e categoria de segurança adequados, além de conhecimento técnico. Se não tiver qualificação, procure profissional habilitado.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-030",
+    "categoria": "medicao_eletronica",
+    "pergunta": "O que é detector de tensão sem contato?",
+    "variacoes": [
+      "caneta detectora de tensao funciona"
+    ],
+    "palavras_chave": [
+      "detector de tensao",
+      "detector",
+      "caneta",
+      "sem contato",
+      "tensao"
+    ],
+    "resposta": "É um instrumento que pode indicar presença de campo elétrico em determinadas condições. Não deve ser usado sozinho para comprovar ausência de tensão; siga procedimentos e instrumentos adequados.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-031",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual a diferença entre solda MIG/MAG, TIG e eletrodo revestido?",
+    "variacoes": [
+      "qual tipo de solda escolher",
+      "maquina de solda mig ou eletrodo"
+    ],
+    "palavras_chave": [
+      "solda",
+      "mig",
+      "mag",
+      "tig",
+      "eletrodo",
+      "inversora",
+      "soldar"
+    ],
+    "resposta": "MIG/MAG usa arame alimentado continuamente; TIG usa eletrodo de tungstênio; eletrodo revestido utiliza varetas consumíveis. A escolha depende do material, espessura, acabamento e experiência.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-032",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual compressor preciso para pintar?",
+    "variacoes": [
+      "compressor para pintura"
+    ],
+    "palavras_chave": [
+      "compressor",
+      "pintar",
+      "pintura",
+      "pistola",
+      "vazao",
+      "pcm"
+    ],
+    "resposta": "Compare a vazão de ar efetiva exigida pela pistola, pressão de trabalho e ciclo de serviço do compressor. O volume do reservatório, isoladamente, não determina a capacidade de pintura.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-033",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual lavadora de alta pressão escolher?",
+    "variacoes": [
+      "qual lava jato comprar",
+      "lavadora de alta pressao"
+    ],
+    "palavras_chave": [
+      "lavadora",
+      "alta pressao",
+      "lava jato",
+      "wap",
+      "karcher",
+      "lavar"
+    ],
+    "resposta": "Avalie pressão, vazão, frequência de uso e superfície. Pressão excessiva pode danificar pintura, rejuntes e materiais delicados. Informe o que pretende limpar.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-034",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Posso usar qualquer detergente na lavadora?",
+    "variacoes": [
+      "que sabao usar na lavadora"
+    ],
+    "palavras_chave": [
+      "detergente",
+      "sabao",
+      "produto",
+      "lavadora",
+      "lava jato"
+    ],
+    "resposta": "Não. Use somente produtos autorizados pelo fabricante da lavadora e adequados à superfície. Produtos incompatíveis podem danificar componentes e causar riscos.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-035",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como escolher equipamento para uso profissional?",
+    "variacoes": [
+      "ferramenta para trabalhar todo dia"
+    ],
+    "palavras_chave": [
+      "profissional",
+      "uso profissional",
+      "uso pesado",
+      "obra",
+      "trabalho diario"
+    ],
+    "resposta": "Considere frequência, ciclo de trabalho, ergonomia, desempenho, assistência técnica, disponibilidade de peças e acessórios. Informe a atividade e quantas horas por dia utilizará.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-036",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como conservar minhas ferramentas?",
+    "variacoes": [
+      "como fazer manutencao das ferramentas"
+    ],
+    "palavras_chave": [
+      "conservar",
+      "conservacao",
+      "manutencao",
+      "limpar",
+      "limpeza",
+      "cuidar"
+    ],
+    "resposta": "Mantenha limpas e secas, siga a manutenção do manual, inspecione cabos e acessórios e armazene adequadamente. Desligue e desconecte a fonte de energia antes de procedimentos permitidos de limpeza/manutenção.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-037",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Minha ferramenta está esquentando. É normal?",
+    "variacoes": [
+      "minha furadeira esta esquentando",
+      "ferramenta com cheiro de queimado"
+    ],
+    "palavras_chave": [
+      "esquentando",
+      "esquenta",
+      "aquecendo",
+      "quente",
+      "cheiro de queimado",
+      "fumaca",
+      "superaquecendo"
+    ],
+    "resposta": "Algum aquecimento pode ocorrer durante o uso, mas calor excessivo, cheiro de queimado, fumaça ou falhas exigem interromper a operação e procurar assistência autorizada. Não continue utilizando nessas condições.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-038",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Posso retirar a proteção da esmerilhadeira para usar disco maior?",
+    "variacoes": [
+      "posso colocar disco maior na esmerilhadeira",
+      "tirar a capa da esmerilhadeira"
+    ],
+    "palavras_chave": [
+      "retirar protecao",
+      "protecao",
+      "tirar protecao",
+      "disco maior",
+      "esmerilhadeira"
+    ],
+    "resposta": "Não. Nunca remova a proteção para instalar disco maior ou incompatível. Use somente dimensões e acessórios autorizados pelo fabricante.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-039",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Qual EPI usar com ferramentas elétricas?",
+    "variacoes": [
+      "que equipamento de protecao usar"
+    ],
+    "palavras_chave": [
+      "epi",
+      "oculos",
+      "luva",
+      "protetor auricular",
+      "mascara",
+      "seguranca"
+    ],
+    "resposta": "Depende da ferramenta e da atividade. Podem ser necessários proteção ocular, auditiva, respiratória e outros EPIs adequados. Consulte manual, avaliação de riscos e normas aplicáveis; luvas podem ser inadequadas perto de partes rotativas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-040",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Posso usar ferramenta elétrica na chuva?",
+    "variacoes": [
+      "posso usar furadeira na chuva"
+    ],
+    "palavras_chave": [
+      "chuva",
+      "molhado",
+      "agua",
+      "umidade",
+      "molhada"
+    ],
+    "resposta": "Não utilize equipamentos elétricos expostos à água ou chuva, salvo se o fabricante permitir expressamente aquela condição e houver medidas de proteção apropriadas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-041",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês têm esse produto em estoque?",
+    "variacoes": [
+      "tem em estoque",
+      "voces tem esse produto"
+    ],
+    "palavras_chave": [
+      "estoque",
+      "disponivel",
+      "disponibilidade",
+      "tem",
+      "pronta entrega"
+    ],
+    "resposta": "Ainda não consigo consultar o estoque em tempo real. Informe o nome ou modelo do produto para que um atendente confirme a disponibilidade.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-042",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Qual é o preço dessa ferramenta?",
+    "variacoes": [
+      "quanto custa a furadeira",
+      "qual o valor"
+    ],
+    "palavras_chave": [
+      "preco",
+      "custa",
+      "valor",
+      "quanto custa",
+      "quanto e",
+      "barato",
+      "caro",
+      "reais"
+    ],
+    "resposta": "Ainda não tenho acesso aos preços atualizados. Informe o modelo desejado e consulte um atendente ou o catálogo oficial da loja.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-043",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês fazem entrega?",
+    "variacoes": [
+      "voces entregam na minha cidade"
+    ],
+    "palavras_chave": [
+      "entrega",
+      "entregam",
+      "entregar",
+      "cidade",
+      "envio",
+      "enviam"
+    ],
+    "resposta": "As opções de entrega dependem da política da loja e da região atendida. Um atendente poderá confirmar as modalidades disponíveis.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-044",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Quanto custa o frete?",
+    "variacoes": [
+      "qual o valor do frete"
+    ],
+    "palavras_chave": [
+      "frete",
+      "envio",
+      "correios",
+      "cep"
+    ],
+    "resposta": "Não consigo calcular frete nesta versão. O valor depende de destino, produto, peso e modalidade de envio. Consulte o canal oficial da loja.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-045",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Quais são as formas de pagamento?",
+    "variacoes": [
+      "aceita pix",
+      "como posso pagar"
+    ],
+    "palavras_chave": [
+      "pagamento",
+      "pagar",
+      "pix",
+      "cartao",
+      "boleto"
+    ],
+    "resposta": "As formas de pagamento devem ser confirmadas nos canais oficiais da loja. Não solicito dados de cartão ou pagamento neste chat.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-046",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês parcelam?",
+    "variacoes": [
+      "parcela em quantas vezes"
+    ],
+    "palavras_chave": [
+      "parcela",
+      "parcelam",
+      "parcelamento",
+      "parcelas",
+      "vezes",
+      "sem juros"
+    ],
+    "resposta": "O parcelamento depende das condições comerciais vigentes. Consulte o atendimento ou checkout oficial para verificar as opções.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-047",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês têm promoção ou desconto?",
+    "variacoes": [
+      "tem cupom de desconto"
+    ],
+    "palavras_chave": [
+      "promocao",
+      "desconto",
+      "oferta",
+      "cupom",
+      "black friday"
+    ],
+    "resposta": "Não consulto promoções em tempo real. Verifique as ofertas divulgadas nos canais oficiais da loja.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-048",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Posso trocar ou devolver um produto?",
+    "variacoes": [
+      "quero devolver uma compra online",
+      "como faco para trocar"
+    ],
+    "palavras_chave": [
+      "trocar",
+      "troca",
+      "devolver",
+      "devolucao",
+      "arrependimento",
+      "reembolso"
+    ],
+    "resposta": "As condições dependem do tipo de compra, motivo e legislação aplicável. Em compras realizadas fora do estabelecimento, o CDC prevê, em regra, direito de arrependimento em até 7 dias, nas condições legais. Consulte a política da loja para orientações específicas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-049",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Qual é a garantia da ferramenta?",
+    "variacoes": [
+      "quanto tempo de garantia"
+    ],
+    "palavras_chave": [
+      "garantia",
+      "defeito",
+      "assistencia"
+    ],
+    "resposta": "O prazo e a cobertura dependem do produto, fabricante e condições de compra, além dos direitos previstos em lei. Consulte a nota fiscal, o termo de garantia e o atendimento da loja.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-050",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês vendem peças de reposição?",
+    "variacoes": [
+      "voces vendem pecas"
+    ],
+    "palavras_chave": [
+      "peca",
+      "pecas",
+      "reposicao",
+      "escova de carvao",
+      "carvao"
+    ],
+    "resposta": "Ainda não consulto o catálogo de peças. Informe a marca, o modelo e a peça desejada para verificação por um atendente.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-051",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês trabalham com a marca Bosch/Makita/DeWalt?",
+    "variacoes": [
+      "voces vendem bosch",
+      "trabalham com makita"
+    ],
+    "palavras_chave": [
+      "marca",
+      "marcas",
+      "bosch",
+      "makita",
+      "dewalt",
+      "stanley",
+      "black decker",
+      "vonder",
+      "tramontina"
+    ],
+    "resposta": "Não tenho acesso à lista atualizada de marcas da loja. Um atendente poderá confirmar as marcas disponíveis.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-052",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Posso retirar o pedido na loja?",
+    "variacoes": [
+      "posso buscar na loja"
+    ],
+    "palavras_chave": [
+      "retirar",
+      "retirada",
+      "buscar na loja",
+      "pegar na loja",
+      "loja fisica"
+    ],
+    "resposta": "A retirada depende das opções e horários da unidade. Confirme essa possibilidade com o atendimento oficial antes de se deslocar.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-053",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Como acompanho meu pedido?",
+    "variacoes": [
+      "onde esta meu pedido"
+    ],
+    "palavras_chave": [
+      "acompanhar pedido",
+      "pedido",
+      "rastreio",
+      "rastrear",
+      "status do pedido"
+    ],
+    "resposta": "Ainda não consigo consultar pedidos. Utilize o canal oficial de acompanhamento ou entre em contato com o atendimento da loja. Não envie dados pessoais sensíveis neste chat.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-054",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês emitem nota fiscal?",
+    "variacoes": [
+      "voces dao nota fiscal"
+    ],
+    "palavras_chave": [
+      "nota fiscal",
+      "nf",
+      "nfe",
+      "cupom fiscal"
+    ],
+    "resposta": "A emissão de documentos fiscais segue as regras aplicáveis à operação. Consulte o atendimento da loja para confirmar os procedimentos de compra e emissão.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-055",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Posso falar com um vendedor?",
+    "variacoes": [
+      "quero falar com um atendente"
+    ],
+    "palavras_chave": [
+      "vendedor",
+      "atendente",
+      "humano",
+      "pessoa",
+      "falar com alguem"
+    ],
+    "resposta": "Sim, você pode procurar o canal oficial de atendimento humano da loja. Nesta versão, ainda não faço a transferência automática da conversa.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "pendente_validacao"
+  },
+  {
+    "id": "FAQ-056",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Qual a melhor marca de ferramenta?",
+    "variacoes": [
+      "qual a marca mais confiavel"
+    ],
+    "palavras_chave": [
+      "melhor marca",
+      "marca",
+      "qual marca"
+    ],
+    "resposta": "Não existe uma única melhor marca para todas as aplicações. Compare desempenho, assistência, peças, ergonomia, garantia e custo-benefício para o uso desejado.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-057",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Qual ferramenta tem melhor custo-benefício?",
+    "variacoes": [
+      "qual o melhor custo beneficio"
+    ],
+    "palavras_chave": [
+      "custo beneficio",
+      "compensa",
+      "vale a pena"
+    ],
+    "resposta": "Depende do trabalho e da frequência de uso. Diga qual tarefa fará, se o uso é doméstico ou profissional e seu orçamento para eu orientar os critérios de escolha.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-058",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Uma ferramenta mais potente é sempre melhor?",
+    "variacoes": [
+      "ferramenta mais forte e melhor"
+    ],
+    "palavras_chave": [
+      "mais potente",
+      "potente",
+      "potencia",
+      "mais forte"
+    ],
+    "resposta": "Não. Potência deve ser avaliada junto com controle, ergonomia, eficiência e adequação à aplicação. Uma ferramenta excessiva pode ser menos prática ou segura para tarefas delicadas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-059",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Como comparar duas ferramentas?",
+    "variacoes": [
+      "comparar duas furadeiras"
+    ],
+    "palavras_chave": [
+      "comparar",
+      "comparacao",
+      "comparativo",
+      "versus",
+      "vs"
+    ],
+    "resposta": "Informe marca e modelo de ambas. Podemos comparar aplicação, torque, potência, rotação, recursos, peso, alimentação e acessórios, usando especificações confirmadas.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  },
+  {
+    "id": "FAQ-060",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Não sei qual ferramenta comprar. Pode me ajudar?",
+    "variacoes": [
+      "nao sei qual ferramenta comprar",
+      "me ajuda a escolher"
+    ],
+    "palavras_chave": [
+      "nao sei",
+      "ajuda",
+      "ajudar",
+      "comprar",
+      "indicacao",
+      "indica",
+      "recomenda"
+    ],
+    "resposta": "Claro! Me diga: (1) qual trabalho você fará; (2) em qual material; (3) com que frequência; e (4) qual é seu orçamento aproximado. Assim consigo orientar a escolha.",
+    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "revisado_em": null,
+    "status": "rascunho"
+  }
+]

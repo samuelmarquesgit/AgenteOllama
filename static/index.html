@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistente da Loja de Ferramentas</title>
+  <style>
+    :root {
+      --bg: #f4f5f7; --card: #ffffff; --texto: #1d2129; --suave: #5f6673;
+      --cliente: #ff7a00; --cliente-texto: #ffffff; --agente: #eceff3; --borda: #d9dde3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14161a; --card: #1d2026; --texto: #e8eaed; --suave: #a0a6b1;
+        --cliente: #e06c00; --agente: #2a2e36; --borda: #343943;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--texto); }
+    main { max-width: 720px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    h1 { font-size: 1.2rem; margin: 0; }
+    .aviso { font-size: .85rem; color: var(--suave); margin: 8px 0 12px; }
+    #conversa { flex: 1; overflow-y: auto; background: var(--card); border: 1px solid var(--borda);
+      border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 300px; }
+    .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; line-height: 1.45; white-space: pre-wrap; }
+    .cliente { align-self: flex-end; background: var(--cliente); color: var(--cliente-texto); border-bottom-right-radius: 4px; }
+    .agente { align-self: flex-start; background: var(--agente); border-bottom-left-radius: 4px; }
+    .meta { font-size: .72rem; color: var(--suave); margin-top: 4px; }
+    .digitando { font-style: italic; color: var(--suave); }
+    #sugestoes { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    #sugestoes button, #nova { border: 1px solid var(--borda); background: var(--card); color: var(--texto);
+      border-radius: 999px; padding: 6px 12px; font-size: .85rem; cursor: pointer; }
+    form { display: flex; gap: 8px; }
+    input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--borda); background: var(--card);
+      color: var(--texto); font-size: 1rem; min-width: 0; }
+    #enviar { padding: 12px 18px; border: 0; border-radius: 10px; background: var(--cliente); color: #fff;
+      font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--cliente); outline-offset: 2px; }
+    .fluxo { background: var(--card); border: 1px solid var(--borda); border-radius: 12px; padding: 10px 14px;
+      margin-bottom: 12px; font-size: .85rem; }
+    .fluxo summary { cursor: pointer; font-weight: 600; }
+    .fluxo ol { margin: 8px 0 0; padding-left: 20px; line-height: 1.6; }
+    .contador { font-size: .85rem; color: var(--suave); }
+    .selo { display: inline-block; font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+      margin-bottom: 6px; }
+    .selo.banco { background: #d9f2e3; color: #11643a; }
+    .selo.agente { background: #e4e0ff; color: #3d2a9c; }
+    .selo.outro { background: #ececec; color: #4a4a4a; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>🔧 Assistente da Loja de Ferramentas</h1>
+    <button id="nova" type="button">Nova conversa</button>
+  </header>
+  <p class="aviso">Versão inicial: tiro dúvidas gerais sobre ferramentas. Ainda não consulto preços, estoque nem pedidos.
+    <br><span class="contador" id="contador">Carregando base...</span></p>
+
+  <details class="fluxo" open>
+    <summary>Como o agente responde?</summary>
+    <ol>
+      <li>Procura a pergunta no <b>banco de dados SQLite</b> (<span class="selo banco">📚 Banco</span>).</li>
+      <li>Se não encontrar, consulta o <b>agente de IA local (Ollama)</b> (<span class="selo agente">🤖 Agente IA</span>).</li>
+      <li>A resposta do agente é <b>gravada no banco</b>. Pergunte de novo e ela virá do banco!</li>
+    </ol>
+  </details>
+
+  <section id="conversa" aria-live="polite" aria-label="Conversa"></section>
+
+  <div id="sugestoes" aria-label="Sugestões de perguntas"></div>
+
+  <form id="form">
+    <label for="mensagem" class="aviso" hidden>Sua mensagem</label>
+    <input id="mensagem" maxlength="500" autocomplete="off" placeholder="Digite sua dúvida..." aria-label="Sua mensagem">
+    <button id="enviar" type="submit">Enviar</button>
+  </form>
+</main>
+<script>
+  const SUGESTOES = [
+    "Qual a diferença entre furadeira e parafusadeira?",
+    "Qual broca usar em concreto?",
+    "O que significa Ah na bateria?",
+    "Como escolher um multímetro?",
+    "Vocês fazem entrega?",
+    "Não sei qual ferramenta comprar",
+  ];
+  const conversa = document.getElementById("conversa");
+  const form = document.getElementById("form");
+  const campo = document.getElementById("mensagem");
+  const botao = document.getElementById("enviar");
+
+  const SELOS = {
+    banco: ["banco", "📚 Banco de dados"],
+    agente: ["agente", "🤖 Agente IA · nova resposta salva no banco"],
+    fallback: ["outro", "⚠️ Sem resposta"],
+    fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
+    saudacao: ["outro", "👋 Saudação"],
+  };
+
+  async function atualizarContador() {
+    try {
+      const r = await fetch("/health");
+      const d = await r.json();
+      document.getElementById("contador").textContent =
+        `Perguntas no banco: ${d.faqs} (${d.aprendidas} aprendidas com o agente)`;
+    } catch (e) {
+      document.getElementById("contador").textContent = "API indisponível";
+    }
+  }
+
+  function adicionar(texto, quem, meta, origem) {
+    const div = document.createElement("div");
+    div.className = "msg " + quem;
+    if (origem && SELOS[origem]) {
+      const selo = document.createElement("span");
+      selo.className = "selo " + SELOS[origem][0];
+      selo.textContent = SELOS[origem][1];
+      div.appendChild(selo);
+      div.appendChild(document.createElement("br"));
+    }
+    div.appendChild(document.createTextNode(texto));
+    if (meta) {
+      const m = document.createElement("div");
+      m.className = "meta";
+      m.textContent = meta;
+      div.appendChild(m);
+    }
+    conversa.appendChild(div);
+    conversa.scrollTop = conversa.scrollHeight;
+    return div;
+  }
+
+  function iniciar() {
+    conversa.innerHTML = "";
+    adicionar("Olá! Sou o assistente virtual da loja de ferramentas. Como posso ajudar?", "agente");
+    campo.focus();
+  }
+
+  async function enviar(texto) {
+    texto = texto.trim();
+    if (!texto) return;
+    adicionar(texto, "cliente");
+    campo.value = "";
+    botao.disabled = true;
+    const espera = adicionar("Respondendo...", "agente digitando");
+    try {
+      const r = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: texto }),
+      });
+      if (!r.ok) throw new Error(r.status);
+      const dados = await r.json();
+      espera.remove();
+      let meta = "";
+      if (dados.origem === "banco") meta = `${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`;
+      if (dados.origem === "agente") meta = `Gravada como ${dados.matchedFaqId} (pendente de validação)`;
+      adicionar(dados.answer, "agente", meta, dados.origem);
+      atualizarContador();
+    } catch (e) {
+      espera.remove();
+      adicionar("Não consegui responder agora. Tente novamente em instantes.", "agente");
+    } finally {
+      botao.disabled = false;
+      campo.focus();
+    }
+  }
+
+  const caixa = document.getElementById("sugestoes");
+  for (const s of SUGESTOES) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = s;
+    b.addEventListener("click", () => enviar(s));
+    caixa.appendChild(b);
+  }
+  form.addEventListener("submit", (e) => { e.preventDefault(); enviar(campo.value); });
+  document.getElementById("nova").addEventListener("click", iniciar);
+  iniciar();
+  atualizarContador();
+</script>
+</body>
+</html>

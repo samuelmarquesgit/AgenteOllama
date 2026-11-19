@@ -1,1 +1,5 @@
 ollama
+fastapi
+uvicorn
+pytest
+httpx
