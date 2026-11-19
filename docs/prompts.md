@@ -29,3 +29,19 @@ idêntica e voltagens sem unidade).
 
 ## P005 — Commit e PR semânticos (2026-11-19)
 **Prompt (resumo):** criar um commit semântico com uma PR semântica e subir para o GitHub.
+
+## P006 — Contexto da conversa (2026-11-19)
+**Prompt (resumo):** a IA não está continuando no contexto anterior; o que podemos fazer para que ela continue a conversa no contexto?
+
+**Resultado:** `conversationId` + memória em RAM + reescrita da pergunta de continuação pelo Ollama;
+o agente recebe o histórico e o banco grava só perguntas completas.
+
+## P007 — Pasta de guardrails (2026-11-19)
+**Prompt (resumo):** preciso de uma pasta somente com todos os guardrails para não ocorrer problemas; planeje e faça.
+
+**Resultado:** `app/guardrails/` com 19 guardrails (G01–G19) em 6 módulos, `docs/guardrails.md` e testes
+nos dois sentidos (bloqueia o que deve e não bloqueia o legítimo, incluindo as 60 respostas oficiais).
+
+## P008 — Commit e PR (2026-11-19)
+**Prompt (resumo):** subir as mudanças de contexto e guardrails no GitHub com commit semântico.
+

@@ -820,7 +820,6 @@
       "estoque",
       "disponivel",
       "disponibilidade",
-      "tem",
       "pronta entrega"
     ],
     "resposta": "Ainda não consigo consultar o estoque em tempo real. Informe o nome ou modelo do produto para que um atendente confirme a disponibilidade.",

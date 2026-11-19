@@ -29,9 +29,11 @@ class OllamaFalso:
     def __init__(self, resposta=RESPOSTA_FALSA):
         self.resposta = resposta
         self.perguntas: list[str] = []
+        self.historicos: list[list] = []
 
-    def __call__(self, pergunta):
+    def __call__(self, pergunta, historico=None):
         self.perguntas.append(pergunta)
+        self.historicos.append(list(historico or []))
         if callable(self.resposta):
             return self.resposta(pergunta)
         return self.resposta
@@ -59,13 +61,22 @@ def ollama():
 
 
 @pytest.fixture
-def agente(con, ollama):
-    return Agente(con, perguntar=ollama)
+def reescrita():
+    """Reescrita falsa: por padrão não reescreve (devolve None -> usa a original)."""
+    return OllamaFalso(resposta=None)
+
+
+@pytest.fixture
+def agente(con, ollama, reescrita):
+    return Agente(con, perguntar=ollama, reescrever=reescrita)
 
 
 @pytest.fixture
 def cliente(agente, monkeypatch):
     import app.main as main
 
+    from app.memoria import Memoria
+
     monkeypatch.setattr(main, "agente", agente)
+    monkeypatch.setattr(main, "memoria", Memoria())
     return TestClient(main.app, raise_server_exceptions=False)
