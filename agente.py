@@ -1,17 +1,21 @@
-import ollama
+"""Versão de terminal do agente (mesmo banco e mesmas regras da API).
 
-MODELO = "llama3.2"
+Uso:  .venv\\Scripts\\python agente.py
+"""
 
-instrucao = (
-    "Você é um agente de IA que atende clientes e fornecedores da nossa "
-    "oficina mecânica. Responda em português, de forma educada e objetiva. "
-    "Se não souber algo (preço, prazo, disponibilidade), diga que vai "
-    "verificar com a equipe em vez de inventar."
-)
+from app.agente import Agente
 
-historico = [{"role": "system", "content": instrucao}]
+ORIGEM = {
+    "banco": "📚 banco",
+    "agente": "🤖 agente IA (salvo no banco)",
+    "fallback": "⚠️ sem resposta",
+    "fora_do_escopo": "⚠️ fora do assunto",
+    "saudacao": "👋",
+}
 
-print("Agente pronto!!! Digite 'sair' para encerrar.")
+agente = Agente()
+print(f"Agente da loja de ferramentas pronto! ({len(agente.faqs)} perguntas no banco)")
+print("Digite 'sair' para encerrar.")
 
 while True:
     pergunta = input("\nVocê: ").strip()
@@ -19,17 +23,5 @@ while True:
         break
     if not pergunta:
         continue
-
-    historico.append({"role": "user", "content": pergunta})
-
-    try:
-        resposta = ollama.chat(model=MODELO, messages=historico)
-    except Exception as erro:
-        print("Erro ao falar com o Ollama:", erro)
-        print("Verifique se o Ollama está aberto e se rodou: ollama pull", MODELO)
-        historico.pop()
-        continue
-
-    texto = resposta["message"]["content"]
-    historico.append({"role": "assistant", "content": texto})
-    print("Agente:", texto)
+    r = agente.responder(pergunta)
+    print(f"Agente [{ORIGEM.get(r.origem, r.origem)}]:", r.answer)
