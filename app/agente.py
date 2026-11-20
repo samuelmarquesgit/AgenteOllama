@@ -20,7 +20,7 @@ NOTA_MINIMA = 0.5       # abaixo disso a pergunta "não existe" no banco
 NOTA_CONFIANTE = 0.75   # abaixo disso responde, mas pede para confirmar
 MARGEM_EMPATE = 0.1     # 2ª resposta quase tão boa quanto a 1ª -> sugere as duas
 
-MODELO = os.getenv("OLLAMA_MODELO", "llama3.2")
+MODELO = os.getenv("OLLAMA_MODELO", "qwen2.5:3b")
 FORA_DO_ESCOPO = "FORA_DO_ESCOPO"
 
 APRESENTACAO = (
