@@ -44,7 +44,7 @@ O **dono do produto**, os **donos das frentes** e os **revisores técnico e jur�
 | Componente | Situação |
 |------------|----------|
 | API FastAPI (`/chat`, `/health`, `/faqs`, `/conversas`) | Funcionando |
-| Banco | SQLite (`data/loja.db`), uma tabela `faq`, 60 FAQs |
+| Banco | SQLite **normalizado (3FN)**, 19 tabelas em 4 migrações; 60 FAQs, loja e catálogo **fictício** de 300 produtos (v0.3, branch `feat/banco-normalizado-sqlite`) |
 | IA | Ollama local; padrão `llama3.2` (o `qwen2.5:3b` está numa branch e **não tem licença comercial**) |
 | Guardrails | G01–G19 em `app/guardrails/` |
 | Testes | 572, todos passando, sem depender do Ollama |

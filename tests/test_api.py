@@ -17,7 +17,7 @@ def test_chat_resposta_do_banco(cliente):
     r = cliente.post("/chat", json={"message": "Qual broca usar em madeira?"})
     assert r.status_code == 200
     corpo = r.json()
-    assert set(corpo) == {"answer", "matchedFaqId", "confidence", "origem", "perguntaInterpretada", "guardrails"}
+    assert set(corpo) == {"answer", "matchedFaqId", "confidence", "origem", "perguntaInterpretada", "guardrails", "produtos"}
     assert corpo["matchedFaqId"] == "FAQ-014"
     assert corpo["origem"] == "banco"
     assert 0 <= corpo["confidence"] <= 1
@@ -30,11 +30,11 @@ def test_chat_aceita_acentos_utf8(cliente):
 
 def test_chat_aprende_e_health_reflete(cliente):
     r = cliente.post("/chat", json={"message": "Como funciona uma tupia de bancada?"})
-    assert r.json() == {"answer": RESPOSTA_FALSA, "matchedFaqId": "FAQ-061", "confidence": 0.0, "origem": "agente",
-                        "perguntaInterpretada": None, "guardrails": []}
+    assert r.json() == {"answer": RESPOSTA_FALSA, "matchedFaqId": "SUG-0001", "confidence": 0.0, "origem": "agente",
+                        "perguntaInterpretada": None, "guardrails": [], "produtos": []}
     assert cliente.get("/health").json() == {"status": "ok", "faqs": 61, "aprendidas": 1}
 
-    nova = [f for f in cliente.get("/faqs").json() if f["id"] == "FAQ-061"][0]
+    nova = [f for f in cliente.get("/faqs").json() if f["id"] == "SUG-0001"][0]
     assert nova["status"] == "pendente_validacao"
     assert nova["categoria"] == "aprendida"
 
@@ -93,4 +93,10 @@ def test_pagina_inicial(cliente):
 
 def test_swagger_disponivel(cliente):
     assert cliente.get("/docs").status_code == 200
-    assert cliente.get("/openapi.json").json()["info"]["version"] == "0.2.0"
+    assert cliente.get("/openapi.json").json()["info"]["version"] == "0.3.0"
+
+
+def test_arquivos_estaticos_servidos(cliente):
+    assert cliente.get("/static/produtos/placeholder.svg").status_code == 200
+    assert cliente.get("/static/brand/tork-avatar.svg").status_code == 200
+    assert cliente.get("/static/../app/main.py").status_code == 404
