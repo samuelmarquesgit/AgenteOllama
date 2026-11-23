@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t d">
+  <title id="t">Tork em alerta</title>
+  <desc id="d">Tork com olhos atentos e escudo, usado quando um guardrail bloqueia uma resposta ou há alerta de segurança.</desc>
+  <line x1="64" y1="18" x2="64" y2="8" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="64" cy="7" r="5" fill="#B91C1C" stroke="#1C2128" stroke-width="2"/>
+  <polygon points="118,66 91,19 37,19 10,66 37,113 91,113"
+           fill="#EA580C" stroke="#C2410C" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M40 27 L88 27" stroke="#FB923C" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <rect x="28" y="46" width="72" height="42" rx="21" fill="#1C2128"/>
+  <!-- olhos atentos (traço) -->
+  <rect x="41" y="61" width="16" height="6" rx="3" fill="#FACC15"/>
+  <rect x="71" y="61" width="16" height="6" rx="3" fill="#FACC15"/>
+  <path d="M56 78 L72 78" stroke="#FB923C" stroke-width="4" stroke-linecap="round"/>
+  <!-- escudo -->
+  <path d="M98 84 L114 90 V102 C114 112 106 118 98 121 C90 118 82 112 82 102 V90 Z"
+        fill="#B91C1C" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M91 101 L96 106 L105 96" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

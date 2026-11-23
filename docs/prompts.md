@@ -45,3 +45,13 @@ nos dois sentidos (bloqueia o que deve e não bloqueia o legítimo, incluindo as
 ## P008 — Commit e PR (2026-11-19)
 **Prompt (resumo):** subir as mudanças de contexto e guardrails no GitHub com commit semântico.
 
+
+## P009 — Replanejamento para profissionalização (2026-11-19)
+**Prompt (resumo):** depois da demonstração do MVP, profissionalizar o projeto: ler
+`TASKS_AGENTE_LOJA_FERRAMENTAS.md` e `PLANO_EXECUCAO_BANCO_TOOLEXPERT_AI.md`, replanejar tudo
+e criar uma identidade visual para o atendente.
+
+**Resultado:** `docs/PLANO_PROFISSIONALIZACAO.md` (diagnóstico, 11 decisões para aprovar,
+arquitetura alvo, fases F0–F8 com aceite, processo de trabalho, riscos) e
+`docs/identidade-visual.md` com o atendente **Tork** (avatar, logo, favicon em `static/brand/`,
+paleta verificada para WCAG AA, tipografia e tom de voz).
