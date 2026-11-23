@@ -1,4 +1,4 @@
-# API — referência
+# 0012 — Referência da API (v0.2)
 
 Base: `http://127.0.0.1:8000`. A documentação interativa (Swagger) gerada pelo FastAPI fica em `/docs`.
 
@@ -46,7 +46,7 @@ Envia a pergunta do cliente.
 | `confidence` | Nota da busca, de 0 a 1 (`0` quando a resposta veio do agente) |
 | `origem` | `banco`, `agente`, `fallback`, `fora_do_escopo`, `saudacao` ou `bloqueado` |
 | `perguntaInterpretada` | Quando a mensagem era uma continuação ("e para metal?"), a pergunta completa que o agente entendeu; senão `null` |
-| `guardrails` | Códigos dos guardrails acionados (ver [guardrails.md](guardrails.md)), ex.: `["dados_pessoais:cpf"]` |
+| `guardrails` | Códigos dos guardrails acionados (ver [0013-Guardrails.md](0013-Guardrails.md)), ex.: `["dados_pessoais:cpf"]` |
 
 **Exemplos de `origem`**
 

@@ -1,4 +1,4 @@
-# Identidade visual — ToolExpert AI e o atendente Tork
+# 0009 — Identidade visual: ToolExpert AI e o atendente Tork
 
 > Status: **proposta v1** (2026-11-19), aguardando aprovação do time.
 > Arquivos-fonte em [`static/brand/`](../static/brand/).

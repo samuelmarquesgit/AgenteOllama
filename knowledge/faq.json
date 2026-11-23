@@ -14,7 +14,7 @@
       "aparafusadora"
     ],
     "resposta": "A furadeira é voltada principalmente à perfuração de materiais. A parafusadeira é otimizada para apertar e soltar parafusos, normalmente com controle de torque. Alguns modelos combinam as duas funções.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -37,7 +37,7 @@
       "tijolo"
     ],
     "resposta": "A furadeira de impacto acrescenta uma ação de percussão, útil em alvenaria conforme o modelo e a broca. Para concreto mais resistente ou uso intenso, um martelete adequado pode ser mais indicado.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -60,7 +60,7 @@
       "quebrar"
     ],
     "resposta": "Marteletes são indicados para determinadas perfurações em concreto e alvenaria. Alguns modelos também fazem rompimento leve. Verifique o tipo de encaixe, a energia de impacto e as aplicações permitidas no manual.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -81,7 +81,7 @@
       "tomada"
     ],
     "resposta": "Modelos com fio dispensam recarga e são úteis em trabalhos prolongados com tomada disponível. Modelos a bateria oferecem mobilidade. A escolha depende de potência, autonomia, peso, frequência de uso e ambiente.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -102,7 +102,7 @@
       "parafusadeira"
     ],
     "resposta": "Modelos de 12V tendem a ser compactos para tarefas leves. Plataformas de tensão maior podem atender trabalhos exigentes, mas tensão sozinha não define torque ou desempenho. Compare especificações e aplicação.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -122,7 +122,7 @@
       "forca"
     ],
     "resposta": "Torque é o momento de força de rotação, normalmente indicado em N·m. A necessidade depende do parafuso, material e tarefa. O ajuste de torque ajuda a evitar aperto excessivo em aplicações compatíveis.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -141,7 +141,7 @@
       "w"
     ],
     "resposta": "Watts (W) indicam potência. Em ferramentas elétricas, o valor informado nem sempre equivale à potência útil entregue no eixo. Para comparar desempenho, considere também rotação, torque e aplicação.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -162,7 +162,7 @@
       "armario"
     ],
     "resposta": "Uma parafusadeira com ajuste de torque e bits adequados costuma ser útil. Para móveis delicados, prefira controle fino e evite aperto excessivo. Qual material e tipo de montagem você fará?",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -184,7 +184,7 @@
       "corte"
     ],
     "resposta": "Depende do corte: serra circular para muitos cortes retos, serra tico-tico para curvas e recortes, e serra de esquadria para cortes angulares repetitivos. Informe espessura e tipo de madeira.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -206,7 +206,7 @@
       "serra"
     ],
     "resposta": "Depende do metal, espessura e acabamento. Podem ser usados equipamentos específicos, como serras apropriadas ou esmerilhadeiras com acessórios compatíveis. Nunca use discos inadequados ou retire proteções.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -226,7 +226,7 @@
       "cinta"
     ],
     "resposta": "Lixadeira orbital ou roto-orbital costuma ser adequada para acabamento; lixadeira de cinta remove material mais rapidamente. A escolha depende da área, acabamento e tipo de peça.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -247,7 +247,7 @@
       "decapar"
     ],
     "resposta": "Pode envolver lixamento, escovação ou métodos químicos específicos, conforme superfície e revestimento. Verifique os riscos de poeira, vapores e materiais antigos antes de iniciar.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -269,7 +269,7 @@
       "alvenaria"
     ],
     "resposta": "Utilize broca adequada a concreto/alvenaria e compatível com a máquina. Para marteletes, confirme o encaixe exigido, como SDS-plus ou SDS-max, conforme o equipamento.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -286,7 +286,7 @@
       "broca chata"
     ],
     "resposta": "Brocas próprias para madeira, como as de ponta centralizadora, ajudam na precisão. O tipo depende do diâmetro, profundidade e acabamento desejado.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -307,7 +307,7 @@
       "cobalto"
     ],
     "resposta": "Use broca indicada para o metal e a máquina. Ajuste rotação, fixação da peça e lubrificação conforme o material e as instruções do fabricante.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -326,7 +326,7 @@
       "qualquer disco"
     ],
     "resposta": "Não. O disco deve ser apropriado à operação, ao material, ao diâmetro, ao encaixe e à rotação máxima da máquina. Utilize a proteção indicada e siga o manual.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -345,7 +345,7 @@
       "corte"
     ],
     "resposta": "Discos de corte são projetados para cortar; discos de desbaste, para remover material. Não use disco de corte para desbastar lateralmente, salvo autorização expressa do fabricante para aquela aplicação.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -365,7 +365,7 @@
       "plataforma"
     ],
     "resposta": "Verifique marca, plataforma, modelo, tensão nominal e lista oficial de compatibilidade. Baterias visualmente parecidas podem não ser compatíveis.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -387,7 +387,7 @@
       "torx"
     ],
     "resposta": "Muitos bits usam encaixes padronizados, mas é necessário conferir tipo, tamanho e compatibilidade com porta-bits e parafuso. Usar bit errado pode danificar a cabeça do parafuso.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -407,7 +407,7 @@
       "sds"
     ],
     "resposta": "Somente adaptadores aprovados para o equipamento e a aplicação. Adaptadores inadequados podem comprometer fixação, rotação e segurança.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -427,7 +427,7 @@
       "bateria"
     ],
     "resposta": "Ampère-hora (Ah) é uma medida de capacidade elétrica. Dentro da mesma plataforma e condições de uso, maior capacidade costuma permitir mais autonomia, mas também pode aumentar peso e tempo de carga.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -445,7 +445,7 @@
       "bateria"
     ],
     "resposta": "Em muitos sistemas, sim, desde que a bateria pertença à mesma plataforma e seja aprovada pelo fabricante para a ferramenta e carregador. Confirme a compatibilidade exata.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -466,7 +466,7 @@
       "quanto tempo"
     ],
     "resposta": "Depende da capacidade, ferramenta, carga de trabalho, temperatura e estado da bateria. Para estimar, informe o modelo da ferramenta, a bateria e a tarefa.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -485,7 +485,7 @@
       "bateria"
     ],
     "resposta": "Não. Utilize carregador compatível e aprovado pelo fabricante para a bateria. Carregadores inadequados podem causar aquecimento, danos ou incêndio.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -507,7 +507,7 @@
       "transformador"
     ],
     "resposta": "Em geral, uma ferramenta projetada apenas para 220V não deve ser ligada diretamente em 127V. Verifique a etiqueta e o manual; modelos bivolt têm regras próprias. Não improvise adaptações elétricas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -526,7 +526,7 @@
       "conservar bateria"
     ],
     "resposta": "Siga o manual do fabricante. Em geral, armazene em local seco, fresco e protegido de calor, umidade e objetos metálicos nos terminais. Evite baterias danificadas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -545,7 +545,7 @@
       "diferenca"
     ],
     "resposta": "O multímetro mede grandezas como tensão e resistência; alguns também medem corrente por pontas de prova. O alicate amperímetro mede corrente por uma garra, conforme o tipo e as especificações.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -564,7 +564,7 @@
       "precisao"
     ],
     "resposta": "Considere as grandezas a medir, precisão, faixa de tensão, categoria de medição (CAT), ambiente e recursos. Para instalações elétricas, escolha equipamento adequado e siga procedimentos de segurança.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -583,7 +583,7 @@
       "medir"
     ],
     "resposta": "Não. Medições em rede elétrica exigem instrumento, pontas e categoria de segurança adequados, além de conhecimento técnico. Se não tiver qualificação, procure profissional habilitado.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -602,7 +602,7 @@
       "tensao"
     ],
     "resposta": "É um instrumento que pode indicar presença de campo elétrico em determinadas condições. Não deve ser usado sozinho para comprovar ausência de tensão; siga procedimentos e instrumentos adequados.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -624,7 +624,7 @@
       "soldar"
     ],
     "resposta": "MIG/MAG usa arame alimentado continuamente; TIG usa eletrodo de tungstênio; eletrodo revestido utiliza varetas consumíveis. A escolha depende do material, espessura, acabamento e experiência.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -644,7 +644,7 @@
       "pcm"
     ],
     "resposta": "Compare a vazão de ar efetiva exigida pela pistola, pressão de trabalho e ciclo de serviço do compressor. O volume do reservatório, isoladamente, não determina a capacidade de pintura.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -665,7 +665,7 @@
       "lavar"
     ],
     "resposta": "Avalie pressão, vazão, frequência de uso e superfície. Pressão excessiva pode danificar pintura, rejuntes e materiais delicados. Informe o que pretende limpar.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -684,7 +684,7 @@
       "lava jato"
     ],
     "resposta": "Não. Use somente produtos autorizados pelo fabricante da lavadora e adequados à superfície. Produtos incompatíveis podem danificar componentes e causar riscos.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -703,7 +703,7 @@
       "trabalho diario"
     ],
     "resposta": "Considere frequência, ciclo de trabalho, ergonomia, desempenho, assistência técnica, disponibilidade de peças e acessórios. Informe a atividade e quantas horas por dia utilizará.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -723,7 +723,7 @@
       "cuidar"
     ],
     "resposta": "Mantenha limpas e secas, siga a manutenção do manual, inspecione cabos e acessórios e armazene adequadamente. Desligue e desconecte a fonte de energia antes de procedimentos permitidos de limpeza/manutenção.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -745,7 +745,7 @@
       "superaquecendo"
     ],
     "resposta": "Algum aquecimento pode ocorrer durante o uso, mas calor excessivo, cheiro de queimado, fumaça ou falhas exigem interromper a operação e procurar assistência autorizada. Não continue utilizando nessas condições.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -765,7 +765,7 @@
       "esmerilhadeira"
     ],
     "resposta": "Não. Nunca remova a proteção para instalar disco maior ou incompatível. Use somente dimensões e acessórios autorizados pelo fabricante.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -785,7 +785,7 @@
       "seguranca"
     ],
     "resposta": "Depende da ferramenta e da atividade. Podem ser necessários proteção ocular, auditiva, respiratória e outros EPIs adequados. Consulte manual, avaliação de riscos e normas aplicáveis; luvas podem ser inadequadas perto de partes rotativas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -804,7 +804,7 @@
       "molhada"
     ],
     "resposta": "Não utilize equipamentos elétricos expostos à água ou chuva, salvo se o fabricante permitir expressamente aquela condição e houver medidas de proteção apropriadas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -823,7 +823,7 @@
       "pronta entrega"
     ],
     "resposta": "Ainda não consigo consultar o estoque em tempo real. Informe o nome ou modelo do produto para que um atendente confirme a disponibilidade.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -846,7 +846,7 @@
       "reais"
     ],
     "resposta": "Ainda não tenho acesso aos preços atualizados. Informe o modelo desejado e consulte um atendente ou o catálogo oficial da loja.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -866,7 +866,7 @@
       "enviam"
     ],
     "resposta": "As opções de entrega dependem da política da loja e da região atendida. Um atendente poderá confirmar as modalidades disponíveis.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -884,7 +884,7 @@
       "cep"
     ],
     "resposta": "Não consigo calcular frete nesta versão. O valor depende de destino, produto, peso e modalidade de envio. Consulte o canal oficial da loja.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -904,7 +904,7 @@
       "boleto"
     ],
     "resposta": "As formas de pagamento devem ser confirmadas nos canais oficiais da loja. Não solicito dados de cartão ou pagamento neste chat.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -924,7 +924,7 @@
       "sem juros"
     ],
     "resposta": "O parcelamento depende das condições comerciais vigentes. Consulte o atendimento ou checkout oficial para verificar as opções.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -943,7 +943,7 @@
       "black friday"
     ],
     "resposta": "Não consulto promoções em tempo real. Verifique as ofertas divulgadas nos canais oficiais da loja.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -964,7 +964,7 @@
       "reembolso"
     ],
     "resposta": "As condições dependem do tipo de compra, motivo e legislação aplicável. Em compras realizadas fora do estabelecimento, o CDC prevê, em regra, direito de arrependimento em até 7 dias, nas condições legais. Consulte a política da loja para orientações específicas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -981,7 +981,7 @@
       "assistencia"
     ],
     "resposta": "O prazo e a cobertura dependem do produto, fabricante e condições de compra, além dos direitos previstos em lei. Consulte a nota fiscal, o termo de garantia e o atendimento da loja.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1000,7 +1000,7 @@
       "carvao"
     ],
     "resposta": "Ainda não consulto o catálogo de peças. Informe a marca, o modelo e a peça desejada para verificação por um atendente.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1024,7 +1024,7 @@
       "tramontina"
     ],
     "resposta": "Não tenho acesso à lista atualizada de marcas da loja. Um atendente poderá confirmar as marcas disponíveis.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1043,7 +1043,7 @@
       "loja fisica"
     ],
     "resposta": "A retirada depende das opções e horários da unidade. Confirme essa possibilidade com o atendimento oficial antes de se deslocar.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1062,7 +1062,7 @@
       "status do pedido"
     ],
     "resposta": "Ainda não consigo consultar pedidos. Utilize o canal oficial de acompanhamento ou entre em contato com o atendimento da loja. Não envie dados pessoais sensíveis neste chat.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1080,7 +1080,7 @@
       "cupom fiscal"
     ],
     "resposta": "A emissão de documentos fiscais segue as regras aplicáveis à operação. Consulte o atendimento da loja para confirmar os procedimentos de compra e emissão.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1099,7 +1099,7 @@
       "falar com alguem"
     ],
     "resposta": "Sim, você pode procurar o canal oficial de atendimento humano da loja. Nesta versão, ainda não faço a transferência automática da conversa.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "pendente_validacao"
   },
@@ -1116,7 +1116,7 @@
       "qual marca"
     ],
     "resposta": "Não existe uma única melhor marca para todas as aplicações. Compare desempenho, assistência, peças, ergonomia, garantia e custo-benefício para o uso desejado.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -1133,7 +1133,7 @@
       "vale a pena"
     ],
     "resposta": "Depende do trabalho e da frequência de uso. Diga qual tarefa fará, se o uso é doméstico ou profissional e seu orçamento para eu orientar os critérios de escolha.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -1151,7 +1151,7 @@
       "mais forte"
     ],
     "resposta": "Não. Potência deve ser avaliada junto com controle, ergonomia, eficiência e adequação à aplicação. Uma ferramenta excessiva pode ser menos prática ou segura para tarefas delicadas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -1170,7 +1170,7 @@
       "vs"
     ],
     "resposta": "Informe marca e modelo de ambas. Podemos comparar aplicação, torque, potência, rotação, recursos, peso, alimentação e acessórios, usando especificações confirmadas.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   },
@@ -1192,7 +1192,7 @@
       "recomenda"
     ],
     "resposta": "Claro! Me diga: (1) qual trabalho você fará; (2) em qual material; (3) com que frequência; e (4) qual é seu orçamento aproximado. Assim consigo orientar a escolha.",
-    "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+    "fonte": "docs/0003-Requisitos-do-Produto.md",
     "revisado_em": null,
     "status": "rascunho"
   }

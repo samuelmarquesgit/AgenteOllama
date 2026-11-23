@@ -1,4 +1,4 @@
-# Decisões técnicas
+# 0016 — Registro de decisões
 
 ## D001 — Python + FastAPI em vez de NestJS + Next.js (2026-11-19)
 O checklist sugeria Node. Escolhemos Python porque o projeto já usava Python e

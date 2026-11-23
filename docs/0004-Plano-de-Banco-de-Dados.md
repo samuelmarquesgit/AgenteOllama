@@ -1,4 +1,4 @@
-# ToolExpert AI — Plano executável de banco de dados
+# 0004 — Plano de banco de dados (ToolExpert AI)
 
 > **Instrução para agente de IA de desenvolvimento:** execute as tarefas na ordem, marque `[x]` somente após validar o critério de aceite, e registre evidências (comando, saída resumida e arquivos alterados) em `docs/db/EXECUTION_LOG.md`. Não presuma credenciais, não apague bancos existentes e não execute comandos destrutivos fora de um banco de desenvolvimento explicitamente autorizado.
 

@@ -9,7 +9,7 @@ Camadas (na ordem em que são aplicadas):
     REESCRITA    reescrita.py    G15 pergunta reescrita válida
     APRENDIZADO  aprendizado.py  G16–G19 o que pode ser gravado no banco
 
-Documentação completa: docs/guardrails.md
+Documentação completa: docs/0013-Guardrails.md
 """
 
 from app.guardrails.aprendizado import pode_gravar

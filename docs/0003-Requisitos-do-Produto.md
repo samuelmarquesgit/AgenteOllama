@@ -1,4 +1,4 @@
-# Checklist de desenvolvimento — Agente de IA para loja de ferramentas
+# 0003 — Requisitos do produto (checklist original do MVP e banco inicial de FAQs)
 
 > **Fase atual (atualizado em 2026-11-19 — v0.1.0 entregue):** MVP 1 — agente simples de perguntas e respostas (FAQ).  
 > **Objetivo:** responder dúvidas frequentes de clientes sobre ferramentas elétricas, eletrônicas, acessórios, compra e pós-venda, sem integração com ERP, estoque, pagamentos ou WhatsApp.  
@@ -24,7 +24,7 @@
 - [ ] Definir licença e política de contribuição, se necessário.
 - [ ] Criar pastas `frontend/`, `backend/`, `knowledge/`, `tests/`, `docs/`. — *parcial: estrutura `app/`, `static/`, `knowledge/`, `tests/`, `docs/`, `sql/` (ver D001)*
 - [x] Definir convenção de branches e commits.
-- [x] Registrar decisões técnicas em `docs/decisions.md`.
+- [x] Registrar decisões técnicas em `docs/0016-Registro-de-Decisoes.md`.
 
 ## 2. Arquitetura mínima
 

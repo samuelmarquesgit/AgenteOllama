@@ -12,7 +12,7 @@
   pedido de dados, conselho perigoso, links/telefones, tamanho), reescrita e aprendizado.
 - Página: linha "Entendi como…", selo 🛡️ de bloqueio e lista de guardrails acionados.
 - Terminal: memória de conversa e comando `nova`.
-- `docs/guardrails.md` e testes `test_guardrails.py` e `test_contexto.py` (572 testes no total).
+- `docs/0013-Guardrails.md` e testes `test_guardrails.py` e `test_contexto.py` (572 testes no total).
 
 ### Alterado
 - Pergunta com sinal comercial que não está no banco agora recebe os textos comerciais fixos em vez de ir ao LLM.

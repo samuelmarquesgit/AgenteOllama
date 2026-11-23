@@ -61,11 +61,11 @@ Resposta de `/chat`:
 
 `origem` pode ser `banco`, `agente`, `fallback`, `fora_do_escopo`, `saudacao` ou `bloqueado`.
 Enviando `conversationId`, o agente lembra o contexto ("e para metal?") e devolve também
-`perguntaInterpretada` e a lista de `guardrails` acionados. Detalhes em [docs/api.md](docs/api.md).
+`perguntaInterpretada` e a lista de `guardrails` acionados. Detalhes em [docs/0012-Referencia-da-API.md](docs/0012-Referencia-da-API.md).
 
 ## Guardrails
 
-Todas as proteções ficam em [`app/guardrails/`](app/guardrails/) (catálogo G01–G19 em [docs/guardrails.md](docs/guardrails.md)):
+Todas as proteções ficam em [`app/guardrails/`](app/guardrails/) (catálogo G01–G19 em [docs/0013-Guardrails.md](docs/0013-Guardrails.md)):
 dados pessoais mascarados, prompt injection bloqueado, assunto comercial nunca vai ao LLM, e a resposta do LLM
 é descartada se trouxer preço, estoque, prazo, garantia ou desconto inventado, conselho perigoso, links ou pedido de dados.
 
@@ -90,13 +90,16 @@ O Ollama é substituído por um falso nos testes (`tests/conftest.py`), e cada t
 
 ## Documentação
 
-- [Arquitetura e algoritmo de busca](docs/arquitetura.md)
-- [Referência da API](docs/api.md)
-- [Manutenção da base de conhecimento](docs/base-de-conhecimento.md)
-- [Guardrails](docs/guardrails.md)
-- [Roteiro de demonstração](docs/roteiro-demo.md)
-- [Decisões técnicas](docs/decisions.md) · [Registro de prompts](docs/prompts.md) · [Changelog](CHANGELOG.md)
-- [Checklist do projeto](docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md)
+Toda a documentação fica em [`docs/`](docs/), numerada na ordem de leitura. **Comece pelo [0001 — Contexto](docs/0001-Contexto.md)**; o [0002 — Índice](docs/0002-Indice.md) lista tudo.
+
+| Nº | Documento |
+|----|-----------|
+| 0001 · 0002 | [Contexto](docs/0001-Contexto.md) · [Índice](docs/0002-Indice.md) |
+| 0003 · 0004 | [Requisitos do produto](docs/0003-Requisitos-do-Produto.md) · [Plano de banco](docs/0004-Plano-de-Banco-de-Dados.md) |
+| 0005 · 0006 · 0007 | [Plano de profissionalização](docs/0005-Plano-de-Profissionalizacao.md) · [Análise crítica](docs/0006-Analise-Critica.md) · [**Tasks de reinício**](docs/0007-Tasks-Reinicio-do-Projeto.md) |
+| 0008 · 0009 · 0010 | [Desenho conversacional](docs/0008-Desenho-Conversacional.md) · [Identidade visual](docs/0009-Identidade-Visual.md) · [Stack](docs/0010-Stack-e-Ferramentas.md) |
+| 0011 – 0014 | [Arquitetura](docs/0011-Arquitetura-Atual.md) · [API](docs/0012-Referencia-da-API.md) · [Guardrails](docs/0013-Guardrails.md) · [Base de conhecimento](docs/0014-Base-de-Conhecimento.md) |
+| 0015 – 0017 | [Roteiro de demo](docs/0015-Roteiro-de-Demonstracao.md) · [Decisões](docs/0016-Registro-de-Decisoes.md) · [Prompts](docs/0017-Registro-de-Prompts.md) · [Changelog](CHANGELOG.md) |
 
 ## Convenções
 

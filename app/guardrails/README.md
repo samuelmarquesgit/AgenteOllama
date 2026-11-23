@@ -1,7 +1,7 @@
 # app/guardrails
 
 Todos os guardrails do agente. Catálogo completo (G01–G19), diagrama e exemplos:
-**[docs/guardrails.md](../../docs/guardrails.md)**.
+**[docs/0013-Guardrails.md](../../docs/0013-Guardrails.md)**.
 
 | Arquivo | Camada | Guardrails |
 |---------|--------|------------|

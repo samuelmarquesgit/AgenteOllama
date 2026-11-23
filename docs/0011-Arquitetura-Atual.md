@@ -1,4 +1,4 @@
-# Arquitetura — MVP 1
+# 0011 — Arquitetura atual (v0.2)
 
 ## Visão geral
 
@@ -58,7 +58,7 @@ em "cortar metal". A solução usada é a **reescrita da pergunta de continuaç�
 ## Guardrails (`app/guardrails/`)
 
 Proteções em camadas (entrada → escopo → prompt → saída → reescrita → aprendizado).
-Catálogo completo G01–G19 em **[guardrails.md](guardrails.md)**.
+Catálogo completo G01–G19 em **[0013-Guardrails.md](0013-Guardrails.md)**.
 
 ## Algoritmo de busca (`app/busca.py`)
 
