@@ -2,6 +2,8 @@
 
 import pytest
 
+from tests.conftest import N_FAQS
+
 from app.busca import (
     Faq,
     _parecido,
@@ -184,7 +186,7 @@ def test_montar_faqs_ignora_inativas_e_campos_extras():
 
 def test_carregar_faq_do_json():
     faqs = carregar_faq()
-    assert len(faqs) == 60
+    assert len(faqs) == N_FAQS
     assert all(isinstance(f, Faq) for f in faqs)
 
 

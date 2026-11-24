@@ -318,3 +318,26 @@ def test_remover_rotulos(texto, esperado):
 
 def test_g18_nao_grava_quando_a_mensagem_tinha_dado_pessoal():
     assert not pode_gravar("Como funciona uma tupia de bancada?", True, tinha_dados_pessoais=True)
+
+
+# ---- G25: resposta incerta não é gravada ------------------------------------------
+from app.guardrails.aprendizado import resposta_incerta  # noqa: E402
+
+
+@pytest.mark.parametrize("texto", [
+    "Não tenho certeza sobre o termo desengrosso.",
+    "Não sei responder isso com segurança.",
+    "Desconheço esse produto.",
+    "Não tenho informações suficientes sobre esse modelo.",
+])
+def test_g25_detecta_incerteza(texto):
+    assert resposta_incerta(texto)
+
+
+@pytest.mark.parametrize("texto", [
+    "Use broca de vídea para concreto.",
+    "Se não souber a voltagem, confira a etiqueta.",
+    "Não use disco maior que o indicado.",
+])
+def test_g25_nao_confunde_orientacao_com_incerteza(texto):
+    assert not resposta_incerta(texto)

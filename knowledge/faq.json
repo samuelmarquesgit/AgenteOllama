@@ -1255,5 +1255,32 @@
     "revisado_em": null,
     "status": "rascunho",
     "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-061",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "O que é parafuso autobrocante e para que serve?",
+    "variacoes": [
+      "o que e parafuso brocante",
+      "parafuso brocante serve para que",
+      "escreve-se brocante ou blocante",
+      "parafuso blocante",
+      "parafuso com ponta de broca"
+    ],
+    "palavras_chave": [
+      "autobrocante",
+      "brocante",
+      "blocante",
+      "parafuso",
+      "ponta broca",
+      "telha",
+      "chapa",
+      "steel frame"
+    ],
+    "resposta": "O parafuso autobrocante (também chamado só de brocante) tem a ponta em forma de broca: ele fura e se fixa em chapas metálicas finas sem precisar de pré-furo. É usado em telhas metálicas, steel frame, calhas e serralheria leve. A escrita correta é \"brocante\", de broca; \"blocante\" é um erro comum. Escolha o comprimento e a capacidade de perfuração conforme a espessura da chapa e use parafusadeira com controle de rotação e o bit adequado à cabeça do parafuso.",
+    "fonte": "Redação própria assistida por IA (2026-11-23) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
   }
 ]

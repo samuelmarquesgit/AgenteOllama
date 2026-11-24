@@ -47,6 +47,7 @@
       margin-bottom: 6px; }
     .selo.banco { background: #d9f2e3; color: #11643a; }
     .selo.agente { background: #e4e0ff; color: #3d2a9c; }
+    .selo.sugestao { background: #fff4d6; color: #7a4b00; }
     .selo.outro { background: #ececec; color: #4a4a4a; }
     .selo.bloqueado { background: #ffe1e1; color: #9b1c1c; }
     .selo.catalogo { background: #FFEDD5; color: #9A3412; }
@@ -108,7 +109,8 @@
 
   const SELOS = {
     banco: ["banco", "📚 Banco de dados"],
-    agente: ["agente", "🤖 Agente IA · nova resposta salva no banco"],
+    agente: ["agente", "🤖 Tork IA · resposta gerada, ainda não revisada"],
+    sugestao: ["sugestao", "🤖 Resposta aprendida · aguardando revisão"],
     fallback: ["outro", "⚠️ Sem resposta"],
     fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
     saudacao: ["outro", "👋 Saudação"],
@@ -217,7 +219,8 @@
       const partes = [];
       if (dados.perguntaInterpretada) partes.push(`Entendi como: "${dados.perguntaInterpretada}"`);
       if (dados.origem === "banco") partes.push(`${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`);
-      if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} (pendente de validação)`);
+      if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} para revisão humana`);
+      if (dados.origem === "sugestao") partes.push(`${dados.matchedFaqId} · ainda não revisada por um especialista`);
       if (dados.guardrails && dados.guardrails.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
       const meta = partes.join(" · ");
       const bolha = adicionar(dados.answer, "agente", meta, dados.origem);
