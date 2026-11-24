@@ -20,8 +20,9 @@ import sqlite3
 from dataclasses import dataclass, field
 
 from app import banco
-from app.busca import Faq, buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, tokens
+from app.busca import Faq, buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
+from app.guardrails.aprendizado import resposta_incerta
 from app.guardrails import (
     eh_fora_do_escopo,
     limpar_reescrita,
@@ -55,6 +56,9 @@ NOTA_MINIMA = 0.5       # abaixo disso a pergunta "não existe" no banco
 NOTA_CONFIANTE = 0.75   # abaixo disso responde, mas pede para confirmar
 MARGEM_EMPATE = 0.1     # 2ª resposta quase tão boa quanto a 1ª -> sugere as duas
 NOTA_COMERCIAL = 0.25   # sinal comercial a partir do qual o LLM não é chamado
+NOTA_SUGESTAO = 0.9     # sugestões não revisadas só respondem perguntas praticamente iguais...
+COBERTURA_REVERSA_SUGESTAO = 0.75  # ...e que contenham a maior parte das palavras da sugestão
+CATEGORIA_SUGESTAO = "aprendida"
 
 MODELO = os.getenv("OLLAMA_MODELO", "llama3.2")
 
@@ -159,7 +163,9 @@ class Agente:
         self.recarregar()
 
     def recarregar(self):
-        self.faqs: list[Faq] = montar_faqs(banco.listar(self.con))
+        self.faqs: list[Faq] = montar_faqs(banco.listar(self.con))   # oficiais + sugestões (para /faqs e /health)
+        self.oficiais = [f for f in self.faqs if f.categoria != CATEGORIA_SUGESTAO]
+        self.sugestoes = [f for f in self.faqs if f.categoria == CATEGORIA_SUGESTAO]
 
     def responder(self, pergunta: str, historico: list[Troca] | None = None) -> Resposta:
         historico = historico or []
@@ -180,6 +186,7 @@ class Agente:
                 self._responder_por_dados(independente)
                 or self._responder_pelo_banco(independente)
                 or self._responder_comercial(independente)
+                or self._responder_por_sugestao(independente)
                 or self._responder_pelo_agente(independente, historico, bool(entrada.dados_pessoais))
             )
             if independente != pergunta:
@@ -211,7 +218,7 @@ class Agente:
 
     # ---- 2) banco de FAQ ---------------------------------------------------
     def _responder_pelo_banco(self, pergunta: str) -> Resposta | None:
-        resultados = buscar(pergunta, self.faqs)
+        resultados = buscar(pergunta, self.oficiais)
         if not resultados or resultados[0].nota < NOTA_MINIMA:
             return None
 
@@ -231,7 +238,7 @@ class Agente:
 
     # ---- 2) comercial: textos fixos, nunca LLM (G04) -----------------------
     def _responder_comercial(self, pergunta: str) -> Resposta | None:
-        resultados = buscar(pergunta, self.faqs, limite=5)
+        resultados = buscar(pergunta, self.oficiais, limite=5)
         comerciais = [r.faq for r in resultados if not pode_usar_llm(r.faq.categoria) and r.nota >= NOTA_COMERCIAL]
         if not comerciais:
             return None
@@ -240,6 +247,26 @@ class Agente:
         return Resposta(texto, comerciais[0].id, nota, "banco", guardrails=["escopo:comercial_sem_llm"])
 
     # ---- 3) agente de IA ---------------------------------------------------
+    # ---- 4) resposta aprendida, ainda não revisada --------------------------
+    def _responder_por_sugestao(self, pergunta: str) -> Resposta | None:
+        """Reaproveita uma resposta gerada pela IA SÓ se a pergunta for praticamente a mesma.
+
+        Sugestões não passaram por revisão humana: não podem "pegar" perguntas parecidas como a
+        FAQ oficial faz. Exige nota alta nos dois sentidos (a pergunta cobre a sugestão e vice-versa).
+        """
+        q = tokens(pergunta)
+        melhor, nota_melhor = None, 0.0
+        for sug in self.sugestoes:
+            nota = pontuar(pergunta, sug)
+            if nota < NOTA_SUGESTAO or not sug.tokens_chave:
+                continue
+            reversa = sum(1 for t in sug.tokens_chave if t in q) / len(sug.tokens_chave)
+            if reversa >= COBERTURA_REVERSA_SUGESTAO and nota > nota_melhor:
+                melhor, nota_melhor = sug, nota
+        if not melhor:
+            return None
+        return Resposta(melhor.resposta, melhor.id, nota_melhor, "sugestao", guardrails=["aprendizado:nao_revisada"])
+
     def _responder_pelo_agente(self, pergunta: str, historico: list[Troca], tinha_dados_pessoais: bool = False) -> Resposta:
         if not usar_ollama():
             return Resposta(FALLBACK, None, 0.0, "fallback")
@@ -257,6 +284,9 @@ class Agente:
                             guardrails=[f"saida:{v}" for v in saida.violacoes])
 
         # ---- guardrails de aprendizado (G16–G19) ----
+        if resposta_incerta(saida.texto):  # G25
+            texto = f"{saida.texto}\n\nPara uma resposta segura, posso encaminhar você a um atendente da loja."
+            return Resposta(texto, None, 0.0, "agente", guardrails=["aprendizado:resposta_incerta"])
         if not pode_gravar(pergunta, saida.permitido, tinha_dados_pessoais):
             return Resposta(saida.texto, None, 0.0, "agente", guardrails=["aprendizado:nao_gravado"])
         novo_id = banco.inserir_aprendida(self.con, pergunta, saida.texto)

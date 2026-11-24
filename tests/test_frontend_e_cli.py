@@ -4,7 +4,7 @@ import os
 import subprocess
 import sys
 
-from tests.conftest import RAIZ
+from tests.conftest import N_FAQS, RAIZ
 
 HTML = (RAIZ / "static" / "index.html").read_text(encoding="utf-8")
 
@@ -60,7 +60,7 @@ def _rodar_cli(entrada, tmp_path):
 def test_cli_responde_e_encerra(tmp_path):
     r = _rodar_cli("Qual broca usar em concreto?\n\nsair\n", tmp_path)
     assert r.returncode == 0, r.stderr
-    assert "60 perguntas no banco" in r.stdout
+    assert f"{N_FAQS} perguntas no banco" in r.stdout
     assert "📚 banco" in r.stdout
     assert "SDS-plus" in r.stdout
 
@@ -75,3 +75,8 @@ def test_pagina_monta_cards_de_produto_com_seguranca():
     assert "function montarCards" in HTML
     assert "dados.produtos" in HTML
     assert 'catalogo: ["catalogo"' in HTML and 'loja: ["loja"' in HTML
+
+
+def test_pagina_diferencia_resposta_nao_revisada_do_banco():
+    assert 'sugestao: ["sugestao"' in HTML
+    assert "ainda não revisada" in HTML

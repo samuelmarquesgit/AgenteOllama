@@ -1,8 +1,8 @@
 """Fachada do banco usada pelo agente (mantém a interface da v0.2).
 
 O banco é SQLite normalizado (3FN): veja database/migrations/ e docs/db/.
-Na primeira conexão, aplica as migrações pendentes e popula os dados de demonstração
-(FAQ, loja e catálogo fictício) se o banco estiver vazio.
+Em cada conexão: aplica as migrações pendentes, popula os dados de demonstração (FAQ, loja e
+catálogo fictício) se o banco estiver vazio e reaplica os seeds cujos arquivos mudaram.
 """
 
 import sqlite3
@@ -11,7 +11,7 @@ from pathlib import Path
 from app.db.conexao import abrir, caminho_banco
 from app.db.migracoes import migrar
 from app.db.repositorios import FaqRepository, SugestaoRepository
-from app.db.seeds import popular_tudo
+from app.db.seeds import popular_tudo, sincronizar
 
 CAMINHO_BANCO = caminho_banco()
 
@@ -21,6 +21,8 @@ def conectar(caminho: Path | str | None = None) -> sqlite3.Connection:
     migrar(con)
     if con.execute("SELECT COUNT(*) FROM faq_perguntas").fetchone()[0] == 0:
         popular_tudo(con)
+    else:
+        sincronizar(con)  # ex.: FAQs novas em knowledge/faq.json entram num banco já existente
     importar_legado_v02(con)
     return con
 

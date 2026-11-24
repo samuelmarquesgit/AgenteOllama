@@ -16,7 +16,7 @@ from app.agente import (
     perguntar_ao_ollama,
     usar_ollama,
 )
-from tests.conftest import RESPOSTA_FALSA, OllamaFalso
+from tests.conftest import N_FAQS, RESPOSTA_FALSA, OllamaFalso
 
 
 # ---- 10 perguntas da demonstração (seção 10 do checklist) ----------------------
@@ -118,11 +118,12 @@ PERGUNTA_NOVA = "Qual a voltagem ideal para um soprador térmico?"
 def test_pergunta_nova_vai_para_o_agente_e_e_gravada(agente, ollama):
     r1 = agente.responder(PERGUNTA_NOVA)
     assert r1 == Resposta(RESPOSTA_FALSA, "SUG-0001", 0.0, "agente")
-    assert len(agente.faqs) == 61
+    assert len(agente.faqs) == N_FAQS + 1
     assert ollama.perguntas == [PERGUNTA_NOVA]
 
     r2 = agente.responder(PERGUNTA_NOVA)
-    assert r2.origem == "banco"
+    assert r2.origem == "sugestao"            # reaproveitada, mas marcada como não revisada
+    assert "aprendizado:nao_revisada" in r2.guardrails
     assert r2.matchedFaqId == "SUG-0001"
     assert r2.answer == RESPOSTA_FALSA
     assert ollama.chamadas == 1  # não chamou o LLM de novo
@@ -144,7 +145,7 @@ def test_aprendizado_persiste_em_nova_instancia(con, ollama):
     Agente(con, perguntar=ollama).responder(PERGUNTA_NOVA)
     outro = Agente(con, perguntar=OllamaFalso("não deveria ser chamado"))
     r = outro.responder(PERGUNTA_NOVA)
-    assert r.origem == "banco"
+    assert r.origem == "sugestao"
     assert outro.perguntar.chamadas == 0
 
 
@@ -152,7 +153,7 @@ def test_fora_do_escopo_nao_e_gravado(con):
     ag = Agente(con, perguntar=OllamaFalso(FORA_DO_ESCOPO))
     r = ag.responder("como fazer bolo de chocolate")
     assert r == Resposta(RESPOSTA_FORA_DO_ESCOPO, None, 0.0, "fora_do_escopo", guardrails=["escopo:fora_do_escopo"])
-    assert len(ag.faqs) == 60
+    assert len(ag.faqs) == N_FAQS
 
 
 def test_fora_do_escopo_no_meio_do_texto(con):
@@ -165,7 +166,7 @@ def test_ollama_indisponivel_gera_fallback(con, resposta_llm):
     ag = Agente(con, perguntar=OllamaFalso(resposta_llm))
     r = ag.responder("como funciona um soprador térmico industrial")
     assert r == Resposta(FALLBACK, None, 0.0, "fallback")
-    assert len(ag.faqs) == 60
+    assert len(ag.faqs) == N_FAQS
 
 
 def test_ollama_desligado_por_variavel_nao_chama_llm(agente, ollama, monkeypatch):
@@ -260,7 +261,7 @@ def test_dado_pessoal_e_removido_antes_do_llm(agente, ollama):
     assert "dados_pessoais:cpf" in r.guardrails
     assert "123.456.789-09" not in ollama.perguntas[0]
     assert r.matchedFaqId is None  # pergunta com dado pessoal não é gravada (G18)
-    assert len(agente.faqs) == 60
+    assert len(agente.faqs) == N_FAQS
 
 
 def test_resposta_do_llm_com_preco_e_bloqueada_e_nao_gravada(con):
@@ -269,7 +270,7 @@ def test_resposta_do_llm_com_preco_e_bloqueada_e_nao_gravada(con):
     assert r.origem == "bloqueado"
     assert r.answer == RESPOSTA_BLOQUEADA_SAIDA
     assert {"saida:preco", "saida:estoque"} <= set(r.guardrails)
-    assert len(ag.faqs) == 60
+    assert len(ag.faqs) == N_FAQS
 
 
 def test_resposta_do_llm_com_conselho_perigoso_e_bloqueada(con):
@@ -297,3 +298,40 @@ def test_dado_pessoal_nao_atrapalha_a_busca(agente, ollama):
     r = agente.responder("meu cpf é 123.456.789-09, qual a diferença entre furadeira e parafusadeira?")
     assert r.matchedFaqId == "FAQ-001"
     assert r.answer.startswith(AVISO_DADOS_PESSOAIS)
+
+
+# ---- sugestões não revisadas: reaproveitamento estrito (caso real de 2026-11-23) --------
+def test_sugestao_nao_responde_pergunta_diferente_com_palavra_parecida(con):
+    """'escreve-se brocantes ou blocantes?' NÃO pode reaproveitar a resposta sobre parafusos brocantes."""
+    ag = Agente(con, perguntar=OllamaFalso(lambda p: f"Resposta para: {p}"))
+    ag.sugestoes = []  # isola o teste das FAQs oficiais sobre o tema
+    ag.oficiais = [f for f in ag.oficiais if "brocante" not in f.tokens_chave]
+    primeira = ag.responder("gostaria de saber sobre um soprador com bico redutor")
+    assert primeira.origem == "agente"
+    ag.oficiais = [f for f in ag.oficiais if "soprador" not in f.tokens_chave]
+    segunda = ag.responder("escreve-se soprador ou sopradô?")
+    assert segunda.origem == "agente"            # foi para a IA de novo, não reaproveitou
+    assert segunda.answer != primeira.answer
+
+
+def test_sugestao_responde_a_mesma_pergunta_com_pequena_variacao(agente, ollama):
+    agente.responder("Como regular o bico de um soprador térmico?")
+    r = agente.responder("como regular o bico de um soprador termico")
+    assert r.origem == "sugestao"
+    assert ollama.chamadas == 1
+
+
+def test_sugestao_nao_cobre_pergunta_que_so_compartilha_uma_palavra(agente, ollama):
+    agente.responder("Qual a vida útil de um soprador térmico?")
+    r = agente.responder("soprador térmico serve para descascar tinta de janela?")
+    assert r.origem != "sugestao"
+    assert ollama.chamadas == 2
+
+
+def test_g25_resposta_incerta_nao_e_gravada_e_oferece_atendente(con):
+    ag = Agente(con, perguntar=OllamaFalso("Não tenho certeza sobre o termo desengrosso."))
+    r = ag.responder("o que é uma plaina com desengrosso de bancada?")
+    assert r.origem == "agente" and r.matchedFaqId is None
+    assert "atendente" in r.answer
+    assert "aprendizado:resposta_incerta" in r.guardrails
+    assert ag.sugestoes == []

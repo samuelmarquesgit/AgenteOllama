@@ -20,6 +20,9 @@ from fastapi.testclient import TestClient  # noqa: E402
 
 from app import banco  # noqa: E402
 from app.agente import Agente  # noqa: E402
+from app.db.seeds import ESPERADO  # noqa: E402
+
+N_FAQS = ESPERADO["faq_perguntas"]  # quantidade de FAQs no knowledge/faq.json
 
 RESPOSTA_FALSA = "Resposta gerada pelo agente."
 

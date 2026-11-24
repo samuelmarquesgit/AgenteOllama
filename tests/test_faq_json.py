@@ -20,8 +20,8 @@ CATEGORIAS = {
 CAMPOS = {"id", "categoria", "pergunta", "variacoes", "palavras_chave", "resposta", "fonte", "revisado_em", "status", "nivel_risco"}
 
 
-def test_tem_60_faqs():
-    assert len(DADOS) == 60
+def test_tem_pelo_menos_60_faqs():
+    assert len(DADOS) >= 60  # meta do plano de banco: 150
 
 
 def test_ids_unicos_e_no_formato():

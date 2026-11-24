@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.1] — 2026-11-23 — Respostas não revisadas sob controle
+
+### Corrigido
+- Uma resposta gerada pela IA e **não revisada** era reaproveitada para perguntas apenas parecidas, com o selo
+  "Banco de dados" (ex.: "escreve-se brocantes ou blocantes?" recebia a resposta errada sobre parafusos).
+  Agora sugestões só respondem perguntas praticamente iguais e aparecem com o selo "aguardando revisão".
+- FAQs novas em `knowledge/faq.json` não entravam em bancos já existentes: os seeds agora se sincronizam pelo
+  hash dos arquivos (migração `0005_controle_seeds`), sem apagar sugestões, atendimentos ou avaliações.
+
+### Adicionado
+- FAQ-061 sobre parafuso autobrocante (inclui a grafia correta "brocante").
+- Revisão humana pelo terminal: `python -m app.db.revisao [rejeitar|aprovar|categorias]`.
+- G25: resposta em que a IA admite não ter certeza não é gravada e o Tork oferece atendente; o prompt pede para
+  não inventar definições.
+
+
 ## [0.3.0] — 2026-11-23 — Banco normalizado e catálogo fictício
 
 ### Adicionado

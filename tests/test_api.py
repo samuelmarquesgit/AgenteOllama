@@ -4,13 +4,13 @@ import logging
 
 import pytest
 
-from tests.conftest import RESPOSTA_FALSA
+from tests.conftest import N_FAQS, RESPOSTA_FALSA
 
 
 def test_health(cliente):
     r = cliente.get("/health")
     assert r.status_code == 200
-    assert r.json() == {"status": "ok", "faqs": 60, "aprendidas": 0}
+    assert r.json() == {"status": "ok", "faqs": N_FAQS, "aprendidas": 0}
 
 
 def test_chat_resposta_do_banco(cliente):
@@ -32,7 +32,7 @@ def test_chat_aprende_e_health_reflete(cliente):
     r = cliente.post("/chat", json={"message": "Como funciona uma tupia de bancada?"})
     assert r.json() == {"answer": RESPOSTA_FALSA, "matchedFaqId": "SUG-0001", "confidence": 0.0, "origem": "agente",
                         "perguntaInterpretada": None, "guardrails": [], "produtos": []}
-    assert cliente.get("/health").json() == {"status": "ok", "faqs": 61, "aprendidas": 1}
+    assert cliente.get("/health").json() == {"status": "ok", "faqs": N_FAQS + 1, "aprendidas": 1}
 
     nova = [f for f in cliente.get("/faqs").json() if f["id"] == "SUG-0001"][0]
     assert nova["status"] == "pendente_validacao"
@@ -80,7 +80,7 @@ def test_log_nao_guarda_texto_do_cliente(cliente, caplog):
 
 def test_faqs_lista_campos_publicos(cliente):
     faqs = cliente.get("/faqs").json()
-    assert len(faqs) == 60
+    assert len(faqs) == N_FAQS
     assert set(faqs[0]) == {"id", "categoria", "pergunta", "status"}
 
 

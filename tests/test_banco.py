@@ -4,6 +4,8 @@ import sqlite3
 
 import pytest
 
+from tests.conftest import N_FAQS
+
 from app import banco
 from app.db import migracoes, seeds
 from app.db.conexao import abrir
@@ -20,7 +22,7 @@ TABELAS = {
     "faq_categorias", "faq_perguntas", "faq_variacoes", "faq_palavras_chave", "faq_sugestoes",
     "unidades", "unidade_horarios", "formas_pagamento", "politicas",
     "categorias", "marcas", "produtos", "especificacoes", "produto_especificacoes",
-    "produto_imagens", "produto_precos", "estoques", "atendimentos_humanos", "avaliacoes",
+    "produto_imagens", "produto_precos", "estoques", "atendimentos_humanos", "avaliacoes", "seeds_aplicados",
 }
 
 
@@ -34,7 +36,7 @@ def tabelas(con):
 def test_migracoes_criam_todas_as_tabelas_em_banco_vazio(tmp_path):
     con = abrir(tmp_path / "vazio.db")
     aplicadas = migracoes.migrar(con)
-    assert aplicadas == ["0001", "0002", "0003", "0004"]
+    assert aplicadas == ["0001", "0002", "0003", "0004", "0005"]
     assert tabelas(con) == TABELAS
 
 
@@ -47,9 +49,9 @@ def test_migrar_de_novo_nao_faz_nada(tmp_path):
 def test_rollback_e_reaplicacao(tmp_path):
     con = abrir(tmp_path / "rb.db")
     migracoes.migrar(con)
-    assert migracoes.reverter(con, "0001") == ["0004", "0003", "0002", "0001"]
+    assert migracoes.reverter(con, "0001") == ["0005", "0004", "0003", "0002", "0001"]
     assert tabelas(con) == set()
-    assert migracoes.migrar(con) == ["0001", "0002", "0003", "0004"]
+    assert migracoes.migrar(con) == ["0001", "0002", "0003", "0004", "0005"]
     assert tabelas(con) == TABELAS
 
 
@@ -293,7 +295,7 @@ def test_busca_faq_ignora_acentos_e_maiusculas(con):
 @pytest.mark.parametrize("termo", ["x' OR '1'='1", "'; DROP TABLE faq_perguntas; --", "%", "_", "", "   "])
 def test_busca_faq_resiste_a_sql_injection_e_curingas(con, termo):
     assert FaqRepository(con).buscar_perguntas(termo) == []
-    assert con.execute("SELECT COUNT(*) FROM faq_perguntas").fetchone()[0] == 60
+    assert con.execute("SELECT COUNT(*) FROM faq_perguntas").fetchone()[0] == N_FAQS
 
 
 def test_busca_faq_termo_inexistente(con):
@@ -380,3 +382,91 @@ def test_importa_banco_legado_v02_sem_apagar(tmp_path):
     assert [s["pergunta"] for s in SugestaoRepository(con).listar_pendentes()] == ["Como funciona uma tupia?"]
     assert con.execute("SELECT COUNT(*) FROM legado_faq_v02").fetchone()[0] == 2   # preservado
     assert banco.importar_legado_v02(con) == 0                                      # não importa duas vezes
+
+
+# =============================================================================
+# Revisão humana das sugestões
+# =============================================================================
+def test_rejeitar_sugestao_tira_da_busca(con):
+    codigo = banco.inserir_aprendida(con, "O que é parafuso cabeça chata?", "Resposta errada.")
+    SugestaoRepository(con).rejeitar(codigo, "conteúdo incorreto", "revisor")
+    assert codigo not in [f["id"] for f in banco.listar(con)]
+    status, motivo = con.execute("SELECT status, motivo_revisao FROM faq_sugestoes").fetchone()
+    assert (status, motivo) == ("rejeitada", "conteúdo incorreto")
+
+
+def test_aprovar_sugestao_vira_faq_oficial(con):
+    codigo = banco.inserir_aprendida(con, "O que é parafuso cabeça chata?", "Rascunho.")
+    novo = SugestaoRepository(con).aprovar(codigo, "brocas_discos_acessorios", "revisor", resposta="Texto revisado.")
+    assert novo == f"FAQ-{N_FAQS + 1:03d}"
+    faq = FaqRepository(con).obter_resposta_por_id(novo)
+    assert faq["resposta"] == "Texto revisado."
+    assert con.execute("SELECT status FROM faq_perguntas WHERE codigo = ?", (novo,)).fetchone()[0] == "validado"
+    assert codigo not in [f["id"] for f in banco.listar(con)]          # saiu da fila de sugestões
+    assert SugestaoRepository(con).listar_pendentes() == []
+
+
+@pytest.mark.parametrize("codigo", ["SUG-9999", "FAQ-0001", "abc"])
+def test_revisao_rejeita_codigo_invalido(con, codigo):
+    repo = SugestaoRepository(con)
+    with pytest.raises(ValueError):
+        repo.rejeitar(codigo, "x", "revisor")
+
+
+def test_sugestao_ja_revisada_nao_pode_ser_revisada_de_novo(con):
+    codigo = banco.inserir_aprendida(con, "Pergunta?", "Resposta.")
+    repo = SugestaoRepository(con)
+    repo.rejeitar(codigo, "x", "revisor")
+    with pytest.raises(ValueError, match="já foi revisada"):
+        repo.aprovar(codigo, "brocas_discos_acessorios", "revisor")
+
+
+def test_aprovar_com_categoria_inexistente(con):
+    codigo = banco.inserir_aprendida(con, "Pergunta?", "Resposta.")
+    repo = SugestaoRepository(con)
+    with pytest.raises(ValueError, match="Categoria"):
+        repo.aprovar(codigo, "nao_existe", "revisor")
+
+
+def test_cli_de_revisao(con, monkeypatch, capsys):
+    from app.db import revisao
+
+    monkeypatch.setattr(revisao, "abrir", lambda: con)
+    codigo = banco.inserir_aprendida(con, "Pergunta da IA?", "Resposta da IA.")
+    assert revisao.main([]) == 0 and codigo in capsys.readouterr().out
+    assert revisao.main(["rejeitar", codigo, "errada"]) == 0
+    assert revisao.main(["rejeitar", codigo]) == 1          # já revisada
+    assert revisao.main(["comando_invalido"]) == 2
+
+
+# =============================================================================
+# Sincronização dos seeds com banco existente
+# =============================================================================
+def test_faq_nova_no_arquivo_entra_em_banco_existente(con, tmp_path, monkeypatch):
+    import json as _json
+
+    arq = tmp_path / "faq.json"
+    dados = _json.loads(seeds.ARQ_FAQ.read_text(encoding="utf-8"))
+    dados.append({**dados[0], "id": "FAQ-900", "pergunta": "Pergunta nova do time?", "variacoes": [], "palavras_chave": ["nova"]})
+    arq.write_text(_json.dumps(dados, ensure_ascii=False), encoding="utf-8")
+    monkeypatch.setattr(seeds, "ARQ_FAQ", arq)
+    con.execute("INSERT INTO faq_sugestoes (pergunta, resposta) VALUES ('p', 'r')")  # dado do usuário
+
+    assert seeds.sincronizar(con) == ["faq.json"]
+    assert con.execute("SELECT COUNT(*) FROM faq_perguntas WHERE codigo = 'FAQ-900'").fetchone()[0] == 1
+    assert con.execute("SELECT COUNT(*) FROM faq_sugestoes").fetchone()[0] == 1   # preservado
+
+
+def test_sincronizar_sem_mudanca_nao_reaplica(con):
+    assert seeds.sincronizar(con) == []
+
+
+def test_conectar_banco_antigo_recebe_faq_nova(tmp_path):
+    caminho = tmp_path / "antigo.db"
+    c = banco.conectar(caminho)
+    c.execute("DELETE FROM faq_perguntas WHERE codigo = 'FAQ-061'")
+    c.execute("DELETE FROM seeds_aplicados WHERE arquivo = 'faq.json'")  # simula banco anterior à FAQ
+    c.commit()
+    c.close()
+    c = banco.conectar(caminho)
+    assert c.execute("SELECT COUNT(*) FROM faq_perguntas WHERE codigo = 'FAQ-061'").fetchone()[0] == 1

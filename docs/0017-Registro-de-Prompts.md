@@ -116,3 +116,15 @@ f-string) e confiabilidade C (regras de PL/SQL/Oracle aplicadas a migrações SQ
 **Resultado:** PR #4 para a `main` com o banco + correções: SQL parametrizado e validação de arquivo no executor,
 `.sonarcloud.properties` (produção × testes, exclusão dos `.sql`), refatorações de complexidade. Quality Gate aprovado.
 Sugestão: ativar "Automatically delete head branches" para PRs empilhadas apontarem sozinhas para a `main`.
+
+## P017 — Duas perguntas diferentes, a mesma resposta (2026-11-23)
+**Prompt (resumo):** "gostaria de saber sobre parafusos brocantes" gerou uma resposta da IA; "escreve-se brocantes ou
+blocantes?" devolveu a mesma resposta, como se viesse do banco. Preciso melhorar isso.
+
+**Diagnóstico:** (1) o llama3.2 inventou o conteúdo; (2) sugestões não revisadas eram buscadas como FAQ oficial, com
+todas as palavras como palavra-chave e tolerância a erro de digitação ("blocantes" ≈ "brocantes"), passando do limite
+de 50%; (3) o selo dizia "Banco de dados"; (4) FAQs novas não entravam em bancos existentes.
+
+**Resultado:** reaproveitamento estrito de sugestões com selo próprio, FAQ-061 (autobrocante), sincronização dos
+seeds por hash, comando de revisão, G25 (incerteza não é gravada) e prompt contra definições inventadas. 718 testes.
+

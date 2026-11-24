@@ -48,7 +48,19 @@ Categorias: `escolha_de_ferramentas`, `brocas_discos_acessorios`, `baterias_alim
 **Dica:** se uma pergunta cair na FAQ errada, inclua as palavras dela nas `palavras_chave`
 da FAQ correta ou cadastre a frase em `variacoes`.
 
-## Como revisar as respostas aprendidas pelo agente
+## Como revisar as respostas aprendidas pelo agente (comando)
+
+```powershell
+.venv\Scripts\python -m app.db.revisao                                   # lista as pendentes
+.venv\Scripts\python -m app.db.revisao rejeitar SUG-0006 "resposta errada"
+.venv\Scripts\python -m app.db.revisao aprovar SUG-0007 brocas_discos_acessorios
+.venv\Scripts\python -m app.db.revisao categorias                        # categorias válidas
+```
+
+Aprovar cria uma FAQ oficial (`FAQ-NNN`, status `validado`); rejeitar tira a resposta de uso. Reinicie a API depois.
+FAQs novas acrescentadas em `knowledge/faq.json` entram sozinhas num banco existente na próxima inicialização.
+
+## Como revisar as respostas aprendidas pelo agente (SQL, referência antiga)
 
 Listar as pendentes:
 

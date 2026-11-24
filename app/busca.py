@@ -24,7 +24,7 @@ STOPWORDS = {
     "posso", "pode", "podem", "devo", "deve", "usar", "uso", "utilizar", "preciso",
     "quero", "queria", "gostaria", "fazer", "faco", "sobre", "favor", "ola", "oi",
     "bom", "boa", "dia", "tarde", "noite", "obrigado", "obrigada", "tudo", "algum",
-    "alguma", "ferramenta", "ferramentas", "coisa", "entre", "ao", "aos",
+    "alguma", "ferramenta", "ferramentas", "coisa", "entre", "ao", "aos", "saber",
 }
 
 SAUDACOES = {"oi", "ola", "bom dia", "boa tarde", "boa noite", "e ai", "opa", "hello"}

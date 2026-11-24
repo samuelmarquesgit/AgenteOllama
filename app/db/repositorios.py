@@ -84,8 +84,59 @@ class SugestaoRepository:
         return self.codigo(cur.lastrowid)
 
     def listar_pendentes(self) -> list[dict]:
-        return [dict(r) for r in self.con.execute(
+        return [{**dict(r), "codigo": self.codigo(r["id"])} for r in self.con.execute(
             "SELECT id, pergunta, resposta, criado_em FROM faq_sugestoes WHERE status = 'pendente' ORDER BY id")]
+
+    @staticmethod
+    def _id(codigo: str) -> int:
+        prefixo, _, numero = codigo.upper().partition("-")
+        if prefixo != "SUG" or not numero.isdigit():
+            raise ValueError(f"Código de sugestão inválido: {codigo} (formato esperado: SUG-0001)")
+        return int(numero)
+
+    def _pendente(self, codigo: str) -> dict:
+        linha = self.con.execute("SELECT * FROM faq_sugestoes WHERE id = ?", (self._id(codigo),)).fetchone()
+        if linha is None:
+            raise ValueError(f"Sugestão {codigo} não encontrada.")
+        sugestao = dict(linha)
+        if sugestao["status"] != "pendente":
+            raise ValueError(f"Sugestão {codigo} já foi revisada (status: {sugestao['status']}).")
+        return sugestao
+
+    def rejeitar(self, codigo: str, motivo: str, revisor: str) -> None:
+        """Descarta uma resposta gerada pela IA (ela deixa de ser usada pelo Tork)."""
+        self._pendente(codigo)
+        self.con.execute(
+            """UPDATE faq_sugestoes SET status = 'rejeitada', motivo_revisao = ?, revisado_por = ?,
+                   revisado_em = strftime('%Y-%m-%dT%H:%M:%SZ', 'now') WHERE id = ?""",
+            (motivo, revisor, self._id(codigo)))
+        self.con.commit()
+
+    def aprovar(self, codigo: str, categoria: str, revisor: str, resposta: str | None = None,
+                nivel_risco: str = "baixo") -> str:
+        """Promove a sugestão a FAQ oficial (opcionalmente com a resposta corrigida). Devolve o código FAQ-NNN."""
+        sug = self._pendente(codigo)
+        linha_cat = self.con.execute("SELECT id FROM faq_categorias WHERE codigo = ?", (categoria,)).fetchone()
+        if linha_cat is None:
+            raise ValueError(f"Categoria de FAQ inexistente: {categoria}")
+        categoria_id = int(linha_cat[0])
+        ultimo = self.con.execute(
+            "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas").fetchone()[0] or 0
+        novo = f"FAQ-{ultimo + 1:03d}"
+        cur = self.con.execute(
+            """INSERT INTO faq_perguntas (codigo, categoria_id, pergunta, resposta, fonte, nivel_risco, status,
+                                          revisado_por, revisado_em)
+               VALUES (?, ?, ?, ?, 'Sugestão da IA revisada por humano', ?, 'validado', ?,
+                       strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))""",
+            (novo, categoria_id, sug["pergunta"], resposta or sug["resposta"], nivel_risco, revisor))
+        self.con.executemany("INSERT OR IGNORE INTO faq_palavras_chave (pergunta_id, termo) VALUES (?, ?)",
+                             [(cur.lastrowid, t) for t in sorted(tokens(sug["pergunta"]))])
+        self.con.execute(
+            """UPDATE faq_sugestoes SET status = 'aprovada', faq_pergunta_id = ?, revisado_por = ?,
+                   revisado_em = strftime('%Y-%m-%dT%H:%M:%SZ', 'now') WHERE id = ?""",
+            (cur.lastrowid, revisor, sug["id"]))
+        self.con.commit()
+        return novo
 
     def listar_para_busca(self) -> list[dict]:
         return [

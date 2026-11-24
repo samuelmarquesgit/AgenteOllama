@@ -8,6 +8,7 @@ Fontes versionadas:
 Uso:  python -m app.db.seeds            (migra, popula e confere as contagens)
 """
 
+import hashlib
 import json
 import sqlite3
 import sys
@@ -34,7 +35,7 @@ NOMES_CATEGORIAS_FAQ = {
 # Contagens esperadas (o verificador falha se o banco divergir).
 ESPERADO = {
     "faq_categorias": 8,
-    "faq_perguntas": 60,
+    "faq_perguntas": len(json.loads(ARQ_FAQ.read_text(encoding="utf-8"))),  # cresce com o arquivo (meta: 150)
     "unidades": 2,
     "unidade_horarios": 12,
     "formas_pagamento": 4,
@@ -179,6 +180,37 @@ def popular_tudo(con: sqlite3.Connection) -> None:
     seed_faq(con)
     seed_loja(con)       # antes do catálogo: estoques referenciam unidades
     seed_catalogo(con)
+    for arq in (ARQ_FAQ, ARQ_LOJA, ARQ_CATALOGO):
+        _registrar_hash(con, arq)
+
+
+def _sha1(arq: Path) -> str:
+    return hashlib.sha1(arq.read_bytes(), usedforsecurity=False).hexdigest()
+
+
+def _registrar_hash(con: sqlite3.Connection, arq: Path) -> None:
+    con.execute("""INSERT INTO seeds_aplicados (arquivo, sha1) VALUES (?, ?)
+                   ON CONFLICT (arquivo) DO UPDATE SET sha1 = excluded.sha1,
+                   aplicado_em = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')""",
+                (arq.name, _sha1(arq)))
+    con.commit()
+
+
+def sincronizar(con: sqlite3.Connection) -> list[str]:
+    """Reaplica (idempotente) os seeds cujos arquivos mudaram desde a última aplicação.
+
+    Ex.: alguém acrescentou FAQs em knowledge/faq.json -> elas entram no banco existente sem apagar nada
+    (sugestões, atendimentos e avaliações são preservados). Devolve os arquivos reaplicados.
+    """
+    aplicados = {r[0]: r[1] for r in con.execute("SELECT arquivo, sha1 FROM seeds_aplicados")}
+    reaplicados = []
+    for arq, seed in ((ARQ_FAQ, seed_faq), (ARQ_LOJA, seed_loja), (ARQ_CATALOGO, seed_catalogo)):
+        chave = arq.name
+        if aplicados.get(chave) != _sha1(arq):
+            seed(con, arq)
+            _registrar_hash(con, arq)
+            reaplicados.append(chave)
+    return reaplicados
 
 
 def main() -> int:

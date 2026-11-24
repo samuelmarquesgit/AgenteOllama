@@ -45,7 +45,9 @@ flowchart TD
 | G16 | Aprendizado | `aprendizado.py` | Só grava resposta aprovada por todos os guardrails de saída | — |
 | G17 | Aprendizado | `aprendizado.py` | Só grava pergunta com assunto (≥ 2 palavras relevantes, sem interjeições) | "hmm ok?", "beleza, valeu" |
 | G18 | Aprendizado | `aprendizado.py` | Nunca grava mensagem que continha dado pessoal | "meu cpf ... tupia?" |
-| G19 | Aprendizado | `banco.py` | Tudo que é gravado fica `pendente_validacao` (revisão humana) | — |
+| G19 | Aprendizado | `banco.py` | Tudo que é gravado fica pendente de revisão humana (`faq_sugestoes`) | — |
+| G25 | Aprendizado | `aprendizado.py` | Resposta em que a IA admite não ter certeza **não é gravada**; o Tork oferece atendente | "Não tenho certeza sobre o termo…" |
+| — | Reaproveitamento | `agente.py` | Sugestão não revisada só responde pergunta **praticamente igual** (nota ≥ 0,9 e ≥ 75% das palavras da sugestão na pergunta), com selo próprio "aguardando revisão" | "escreve-se brocantes ou blocantes?" não reaproveita a resposta sobre parafusos |
 
 Outras proteções fora da pasta (infraestrutura):
 
