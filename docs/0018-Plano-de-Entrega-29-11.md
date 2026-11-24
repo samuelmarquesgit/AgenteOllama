@@ -49,7 +49,7 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P1.4 | ✅ Fluxo **F-TROCA** (CDC) e **F-HUMANO** (resumo mascarado + consentimento G23 → `atendimentos_humanos`, dentro/fora do horário), na API, no chat (respostas rápidas) e na CLI | T-032, T-033 |
 | P1.5 | **G20** (confirmação de voltagem) | T-037 |
 | P1.6 | ✅ CI mínimo: Ruff + pytest + avaliação de roteamento (Python 3.12 e 3.14). ~~Serviço Postgres~~: banco é SQLite (D019) | T-010 |
-| P1.7 | Revisão humana registrada de uma amostra de **30 FAQs** + todas as de risco alto | T-025 |
+| P1.7 | 🟡 Planilha pronta (`docs/revisao/`: 41 de risco alto + 30 sorteadas, importador validado por testes). **Falta a revisão humana em si** (time) | T-025 |
 
 ### P2 — só se sobrar tempo, ou na extensão
 
