@@ -9,4 +9,7 @@ DROP TABLE IF EXISTS produto_especificacoes;
 DROP TABLE IF EXISTS especificacoes;
 DROP TABLE IF EXISTS produtos;
 DROP TABLE IF EXISTS marcas;
+-- categorias referencia a si mesma (pai) com RESTRICT: desfazer a hierarquia antes do DROP,
+-- senão a exclusão implícita das linhas viola a FK num banco com dados.
+UPDATE categorias SET categoria_pai_id = NULL;
 DROP TABLE IF EXISTS categorias;

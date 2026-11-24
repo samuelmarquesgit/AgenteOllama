@@ -471,3 +471,21 @@ def test_conectar_banco_antigo_recebe_faq_nova(conexoes, tmp_path):
     c.close()
     c = conexoes(caminho, popular=True)
     assert c.execute("SELECT COUNT(*) FROM faq_perguntas WHERE codigo = 'FAQ-061'").fetchone()[0] == 1
+
+
+# =============================================================================
+# RT-006 — integridade e rollback com dados reais
+# =============================================================================
+def test_integridade_do_banco_populado(con):
+    assert con.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+    assert con.execute("PRAGMA foreign_key_check").fetchall() == []
+
+
+def test_rollback_e_reaplicacao_com_banco_populado(con):
+    """Antes de RT-006 o rollback só era testado em banco vazio e falhava com dados (FK de categorias)."""
+    assert migracoes.reverter(con, "0001") == ["0005", "0004", "0003", "0002", "0001"]
+    assert tabelas(con) == set()
+    migracoes.migrar(con)
+    seeds.popular_tudo(con)
+    assert seeds.verificar(con) == {}
+    assert con.execute("PRAGMA foreign_key_check").fetchall() == []
