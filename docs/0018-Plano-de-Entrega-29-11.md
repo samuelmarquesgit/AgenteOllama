@@ -30,14 +30,14 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 
 | # | Item | Origem |
 |---|------|--------|
-| P0.1 | Repositório consolidado: contexto, guardrails e documentação na `main` | T-007 |
+| P0.1 | ✅ Repositório consolidado: contexto, guardrails e documentação na `main` (PRs #1 a #7; `v0.5.0`) | T-007 |
 | P0.2 | ✅ ~~PostgreSQL via Docker~~ **SQLite normalizado** (decisão do time, D019) com **migrações SQL versionadas** up/down + executor | DB §0–2, T-016 |
 | P0.3 | ✅ Tabelas da FAQ (DB §2) + `faq_sugestoes`, e também loja, catálogo fictício (300 produtos) e atendimento: 19 tabelas em 3FN | DB §2–5, T-016, T-017 |
 | P0.4 | ✅ **150 FAQs + 452 variações** em 8 categorias, com seed idempotente (sincronização por hash) e verificador de contagens. Mantido em JSON (não YAML), sem nova dependência. Conteúdo novo em rascunho até a revisão (P1.7). Avaliação RT-008: 90 → 95/100, 0 perigosas | DB §6, T-022–T-024, T-026 |
 | P0.5 | ✅ Busca **parametrizada** (função `norm()` sem acento + LIKE) usada pelo Tork; comportamento mantido | DB §7, T-020 |
 | P0.6 | ✅ 687 testes, incluindo FKs, unicidades, CHECKs, triggers, contagens, SQL injection, acentos e rollback | DB §8, T-021 |
 | P0.7 | ✅ `docs/db/`: README, DER, dicionário de dados (gerado), catálogo do seed, segurança e log de execução | DB §1, §10 |
-| P0.8 | 🟡 Demo funcionando (roteiro `0015` atualizado e conferido) + **vídeo de reserva** (time) + versão `v0.5.0` (tag após o merge dos PRs) | T-052, T-055 |
+| P0.8 | 🟡 Demo funcionando (roteiro `0015` atualizado e conferido) + versão ✅ `v0.5.0` (tag e release em 2026-11-24) + **vídeo de reserva** (falta, time) | T-052, T-055 |
 
 ### P1 — importante (faz a entrega se destacar)
 
@@ -45,9 +45,9 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 |---|------|--------|
 | P1.1 | ✅ Identidade do Tork aplicada ao chat (cores, avatar, logo, selos, fontes locais, tema claro/escuro) | T-041, T-042 |
 | P1.2 | ✅ Boas-vindas + **menu em botões** com submenu de categorias, sugestões, avaliação 👍/👎 e links diretos `/?q=` | T-043, T-044 |
-| P1.3 | Respostas da loja (horário, endereço, pagamento, trocas) a partir de `loja.yaml` | T-030, T-035 |
+| P1.3 | ✅ Respostas da loja (horário, endereço, pagamento, trocas) a partir do **banco** (tabelas `unidades`, `politicas` e `formas_pagamento`; seed fictício), no lugar do `loja.yaml` previsto | T-030, T-035 |
 | P1.4 | ✅ Fluxo **F-TROCA** (CDC) e **F-HUMANO** (resumo mascarado + consentimento G23 → `atendimentos_humanos`, dentro/fora do horário), na API, no chat (respostas rápidas) e na CLI | T-032, T-033 |
-| P1.5 | **G20** (confirmação de voltagem) | T-037 |
+| P1.5 | ✅ **G20** (confirmação de voltagem): resposta do catálogo com ferramenta com fio pede para confirmar 127/220 V quando o cliente não informou (`app/intencoes.py`; testes nos dois sentidos em `tests/test_intencoes.py`). Ainda não há passo obrigatório nos fluxos (não existe F-ESCOLHA) | T-037 |
 | P1.6 | ✅ CI mínimo: Ruff + pytest + avaliação de roteamento (Python 3.12 e 3.14). ~~Serviço Postgres~~: banco é SQLite (D019) | T-010 |
 | P1.7 | 🟡 Planilha pronta (`docs/revisao/`: 41 de risco alto + 30 sorteadas, importador validado por testes). **Falta a revisão humana em si** (time) | T-025 |
 
