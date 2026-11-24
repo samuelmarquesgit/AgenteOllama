@@ -70,6 +70,27 @@ def con(tmp_path, banco_modelo):
 
 
 @pytest.fixture
+def conexoes():
+    """Abre conexões SQLite extras no teste e garante que todas são fechadas no fim.
+
+    conexoes(caminho)               -> só abre (sem migrar)
+    conexoes(caminho, popular=True) -> migra e popula (como a aplicação faz)
+    """
+    from app.db.conexao import abrir
+
+    abertas = []
+
+    def _abrir(caminho, popular=False):
+        c = banco.conectar(caminho) if popular else abrir(caminho)
+        abertas.append(c)
+        return c
+
+    yield _abrir
+    for c in abertas:
+        c.close()
+
+
+@pytest.fixture
 def ollama():
     return OllamaFalso()
 

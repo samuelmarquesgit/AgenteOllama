@@ -15,6 +15,8 @@
 ### Alterado
 - Frontend separado em `static/css/tokens.css`, `static/css/chat.css` e `static/js/chat.js` (ES module, sem build);
   nenhum recurso de CDN (a demo funciona sem internet) e nenhum `innerHTML`.
+- Testes sem avisos: `httpx2` no lugar do `httpx` para o `TestClient` (depreciação do Starlette), conexões SQLite
+  dos testes sempre fechadas (eliminou `ResourceWarning`) e `pytest.ini` com `filterwarnings = error`.
 
 
 ## [0.3.1] — 2026-11-23 — Respostas não revisadas sob controle

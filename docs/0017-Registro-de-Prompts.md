@@ -136,3 +136,11 @@ seeds por hash, comando de revisão, G25 (incerteza não é gravada) e prompt co
 👍/👎 com `POST /avaliacoes`, tema claro/escuro, fontes locais, acessibilidade, links `/?q=`), verificado em
 capturas de desktop e de celular (390 px). 729 testes.
 
+## P019 — pytest sem warnings (2026-11-24)
+**Prompt (resumo):** realize o pytest e arrume o warning.
+
+**Resultado:** o aviso visível era a depreciação do `httpx` no `TestClient` do Starlette → `httpx2` (Pydantic, BSD-3)
+adicionado ao `requirements.txt`. Ao configurar `filterwarnings = error` no `pytest.ini`, apareceram dois avisos que
+estavam escondidos: conexões SQLite abertas nos testes e nunca fechadas (`ResourceWarning`). Corrigido com a fixture
+`conexoes`, que fecha tudo ao fim de cada teste. 729 testes sem avisos, inclusive em `python -X dev`.
+

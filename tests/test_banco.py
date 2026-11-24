@@ -33,21 +33,21 @@ def tabelas(con):
 # =============================================================================
 # Migrações
 # =============================================================================
-def test_migracoes_criam_todas_as_tabelas_em_banco_vazio(tmp_path):
-    con = abrir(tmp_path / "vazio.db")
+def test_migracoes_criam_todas_as_tabelas_em_banco_vazio(conexoes, tmp_path):
+    con = conexoes(tmp_path / "vazio.db")
     aplicadas = migracoes.migrar(con)
     assert aplicadas == ["0001", "0002", "0003", "0004", "0005"]
     assert tabelas(con) == TABELAS
 
 
-def test_migrar_de_novo_nao_faz_nada(tmp_path):
-    con = abrir(tmp_path / "x.db")
+def test_migrar_de_novo_nao_faz_nada(conexoes, tmp_path):
+    con = conexoes(tmp_path / "x.db")
     migracoes.migrar(con)
     assert migracoes.migrar(con) == []
 
 
-def test_rollback_e_reaplicacao(tmp_path):
-    con = abrir(tmp_path / "rb.db")
+def test_rollback_e_reaplicacao(conexoes, tmp_path):
+    con = conexoes(tmp_path / "rb.db")
     migracoes.migrar(con)
     assert migracoes.reverter(con, "0001") == ["0005", "0004", "0003", "0002", "0001"]
     assert tabelas(con) == set()
@@ -55,16 +55,16 @@ def test_rollback_e_reaplicacao(tmp_path):
     assert tabelas(con) == TABELAS
 
 
-def test_rollback_parcial(tmp_path):
-    con = abrir(tmp_path / "rp.db")
+def test_rollback_parcial(conexoes, tmp_path):
+    con = conexoes(tmp_path / "rp.db")
     migracoes.migrar(con)
     migracoes.reverter(con, "0003")
     assert migracoes.aplicadas(con) == ["0001", "0002"]
     assert "produtos" not in tabelas(con) and "faq_perguntas" in tabelas(con)
 
 
-def test_migrar_ate_uma_versao(tmp_path):
-    con = abrir(tmp_path / "ate.db")
+def test_migrar_ate_uma_versao(conexoes, tmp_path):
+    con = conexoes(tmp_path / "ate.db")
     assert migracoes.migrar(con, ate="0002") == ["0001", "0002"]
 
 
@@ -73,14 +73,14 @@ def test_toda_migracao_tem_up_e_down():
         assert m.up.exists() and m.down.exists()
 
 
-def test_migracao_com_erro_nao_fica_pela_metade(tmp_path):
+def test_migracao_com_erro_nao_fica_pela_metade(conexoes, tmp_path):
     pasta = tmp_path / "mig"
     pasta.mkdir()
     (pasta / "0001_ok.up.sql").write_text("CREATE TABLE a (id INTEGER);", encoding="utf-8")
     (pasta / "0001_ok.down.sql").write_text("DROP TABLE a;", encoding="utf-8")
     (pasta / "0002_quebrada.up.sql").write_text("CREATE TABLE b (id INTEGER); SELEC erro;", encoding="utf-8")
     (pasta / "0002_quebrada.down.sql").write_text("DROP TABLE b;", encoding="utf-8")
-    con = abrir(tmp_path / "erro.db")
+    con = conexoes(tmp_path / "erro.db")
     with pytest.raises(sqlite3.Error):
         migracoes.migrar(con, pasta=pasta)
     assert migracoes.aplicadas(con) == ["0001"]
@@ -111,8 +111,8 @@ def test_verificador_aponta_divergencia(con):
     assert seeds.verificar(con) == {"estoques": (600, 599)}
 
 
-def test_conectar_popula_banco_novo(tmp_path):
-    c = banco.conectar(tmp_path / "novo.db")
+def test_conectar_popula_banco_novo(conexoes, tmp_path):
+    c = conexoes(tmp_path / "novo.db", popular=True)
     assert c.execute("SELECT COUNT(*) FROM produtos").fetchone()[0] == 300
 
 
@@ -368,7 +368,7 @@ def test_avaliacao(con):
     assert con.execute("SELECT util FROM avaliacoes").fetchone()[0] == 1
 
 
-def test_importa_banco_legado_v02_sem_apagar(tmp_path):
+def test_importa_banco_legado_v02_sem_apagar(conexoes, tmp_path):
     caminho = tmp_path / "v02.db"
     antigo = sqlite3.connect(caminho)
     antigo.execute("CREATE TABLE faq (id TEXT PRIMARY KEY, categoria TEXT, pergunta TEXT, variacoes TEXT, palavras_chave TEXT, "
@@ -378,7 +378,7 @@ def test_importa_banco_legado_v02_sem_apagar(tmp_path):
     antigo.commit()
     antigo.close()
 
-    con = banco.conectar(caminho)
+    con = conexoes(caminho, popular=True)
     assert [s["pergunta"] for s in SugestaoRepository(con).listar_pendentes()] == ["Como funciona uma tupia?"]
     assert con.execute("SELECT COUNT(*) FROM legado_faq_v02").fetchone()[0] == 2   # preservado
     assert banco.importar_legado_v02(con) == 0                                      # não importa duas vezes
@@ -462,12 +462,12 @@ def test_sincronizar_sem_mudanca_nao_reaplica(con):
     assert seeds.sincronizar(con) == []
 
 
-def test_conectar_banco_antigo_recebe_faq_nova(tmp_path):
+def test_conectar_banco_antigo_recebe_faq_nova(conexoes, tmp_path):
     caminho = tmp_path / "antigo.db"
-    c = banco.conectar(caminho)
+    c = conexoes(caminho, popular=True)
     c.execute("DELETE FROM faq_perguntas WHERE codigo = 'FAQ-061'")
     c.execute("DELETE FROM seeds_aplicados WHERE arquivo = 'faq.json'")  # simula banco anterior à FAQ
     c.commit()
     c.close()
-    c = banco.conectar(caminho)
+    c = conexoes(caminho, popular=True)
     assert c.execute("SELECT COUNT(*) FROM faq_perguntas WHERE codigo = 'FAQ-061'").fetchone()[0] == 1
