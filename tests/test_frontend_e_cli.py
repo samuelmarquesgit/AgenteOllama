@@ -22,9 +22,11 @@ def test_pagina_carrega_css_e_js_locais():
 
 def test_pagina_nao_depende_de_internet():
     # Nada de CDN: fontes, ícones e scripts são servidos pela própria API (demo funciona offline).
-    assert "http://" not in FRONT and "https://" not in FRONT
+    assert "http://" not in FRONT
+    assert "https://" not in FRONT
     for fonte in ["inter-latin-400-normal.woff2", "barlow-semi-condensed-latin-700-normal.woff2"]:
-        assert fonte in TOKENS and (RAIZ / "static" / "fonts" / fonte).exists()
+        assert fonte in TOKENS
+        assert (RAIZ / "static" / "fonts" / fonte).exists()
 
 
 def test_pagina_usa_endpoints_da_api():
@@ -50,7 +52,8 @@ def test_pagina_acessivel():
     assert 'lang="pt-BR"' in HTML
     assert 'name="viewport"' in HTML
     assert 'aria-label="Sua mensagem"' in HTML
-    assert 'aria-live="polite"' in HTML and 'role="log"' in HTML
+    assert 'aria-live="polite"' in HTML
+    assert 'role="log"' in HTML
     assert "prefers-reduced-motion" in CSS
     assert ":focus-visible" in CSS
 
@@ -58,7 +61,9 @@ def test_pagina_acessivel():
 def test_pagina_nao_insere_html_vindo_da_api():
     # textContent/createTextNode evitam injeção de HTML vinda das respostas.
     assert "createTextNode(texto)" in JS
-    assert "innerHTML" not in JS and "insertAdjacentHTML" not in JS and "outerHTML" not in JS
+    assert "innerHTML" not in JS
+    assert "insertAdjacentHTML" not in JS
+    assert "outerHTML" not in JS
 
 
 def test_pagina_tem_estado_de_carregamento_e_erro():
@@ -76,9 +81,11 @@ def test_pagina_tem_menu_inicial_e_categorias():
 
 
 def test_pagina_tem_avaliacao_e_tema():
-    assert "function montarAvaliacao" in JS and "aria-pressed" in JS
+    assert "function montarAvaliacao" in JS
+    assert "aria-pressed" in JS
     assert "function alternarTema" in JS
-    assert 'data-theme="dark"' in TOKENS and "prefers-color-scheme: dark" in TOKENS
+    assert 'data-theme="dark"' in TOKENS
+    assert "prefers-color-scheme: dark" in TOKENS
 
 
 def test_id_de_conversa_usa_gerador_criptografico():
@@ -93,7 +100,8 @@ def test_cores_da_identidade_visual():
 
 def test_logos_para_tema_claro_e_escuro():
     assert (RAIZ / "static" / "brand" / "logo-toolexpert-escuro.svg").exists()
-    assert "logo-escuro" in HTML and "logo-claro" in HTML
+    assert "logo-escuro" in HTML
+    assert "logo-claro" in HTML
 
 
 # ---- versão de terminal -------------------------------------------------------
@@ -123,7 +131,8 @@ def test_cli_sem_ollama_usa_fallback(tmp_path):
 def test_pagina_monta_cards_de_produto_com_seguranca():
     assert "function montarCards" in JS
     assert "dados.produtos" in JS
-    assert "preco_formatado" in JS and "em_estoque" in JS
+    assert "preco_formatado" in JS
+    assert "em_estoque" in JS
 
 
 def test_pagina_diferencia_resposta_nao_revisada_do_banco():

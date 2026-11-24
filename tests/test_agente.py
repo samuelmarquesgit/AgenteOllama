@@ -331,7 +331,8 @@ def test_sugestao_nao_cobre_pergunta_que_so_compartilha_uma_palavra(agente, olla
 def test_g25_resposta_incerta_nao_e_gravada_e_oferece_atendente(con):
     ag = Agente(con, perguntar=OllamaFalso("Não tenho certeza sobre o termo desengrosso."))
     r = ag.responder("o que é uma plaina com desengrosso de bancada?")
-    assert r.origem == "agente" and r.matchedFaqId is None
+    assert r.origem == "agente"
+    assert r.matchedFaqId is None
     assert "atendente" in r.answer
     assert "aprendizado:resposta_incerta" in r.guardrails
     assert ag.sugestoes == []

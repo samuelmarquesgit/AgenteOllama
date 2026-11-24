@@ -433,7 +433,8 @@ def test_cli_de_revisao(con, monkeypatch, capsys):
 
     monkeypatch.setattr(revisao, "abrir", lambda: con)
     codigo = banco.inserir_aprendida(con, "Pergunta da IA?", "Resposta da IA.")
-    assert revisao.main([]) == 0 and codigo in capsys.readouterr().out
+    assert revisao.main([]) == 0
+    assert codigo in capsys.readouterr().out
     assert revisao.main(["rejeitar", codigo, "errada"]) == 0
     assert revisao.main(["rejeitar", codigo]) == 1          # já revisada
     assert revisao.main(["comando_invalido"]) == 2

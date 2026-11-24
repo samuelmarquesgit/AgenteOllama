@@ -35,8 +35,7 @@ button { cursor: pointer; }
 }
 .status { display: flex; align-items: center; gap: 6px; font-size: var(--fs-sm); color: var(--steel); margin-right: auto;
   min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status::before { flex: none; }
-.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #16A34A; box-shadow: 0 0 0 3px rgb(22 163 74 / .18); }
+.status::before { flex: none; content: ""; width: 8px; height: 8px; border-radius: 50%; background: #16A34A; box-shadow: 0 0 0 3px rgb(22 163 74 / .18); }
 .status.offline::before { background: var(--block-fg); box-shadow: 0 0 0 3px rgb(185 28 28 / .18); }
 .botao-icone, .botao-secundario {
   border: 1px solid var(--line); background: var(--surface); border-radius: var(--raio-pill);
@@ -57,7 +56,7 @@ button { cursor: pointer; }
 .boas-vindas-cabeca img { width: 64px; height: 64px; flex: none; }
 .boas-vindas h1 { font: 700 var(--fs-xl)/1.2 var(--font-titulo); margin: 0; letter-spacing: .2px; }
 .boas-vindas p { margin: 2px 0 0; color: var(--steel); }
-.menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: 8px; }
+.menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .menu button {
   text-align: left; border: 1px solid var(--line); background: var(--paper); border-radius: var(--raio-md);
   padding: 12px 14px; min-height: 52px; display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: var(--fs-sm);
@@ -158,5 +157,6 @@ button { cursor: pointer; }
   .botao-secundario .rotulo { display: none; }
   .balao { max-width: 88%; }
   .boas-vindas { padding: 16px; }
+  .menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .boas-vindas-cabeca img { width: 52px; height: 52px; }
 }

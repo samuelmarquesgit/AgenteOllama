@@ -57,7 +57,7 @@ const conversa = $("#conversa");
 const form = $("#form");
 const campo = $("#mensagem");
 const botaoEnviar = $("#enviar");
-const status = $("#status");
+const indicadorStatus = $("#status");
 
 let conversationId = novoId();
 let enviando = false;
@@ -215,7 +215,7 @@ async function enviar(texto) {
     const balao = adicionarTork(dados.answer, { origem: dados.origem, meta: montarMeta(dados) });
     if (dados.produtos?.length) balao.appendChild(montarCards(dados.produtos));
     if (ORIGENS_AVALIAVEIS.has(dados.origem)) balao.appendChild(montarAvaliacao());
-    atualizarStatus();
+    void atualizarStatus();
   } catch {
     pensando.remove();
     adicionarTork("Não consegui responder agora. Verifique a conexão e tente de novo em instantes.", { alerta: true });
@@ -253,7 +253,7 @@ function mostrarBoasVindas(completa = true) {
     b.type = "button";
     b.appendChild(el("span", "icone", item.icone));
     b.appendChild(el("span", "", item.rotulo));
-    b.addEventListener("click", () => (item.submenu ? mostrarCategorias(caixa) : enviar(item.texto)));
+    b.addEventListener("click", () => (item.submenu ? mostrarCategorias(caixa) : void enviar(item.texto)));
     menu.appendChild(b);
   }
   caixa.appendChild(menu);
@@ -269,7 +269,7 @@ function mostrarCategorias(caixa) {
   for (const [rotulo, texto] of CATEGORIAS) {
     const b = el("button", "chip", rotulo);
     b.type = "button";
-    b.addEventListener("click", () => enviar(texto));
+    b.addEventListener("click", () => void enviar(texto));
     sub.appendChild(b);
   }
   caixa.querySelector(".menu").after(sub);
@@ -289,11 +289,11 @@ async function atualizarStatus() {
   try {
     const r = await fetch(API.health);
     const d = await r.json();
-    status.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas revisadas`;
-    status.classList.remove("offline");
+    indicadorStatus.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas revisadas`;
+    indicadorStatus.classList.remove("offline");
   } catch {
-    status.textContent = "Tork offline";
-    status.classList.add("offline");
+    indicadorStatus.textContent = "Tork offline";
+    indicadorStatus.classList.add("offline");
   }
 }
 
@@ -324,12 +324,12 @@ function montarSugestoes() {
   for (const s of SUGESTOES) {
     const b = el("button", "chip", s);
     b.type = "button";
-    b.addEventListener("click", () => enviar(s));
+    b.addEventListener("click", () => void enviar(s));
     caixa.appendChild(b);
   }
 }
 
-form.addEventListener("submit", (e) => { e.preventDefault(); enviar(campo.value); });
+form.addEventListener("submit", (e) => { e.preventDefault(); void enviar(campo.value); });
 $("#nova").addEventListener("click", iniciarConversa);
 $("#tema").addEventListener("click", alternarTema);
 
@@ -340,6 +340,6 @@ const TEMAS_URL = { claro: "light", escuro: "dark" };
 aplicarTema(TEMAS_URL[parametros.get("tema")] || lerTema());
 montarSugestoes();
 mostrarBoasVindas();
-atualizarStatus();
+await atualizarStatus();
 const perguntaInicial = parametros.get("q");
-if (perguntaInicial) enviar(perguntaInicial.slice(0, 500));
+if (perguntaInicial) await enviar(perguntaInicial.slice(0, 500));
