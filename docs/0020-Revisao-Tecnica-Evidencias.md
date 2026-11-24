@@ -391,3 +391,11 @@ estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirma
 
 - `.github/workflows/ci.yml`: Ruff (`ruff.toml`, regras E9 e F), pytest e avaliação de roteamento em push na `main` e em pull requests, com Python 3.12 e 3.14. Não usa Ollama.
 - **Evidência:** a execução 45324650813 no PR #7 passou (`success`, 1m37s).
+
+## RT-011 — Observabilidade (2026-11-24)
+
+- **Arquivos:** `app/metricas.py` (novo), `app/agente.py` (cronômetro e contador nas chamadas à IA), `app/main.py` (cronômetro do `/chat` e novo `GET /metricas`), `tests/test_metricas.py`.
+- **O que é medido (só agregados):** respostas por origem e por `statusConteudo`; taxas de base, de IA e de "sem resposta" (fallback, fora do escopo e bloqueado); códigos dos guardrails acionados (só o código, ex. `G26`); chamadas à IA ok/falha; latência p50/p95/máx nas etapas `chat`, `ia` e `reescrita`, numa janela das últimas 500 amostras.
+- **Privacidade:** não guarda pergunta, resposta, id de conversa nem IP. Há um teste que confere que o texto e o id da conversa não aparecem em `/metricas`. Os dados ficam em memória e zeram quando a aplicação reinicia.
+- **Fora do escopo do Gate:** exportar para Prometheus/OpenTelemetry e ter um painel ficam no backlog.
+- **Testes:** suíte com 1425 testes aprovados.

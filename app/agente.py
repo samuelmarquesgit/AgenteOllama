@@ -19,6 +19,7 @@ import sqlite3
 from dataclasses import dataclass, field
 
 from app import banco, config
+from app.metricas import metricas
 from app.busca import buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
@@ -110,22 +111,27 @@ def _mensagens_do_historico(historico: list[Troca]) -> list[dict]:
     return mensagens
 
 
-def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | None = None) -> str | None:
+def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | None = None,
+                 etapa: str = "ia") -> str | None:
     """Chama o Ollama; devolve None se ele não estiver disponível, demorar demais ou responder vazio.
 
     RT-010: o cliente do Ollama não tem timeout por padrão; com o serviço travado a requisição
     ficava pendurada para sempre. Agora há limite de tempo (OLLAMA_TIMEOUT, padrão 45 s).
     """
-    try:
-        import ollama
+    with metricas.cronometro(etapa):  # RT-011: latência por etapa ("ia" ou "reescrita")
+        try:
+            import ollama
 
-        cliente = ollama.Client(host=config.texto("OLLAMA_HOST") or None,
-                                timeout=timeout or config.segundos("OLLAMA_TIMEOUT"))
-        r = cliente.chat(model=config.texto("OLLAMA_MODELO"), messages=mensagens, options={"temperature": temperatura})
-        return r["message"]["content"].strip() or None
-    except Exception as erro:  # noqa: BLE001 - qualquer falha do LLM vira fallback seguro
-        log.warning("Ollama indisponível ou lento: %s", type(erro).__name__)
-        return None
+            cliente = ollama.Client(host=config.texto("OLLAMA_HOST") or None,
+                                    timeout=timeout or config.segundos("OLLAMA_TIMEOUT"))
+            r = cliente.chat(model=config.texto("OLLAMA_MODELO"), messages=mensagens,
+                             options={"temperature": temperatura})
+            texto = r["message"]["content"].strip() or None
+        except Exception as erro:  # noqa: BLE001 - qualquer falha do LLM vira fallback seguro
+            log.warning("Ollama indisponível ou lento: %s", type(erro).__name__)
+            texto = None
+    metricas.registrar_ia(texto is not None)
+    return texto
 
 
 def perguntar_ao_ollama(pergunta: str, historico: list[Troca] | None = None) -> str | None:
@@ -146,6 +152,7 @@ def reescrever_com_ollama(pergunta: str, historico: list[Troca]) -> str | None:
         ],
         temperatura=0.0,
         timeout=config.segundos("OLLAMA_TIMEOUT_REESCRITA"),  # se demorar, segue com a pergunta original
+        etapa="reescrita",
     )
     return limpar_reescrita(texto)
 

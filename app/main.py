@@ -4,6 +4,7 @@ GET    /                       -> página de chat
 GET    /health                 -> status e quantidade de perguntas no banco
 POST   /chat                   -> {"message": "...", "conversationId": "..."} -> resposta
 DELETE /conversas/{id}         -> esquece o histórico de uma conversa
+GET    /metricas               -> métricas anônimas: origens, fallback, guardrails, latência (RT-011)
 GET    /faqs                   -> perguntas cadastradas (para mostrar a base crescendo na demo)
 GET    /produtos               -> catálogo fictício (filtros: categoria, alimentacao, marca, preco_max, limite)
 GET    /produtos/{sku}         -> detalhes, especificações e estoque por unidade
@@ -24,6 +25,7 @@ from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
 from app.db.repositorios import AtendimentoRepository, CatalogoRepository, FiltroProdutos, LojaRepository
 from app.intencoes import produto_publico
 from app.memoria import Memoria
+from app.metricas import metricas
 
 PASTA_STATIC = Path(__file__).resolve().parent.parent / "static"
 ORIGENS_COM_CONTEXTO = {"banco", "agente", "catalogo", "loja"}
@@ -75,7 +77,9 @@ def chat(pergunta: Pergunta):
         return JSONResponse(status_code=422, content={"detail": "Mensagem vazia."})
 
     historico = memoria.historico(pergunta.conversationId)
-    resposta = agente.responder(pergunta.message, historico)
+    with metricas.cronometro("chat"):
+        resposta = agente.responder(pergunta.message, historico)
+    metricas.registrar_resposta(resposta.origem, resposta.statusConteudo, resposta.guardrails)
 
     # Só respostas úteis entram no contexto; nunca com dados pessoais.
     if resposta.origem in ORIGENS_COM_CONTEXTO:
@@ -100,6 +104,12 @@ class Avaliacao(BaseModel):
 def avaliar(avaliacao: Avaliacao):
     """Registra o 👍/👎 do cliente (CSAT). Não guarda texto nem dados pessoais."""
     AtendimentoRepository(agente.con).avaliar(avaliacao.conversationId, avaliacao.util)
+
+
+@app.get("/metricas")
+def ver_metricas():
+    """RT-011: agregados anônimos (origens, status do conteúdo, guardrails, IA e latência por etapa)."""
+    return metricas.resumo()
 
 
 @app.delete("/conversas/{conversa_id}", status_code=204)
