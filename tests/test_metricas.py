@@ -25,12 +25,15 @@ def test_latencia_tem_percentis_e_janela_limitada():
         m.registrar_latencia("chat", float(ms))
     lat = m.resumo()["latencia_ms"]["chat"]
     assert lat["n"] == 500                        # janela deslizante
-    assert lat["p50"] == 751.0 and lat["max"] == 1000.0
+    assert lat["p50"] == 751.0
+    assert lat["max"] == 1000.0
 
 
 def test_resumo_vazio_nao_divide_por_zero():
     r = Metricas().resumo()
-    assert r["respostas"] == 0 and r["taxa_base"] == 0.0 and r["latencia_ms"] == {}
+    assert r["respostas"] == 0
+    assert r["taxa_base"] == 0.0
+    assert r["latencia_ms"] == {}
 
 
 def test_endpoint_metricas_conta_o_chat_sem_guardar_texto():
@@ -41,6 +44,8 @@ def test_endpoint_metricas_conta_o_chat_sem_guardar_texto():
     r = cliente.get("/metricas")
     assert r.status_code == 200
     dados = r.json()
-    assert dados["respostas"] == 1 and dados["por_origem"] == {"banco": 1}
+    assert dados["respostas"] == 1
+    assert dados["por_origem"] == {"banco": 1}
     assert dados["latencia_ms"]["chat"]["n"] == 1
-    assert "furadeira" not in r.text and "metricas-1" not in r.text
+    assert "furadeira" not in r.text
+    assert "metricas-1" not in r.text

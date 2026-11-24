@@ -17,7 +17,8 @@ TEMAS_RISCO: dict[str, re.Pattern] = {
         r"|rede eletrica|instalacao eletrica|desligar a (luz|energia)|tensao|alta voltagem|curto)\b"),
     "solda": re.compile(r"\b(sold\w*|eletrodo\w*|mascara de solda|arco eletrico)\b"),
     "disco_e_corte": re.compile(r"\b(disco\w*|esmerilh\w*|rebolo\w*|lixadeira angular|serra\w* (circular|marmore))\b"),
-    "protecao": re.compile(r"\b(protecao|protecoes|capa de protecao|guarda de protecao|sem (a )?protecao|sem oculos|sem luva\w*|luva\w*)\b"),
+    # "capa de protecao", "sem a protecao" e "sem luvas" já casam pelas palavras soltas
+    "protecao": re.compile(r"\b(protecao|protecoes|sem oculos|luvas?)\b"),
     "bateria_litio": re.compile(r"\b(litio|bateria\w* (inchad\w*|estufad\w*|furad\w*|danificad\w*|vazand\w*)|abrir a bateria|celulas?)\b"),
     "superaquecimento": re.compile(r"\b(fumaca|queimad\w*|faisca\w*|superaquec\w*|pegando fogo|derretend\w*)\b"),
     "quimicos": re.compile(r"\b(solvente\w*|decapante\w*|acido\w*|thinner|removedor quimico)\b"),

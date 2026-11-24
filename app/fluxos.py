@@ -37,14 +37,15 @@ INICIO_TROCA = re.compile(
     r"|trocas? e garantia|trocar ou devolver)\b")
 SAIR = {"cancelar", "sair", "menu", "parar", "esquece", "deixa pra la", "nao quero mais falar"}
 
-DESISTENCIA = re.compile(r"\b(desist\w*|arrepend\w*|nao (quero|gostei|serv\w*)|mudei de ideia|desistencia)\b")
+DESISTENCIA = re.compile(r"\b(desist\w*|arrepend\w*|nao (quero|gostei|serv\w*)|mudei de ideia)\b")
 DEFEITO = re.compile(r"\b(defeito\w*|quebr\w*|nao (liga|funciona|carrega)|parou|estragad\w*)\b")
 ERRADO = re.compile(r"\b(errad\w*|trocad\w*|diferente|outro produto|voltagem)\b")
 ONLINE = re.compile(r"\b(online|on line|site|internet|app|aplicativo|telefone|whatsapp|zap|entrega)\b")
 LOJA = re.compile(r"\b(loja|fisica|presencial|balcao|unidade)\b")
-SIM = re.compile(r"^(sim|s|ok|pode|claro|pode sim|autorizo|concordo|tudo bem|beleza|isso|uhum|aham)\b")
-NAO = re.compile(r"^(nao|n|nao quero|melhor nao|prefiro nao|nao autorizo)\b")
+SIM = re.compile(r"^(sim|s|ok|pode|claro|autorizo|concordo|tudo bem|beleza|isso|uhum|aham)\b")
+NAO = re.compile(r"^(nao|n|melhor nao|prefiro nao)\b")
 
+OP_ATENDENTE = ["Falar com um atendente"]
 OP_MOTIVO = ["Desisti da compra", "Produto com defeito", "Veio errado ou na voltagem errada"]
 OP_CANAL = ["Comprei online", "Comprei na loja física"]
 OP_CONSENTIMENTO = ["Sim, pode compartilhar", "Não"]
@@ -185,7 +186,7 @@ class Fluxos:
             self.esquecer(conversa_id)
             garantia = (loja.politica("garantia") or {}).get("texto", "")
             return RespostaFluxo(TEXTO["troca_defeito"].format(garantia=garantia) + AVISO_DEMO,
-                                 ["Falar com um atendente"], "troca_defeito", encerrado=True)
+                                 OP_ATENDENTE, "troca_defeito", encerrado=True)
         # produto ou voltagem errada -> handoff prioritário com resumo pronto
         humano = Estado("humano", "consentimento", motivo="troca", prioridade="alta",
                         resumo="Troca prioritária: produto ou voltagem errada (fluxo de trocas).")
@@ -196,12 +197,12 @@ class Fluxos:
     def _passo_troca_canal(self, conversa_id, estado, _mensagem, texto) -> RespostaFluxo:
         if ONLINE.search(texto):
             self.esquecer(conversa_id)
-            return RespostaFluxo(TEXTO["troca_online"], ["Falar com um atendente"], "troca_online", encerrado=True)
+            return RespostaFluxo(TEXTO["troca_online"], OP_ATENDENTE, "troca_online", encerrado=True)
         if LOJA.search(texto):
             self.esquecer(conversa_id)
             politica = (LojaRepository(self._conexao()).politica("troca") or {}).get("texto", "")
             loja_fisica = politica.split("Na loja física, ", 1)[-1]
-            return RespostaFluxo(f"Na loja física, {loja_fisica}", ["Falar com um atendente"], "troca_loja",
+            return RespostaFluxo(f"Na loja física, {loja_fisica}", OP_ATENDENTE, "troca_loja",
                                  encerrado=True)
         return self._nao_entendi(conversa_id, estado, TEXTO["troca_canal"], OP_CANAL)
 

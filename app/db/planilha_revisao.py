@@ -75,7 +75,23 @@ def validar_linha(linha: dict) -> str | None:
     return None
 
 
+CONTADOR = {"aprovar": "aprovadas", "ajustar": "ajustadas", "rejeitar": "rejeitadas"}
+
+
+def _aplicar(faq: dict, linha: dict) -> str:
+    """Aplica uma linha válida na FAQ e devolve a decisão normalizada."""
+    decisao = linha["decisao"].strip().lower()
+    if decisao == "ajustar":
+        faq["resposta"] = linha["resposta_corrigida"].strip()
+    faq["status"] = "inativo" if decisao == "rejeitar" else "validado"  # inativa sai da busca, mas fica registrada
+    data, revisor = linha["data"].strip(), linha["revisor"].strip()
+    faq["revisado_em"] = data
+    faq["fonte"] = f"{faq.get('fonte', '')} · revisado por {revisor} em {data}"
+    return decisao
+
+
 def importar(origem: Path = PLANILHA, faq_json: Path = FAQ_JSON) -> dict:
+    """Aplica as linhas preenchidas; se alguma tiver erro, nada é gravado."""
     faqs = json.loads(faq_json.read_text(encoding="utf-8"))
     por_id = {f["id"]: f for f in faqs}
     resultado = {"aprovadas": 0, "ajustadas": 0, "rejeitadas": 0, "ignoradas": 0, "erros": []}
@@ -86,22 +102,12 @@ def importar(origem: Path = PLANILHA, faq_json: Path = FAQ_JSON) -> dict:
         erro = validar_linha(linha) or (None if linha["id"] in por_id else "id não existe")
         if erro:
             resultado["erros"].append(f"{linha.get('id')}: {erro}")
-            continue
-        faq, decisao = por_id[linha["id"]], linha["decisao"].strip().lower()
-        if decisao == "rejeitar":
-            faq["status"] = "inativo"          # sai da busca, mas fica registrado
-            resultado["rejeitadas"] += 1
         else:
-            if decisao == "ajustar":
-                faq["resposta"] = linha["resposta_corrigida"].strip()
-                resultado["ajustadas"] += 1
-            else:
-                resultado["aprovadas"] += 1
-            faq["status"] = "validado"
-        faq["revisado_em"] = linha["data"].strip()
-        faq["fonte"] = f"{faq.get('fonte', '')} · revisado por {linha['revisor'].strip()} em {linha['data'].strip()}"
+            resultado[CONTADOR[_aplicar(por_id[linha["id"]], linha)]] += 1
     if not resultado["erros"]:
-        faq_json.write_text(json.dumps(faqs, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        # Destino é o faq.json do repositório (ou um arquivo de teste); não vem do conteúdo da planilha.
+        conteudo = json.dumps(faqs, ensure_ascii=False, indent=2) + "\n"
+        faq_json.write_text(conteudo, encoding="utf-8")  # NOSONAR
     return resultado
 
 

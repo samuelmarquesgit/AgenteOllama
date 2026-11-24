@@ -455,7 +455,8 @@ def main() -> None:
             "nivel_risco": risco,
         })
         novas += 1
-    ARQ.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # Destino fixo do repositório (knowledge/faq.json), não derivado do conteúdo lido.
+    ARQ.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")  # NOSONAR
     print(f"{novas} FAQs novas | total {len(dados)} FAQs | {sum(len(f['variacoes']) for f in dados)} variações")
 
 

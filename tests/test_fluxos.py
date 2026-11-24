@@ -30,7 +30,8 @@ def _conversa(fluxos, *mensagens, conversa="c1"):
 ])
 def test_pedidos_de_atendente_abrem_f_humano(fluxos, mensagem):
     r = fluxos.tratar("c1", mensagem)
-    assert r and r.passo == "humano_resumo"
+    assert r
+    assert r.passo == "humano_resumo"
 
 
 @pytest.mark.parametrize("mensagem", [
@@ -39,7 +40,9 @@ def test_pedidos_de_atendente_abrem_f_humano(fluxos, mensagem):
 ])
 def test_pedidos_de_troca_abrem_f_troca(fluxos, mensagem):
     r = fluxos.tratar("c1", mensagem)
-    assert r and r.passo == "troca_motivo" and len(r.opcoes) == 3
+    assert r
+    assert r.passo == "troca_motivo"
+    assert len(r.opcoes) == 3
 
 
 @pytest.mark.parametrize("mensagem", [
@@ -58,24 +61,29 @@ def test_sem_conversation_id_nao_ha_fluxo(fluxos):
 def test_troca_desistencia_online_cita_cdc(fluxos):
     _, canal, final = _conversa(fluxos, "quero devolver", "Desisti da compra", "Comprei online")
     assert canal.passo == "troca_canal"
-    assert "7 dias" in final.answer and "art. 49" in final.answer and final.encerrado
+    assert "7 dias" in final.answer
+    assert "art. 49" in final.answer
+    assert final.encerrado
     assert not fluxos.ativo("c1")
 
 
 def test_troca_desistencia_loja_fisica_usa_politica_da_loja(fluxos):
     *_, final = _conversa(fluxos, "Trocas e garantia", "me arrependi", "foi na loja física")
-    assert final.passo == "troca_loja" and "30 dias" in final.answer
+    assert final.passo == "troca_loja"
+    assert "30 dias" in final.answer
 
 
 def test_troca_defeito_orienta_garantia_sem_registrar(fluxos, con):
     _, final = _conversa(fluxos, "quero devolver", "Produto com defeito")
-    assert "90 dias" in final.answer and "assistência técnica autorizada" in final.answer
+    assert "90 dias" in final.answer
+    assert "assistência técnica autorizada" in final.answer
     assert AtendimentoRepository(con).abertos() == []
 
 
 def test_produto_errado_vira_atendimento_prioritario_com_consentimento(fluxos, con):
     _, consentimento, final = _conversa(fluxos, "quero devolver", "veio na voltagem errada", "sim")
-    assert consentimento.passo == "humano_consentimento" and "prioritária" in consentimento.answer
+    assert consentimento.passo == "humano_consentimento"
+    assert "prioritária" in consentimento.answer
     assert final.protocolo
     [registro] = AtendimentoRepository(con).abertos()
     assert (registro["motivo"], registro["prioridade"]) == ("troca", "alta")
@@ -88,8 +96,11 @@ def test_motivo_ja_na_primeira_mensagem_pula_a_pergunta(fluxos):
 
 def test_resposta_nao_entendida_repete_e_depois_desiste(fluxos):
     _, primeira, segunda = _conversa(fluxos, "quero devolver", "hmm", "sei la")
-    assert primeira.passo == "troca_motivo" and "não entendi" in primeira.answer
-    assert segunda.passo == "nao_entendido" and segunda.encerrado and not fluxos.ativo("c1")
+    assert primeira.passo == "troca_motivo"
+    assert "não entendi" in primeira.answer
+    assert segunda.passo == "nao_entendido"
+    assert segunda.encerrado
+    assert not fluxos.ativo("c1")
 
 
 # ---------------------------------------------------------------- F-HUMANO e G23
@@ -97,15 +108,18 @@ def test_humano_registra_resumo_mascarado_so_com_consentimento(fluxos, con):
     _, consentimento, final = _conversa(
         fluxos, "quero falar com um atendente", "meu cpf é 123.456.789-09 e o pedido não chegou", "sim")
     assert "123.456.789-09" not in consentimento.answer
-    assert "protocolo" in final.answer and "em instantes" in final.answer
+    assert "protocolo" in final.answer
+    assert "em instantes" in final.answer
     [registro] = AtendimentoRepository(con).abertos()
-    assert "123.456.789-09" not in registro["resumo"] and "pedido não chegou" in registro["resumo"]
+    assert "123.456.789-09" not in registro["resumo"]
+    assert "pedido não chegou" in registro["resumo"]
     assert (registro["motivo"], registro["prioridade"]) == ("pedido_cliente", "normal")
 
 
 def test_sem_consentimento_nada_e_gravado_e_mostra_contato(fluxos, con):
     *_, final = _conversa(fluxos, "quero falar com um atendente", "dúvida sobre nota fiscal", "não")
-    assert final.passo == "humano_recusado" and "telefone" in final.answer
+    assert final.passo == "humano_recusado"
+    assert "telefone" in final.answer
     assert AtendimentoRepository(con).abertos() == []
 
 
@@ -113,13 +127,15 @@ def test_sem_consentimento_nada_e_gravado_e_mostra_contato(fluxos, con):
 def test_fora_do_horario_informa_horario_e_registra(con, agora):
     fluxos = Fluxos(lambda: con, agora=lambda: agora)
     *_, final = _conversa(fluxos, "quero falar com um atendente", "quero um orçamento", "pode")
-    assert "segunda a sexta" in final.answer and "retornaremos" in final.answer
+    assert "segunda a sexta" in final.answer
+    assert "retornaremos" in final.answer
     assert len(AtendimentoRepository(con).abertos()) == 1
 
 
 def test_cancelar_encerra_o_fluxo_a_qualquer_momento(fluxos, con):
     _, saiu = _conversa(fluxos, "quero falar com um atendente", "cancelar")
-    assert saiu.passo == "saiu" and not fluxos.ativo("c1")
+    assert saiu.passo == "saiu"
+    assert not fluxos.ativo("c1")
     assert fluxos.tratar("c1", "qual broca usar em madeira?") is None
     assert AtendimentoRepository(con).abertos() == []
 
@@ -131,7 +147,8 @@ def test_resumo_longo_e_cortado(fluxos, con):
 
 def test_conversas_sao_independentes(fluxos):
     fluxos.tratar("a", "quero falar com um atendente")
-    assert fluxos.ativo("a") and not fluxos.ativo("b")
+    assert fluxos.ativo("a")
+    assert not fluxos.ativo("b")
     assert fluxos.tratar("b", "qual broca usar em madeira?") is None
 
 
@@ -140,7 +157,10 @@ def test_api_fluxo_devolve_opcoes_e_esquecer_conversa_encerra():
     cliente = TestClient(main.app)
     r = cliente.post("/chat", json={"message": "Posso trocar ou devolver um produto?", "conversationId": "fluxo-api"})
     corpo = r.json()
-    assert corpo["origem"] == "fluxo" and corpo["opcoes"] and corpo["fluxoAberto"] and corpo["statusConteudo"] == "dados_demonstracao"
+    assert corpo["origem"] == "fluxo"
+    assert corpo["opcoes"]
+    assert corpo["fluxoAberto"]
+    assert corpo["statusConteudo"] == "dados_demonstracao"
     assert cliente.delete("/conversas/fluxo-api").status_code == 204
     assert not main.fluxos.ativo("fluxo-api")
 

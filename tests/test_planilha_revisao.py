@@ -55,8 +55,10 @@ def test_importar_aplica_aprovar_ajustar_e_rejeitar(copia):
     r = pr.importar(planilha, faq)
     assert (r["aprovadas"], r["ajustadas"], r["rejeitadas"], r["erros"]) == (1, 1, 1, [])
     dados = {f["id"]: f for f in json.loads(faq.read_text(encoding="utf-8"))}
-    assert dados[a]["status"] == "validado" and dados[a]["revisado_em"] == "2026-11-25"
-    assert dados[b]["resposta"] == "Texto revisado." and dados[b]["status"] == "validado"
+    assert dados[a]["status"] == "validado"
+    assert dados[a]["revisado_em"] == "2026-11-25"
+    assert dados[b]["resposta"] == "Texto revisado."
+    assert dados[b]["status"] == "validado"
     assert dados[c]["status"] == "inativo"
     assert "revisado por AB" in dados[a]["fonte"]
 
@@ -73,7 +75,8 @@ def test_linha_invalida_nao_altera_nada(copia, linha, erro):
     primeiro = pr._ler(planilha)[0]["id"]
     _preencher(planilha, {primeiro: linha})
     r = pr.importar(planilha, faq)
-    assert r["erros"] and erro in r["erros"][0]
+    assert r["erros"]
+    assert erro in r["erros"][0]
     assert faq.read_text(encoding="utf-8") == antes
 
 
@@ -81,5 +84,6 @@ def test_planilha_em_branco_nao_altera_nada(copia):
     faq, planilha = copia
     antes = faq.read_text(encoding="utf-8")
     r = pr.importar(planilha, faq)
-    assert r["ignoradas"] == len(pr._ler(planilha)) and r["erros"] == []
+    assert r["ignoradas"] == len(pr._ler(planilha))
+    assert r["erros"] == []
     assert json.loads(faq.read_text(encoding="utf-8")) == json.loads(antes)
