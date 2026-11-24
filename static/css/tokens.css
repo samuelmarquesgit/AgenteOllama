@@ -1,0 +1,60 @@
+/* Tokens de design do Tork / ToolExpert AI — ver docs/0009-Identidade-Visual.md
+   Contrastes de texto verificados para WCAG 2.1 AA. */
+
+@font-face { font-family: "Inter"; src: url("/static/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("/static/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("/static/fonts/barlow-semi-condensed-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("/static/fonts/barlow-semi-condensed-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+:root {
+  /* marca */
+  --brand-300: #FB923C;   /* destaques no tema escuro (7,15:1 com grafite) */
+  --brand-500: #EA580C;   /* avatar, ícones, elementos gráficos */
+  --brand-700: #C2410C;   /* botões e links com texto branco (5,18:1) */
+  --on-brand: #FFFFFF;
+
+  /* neutros (tema claro) */
+  --ink: #1C2128;         /* texto principal (14,84:1 com paper) */
+  --steel: #4B5563;       /* texto secundário (6,93:1 com paper) */
+  --paper: #F6F5F2;       /* fundo da página */
+  --surface: #FFFFFF;     /* cartões e balões do Tork */
+  --surface-2: #EEECE7;   /* chips, áreas secundárias */
+  --line: #DDDAD3;        /* bordas */
+
+  /* estados e selos (texto escuro sobre fundo claro) */
+  --warning: #FACC15;
+  --ok-fg: #166534;      --ok-bg: #DCFCE7;     /* Banco */
+  --ai-fg: #1D4ED8;      --ai-bg: #DBEAFE;     /* Tork IA */
+  --block-fg: #B91C1C;   --block-bg: #FEE2E2;  /* Guardrail */
+  --shop-fg: #9A3412;    --shop-bg: #FFEDD5;   /* Catálogo */
+  --store-fg: #854D0E;   --store-bg: #FEF9C3;  /* Loja */
+  --pend-fg: #7A4B00;    --pend-bg: #FFF4D6;   /* Aguardando revisão */
+  --neutral-fg: #374151; --neutral-bg: #F3F4F6;
+
+  /* tipografia */
+  --font-titulo: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-texto: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fs-xs: .75rem; --fs-sm: .875rem; --fs-md: 1rem; --fs-lg: 1.25rem; --fs-xl: 1.5rem;
+
+  /* forma e espaço */
+  --raio-sm: 8px; --raio-md: 12px; --raio-lg: 18px; --raio-pill: 999px;
+  --sombra: 0 1px 2px rgb(28 33 40 / .06), 0 4px 16px rgb(28 33 40 / .06);
+  --foco: 0 0 0 3px rgb(194 65 12 / .45);
+  --largura-chat: 860px;
+}
+
+/* Tema escuro: automático pelo sistema, ou forçado pelo botão (data-theme). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-700: #FB923C; --on-brand: #1C2128;
+    --ink: #F6F5F2; --steel: #9CA3AF; --paper: #14171C; --surface: #1F242C; --surface-2: #2A303A; --line: #343B46;
+    --sombra: 0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .35);
+    --foco: 0 0 0 3px rgb(251 146 60 / .55);
+  }
+}
+:root[data-theme="dark"] {
+  --brand-700: #FB923C; --on-brand: #1C2128;
+  --ink: #F6F5F2; --steel: #9CA3AF; --paper: #14171C; --surface: #1F242C; --surface-2: #2A303A; --line: #343B46;
+  --sombra: 0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .35);
+  --foco: 0 0 0 3px rgb(251 146 60 / .55);
+}

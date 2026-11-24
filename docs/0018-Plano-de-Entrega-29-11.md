@@ -43,8 +43,8 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 
 | # | Item | Origem |
 |---|------|--------|
-| P1.1 | Identidade do Tork aplicada ao chat (cores, avatar, logo, selos) | T-041, T-042 |
-| P1.2 | Boas-vindas + **menu em botões** (as opções levam a FAQs e respostas da loja) | T-043 |
+| P1.1 | ✅ Identidade do Tork aplicada ao chat (cores, avatar, logo, selos, fontes locais, tema claro/escuro) | T-041, T-042 |
+| P1.2 | ✅ Boas-vindas + **menu em botões** com submenu de categorias, sugestões, avaliação 👍/👎 e links diretos `/?q=` | T-043, T-044 |
 | P1.3 | Respostas da loja (horário, endereço, pagamento, trocas) a partir de `loja.yaml` | T-030, T-035 |
 | P1.4 | Fluxo **F-TROCA** (CDC) e **F-HUMANO** simples (registro do pedido de atendimento) | T-032, T-033 |
 | P1.5 | **G20** (confirmação de voltagem) | T-037 |

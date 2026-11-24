@@ -128,3 +128,19 @@ de 50%; (3) o selo dizia "Banco de dados"; (4) FAQs novas não entravam em banco
 **Resultado:** reaproveitamento estrito de sugestões com selo próprio, FAQ-061 (autobrocante), sincronização dos
 seeds por hash, comando de revisão, G25 (incerteza não é gravada) e prompt contra definições inventadas. 718 testes.
 
+## P018 — Frontend profissional (opção A) (2026-11-23)
+**Prompt (resumo):** preciso de um frontend mais profissional, o que sugere? → planeje e execute a opção A
+(identidade do Tork no HTML/CSS/JS atual, sem build), mantendo o prazo de 29/11.
+
+**Resultado:** chat redesenhado (logo, avatar, selos, cards, menu com categorias, sugestões, "pensando", avaliação
+👍/👎 com `POST /avaliacoes`, tema claro/escuro, fontes locais, acessibilidade, links `/?q=`), verificado em
+capturas de desktop e de celular (390 px). 729 testes.
+
+## P019 — pytest sem warnings (2026-11-24)
+**Prompt (resumo):** realize o pytest e arrume o warning.
+
+**Resultado:** o aviso visível era a depreciação do `httpx` no `TestClient` do Starlette → `httpx2` (Pydantic, BSD-3)
+adicionado ao `requirements.txt`. Ao configurar `filterwarnings = error` no `pytest.ini`, apareceram dois avisos que
+estavam escondidos: conexões SQLite abertas nos testes e nunca fechadas (`ResourceWarning`). Corrigido com a fixture
+`conexoes`, que fecha tudo ao fim de cada teste. 729 testes sem avisos, inclusive em `python -X dev`.
+

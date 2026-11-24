@@ -88,7 +88,7 @@ def test_pagina_inicial(cliente):
     r = cliente.get("/")
     assert r.status_code == 200
     assert "text/html" in r.headers["content-type"]
-    assert "Assistente da Loja de Ferramentas" in r.text
+    assert "Tork · Assistente da ToolExpert" in r.text
 
 
 def test_swagger_disponivel(cliente):
@@ -100,3 +100,13 @@ def test_arquivos_estaticos_servidos(cliente):
     assert cliente.get("/static/produtos/placeholder.svg").status_code == 200
     assert cliente.get("/static/brand/tork-avatar.svg").status_code == 200
     assert cliente.get("/static/../app/main.py").status_code == 404
+
+
+def test_avaliacao_registrada(cliente, con):
+    assert cliente.post("/avaliacoes", json={"conversationId": "abc-123", "util": True}).status_code == 204
+    assert [tuple(r) for r in con.execute("SELECT conversa_ref, util FROM avaliacoes")] == [("abc-123", 1)]
+
+
+@pytest.mark.parametrize("corpo", [{"conversationId": "abc"}, {"util": True}, {"conversationId": "<x>", "util": True}])
+def test_avaliacao_invalida(cliente, corpo):
+    assert cliente.post("/avaliacoes", json=corpo).status_code == 422

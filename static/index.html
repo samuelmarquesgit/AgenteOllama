@@ -3,250 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assistente da Loja de Ferramentas</title>
-  <style>
-    :root {
-      --bg: #f4f5f7; --card: #ffffff; --texto: #1d2129; --suave: #5f6673;
-      --cliente: #ff7a00; --cliente-texto: #ffffff; --agente: #eceff3; --borda: #d9dde3;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #14161a; --card: #1d2026; --texto: #e8eaed; --suave: #a0a6b1;
-        --cliente: #e06c00; --agente: #2a2e36; --borda: #343943;
-      }
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--texto); }
-    main { max-width: 720px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; }
-    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    h1 { font-size: 1.2rem; margin: 0; }
-    .aviso { font-size: .85rem; color: var(--suave); margin: 8px 0 12px; }
-    #conversa { flex: 1; overflow-y: auto; background: var(--card); border: 1px solid var(--borda);
-      border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-height: 300px; }
-    .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; line-height: 1.45; white-space: pre-wrap; }
-    .cliente { align-self: flex-end; background: var(--cliente); color: var(--cliente-texto); border-bottom-right-radius: 4px; }
-    .agente { align-self: flex-start; background: var(--agente); border-bottom-left-radius: 4px; }
-    .meta { font-size: .72rem; color: var(--suave); margin-top: 4px; }
-    .digitando { font-style: italic; color: var(--suave); }
-    #sugestoes { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-    #sugestoes button, #nova { border: 1px solid var(--borda); background: var(--card); color: var(--texto);
-      border-radius: 999px; padding: 6px 12px; font-size: .85rem; cursor: pointer; }
-    form { display: flex; gap: 8px; }
-    input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--borda); background: var(--card);
-      color: var(--texto); font-size: 1rem; min-width: 0; }
-    #enviar { padding: 12px 18px; border: 0; border-radius: 10px; background: var(--cliente); color: #fff;
-      font-weight: 600; cursor: pointer; }
-    button:disabled { opacity: .6; cursor: wait; }
-    button:focus-visible, input:focus-visible { outline: 2px solid var(--cliente); outline-offset: 2px; }
-    .fluxo { background: var(--card); border: 1px solid var(--borda); border-radius: 12px; padding: 10px 14px;
-      margin-bottom: 12px; font-size: .85rem; }
-    .fluxo summary { cursor: pointer; font-weight: 600; }
-    .fluxo ol { margin: 8px 0 0; padding-left: 20px; line-height: 1.6; }
-    .contador { font-size: .85rem; color: var(--suave); }
-    .selo { display: inline-block; font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px;
-      margin-bottom: 6px; }
-    .selo.banco { background: #d9f2e3; color: #11643a; }
-    .selo.agente { background: #e4e0ff; color: #3d2a9c; }
-    .selo.sugestao { background: #fff4d6; color: #7a4b00; }
-    .selo.outro { background: #ececec; color: #4a4a4a; }
-    .selo.bloqueado { background: #ffe1e1; color: #9b1c1c; }
-    .selo.catalogo { background: #FFEDD5; color: #9A3412; }
-    .selo.loja { background: #FEF9C3; color: #854D0E; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-top: 10px; white-space: normal; }
-    .card { background: var(--card); border: 1px solid var(--borda); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
-    .card img { width: 100%; height: 80px; object-fit: contain; }
-    .card .nome { font-weight: 600; font-size: .85rem; line-height: 1.3; }
-    .card .preco { font-size: 1.1rem; font-weight: 700; color: #C2410C; }
-    .card .info { font-size: .75rem; color: var(--suave); }
-    .card .estoque.sim { color: #166534; font-weight: 600; font-size: .75rem; }
-    .card .estoque.nao { color: #9b1c1c; font-weight: 600; font-size: .75rem; }
-    .card ul { margin: 2px 0 0; padding-left: 16px; font-size: .75rem; }
-  </style>
+  <meta name="description" content="Tork, o assistente virtual da ToolExpert: tira dúvidas sobre ferramentas, mostra produtos e informa sobre pedidos, pagamento e trocas.">
+  <meta name="theme-color" content="#C2410C">
+  <title>Tork · Assistente da ToolExpert</title>
+  <link rel="icon" href="/static/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/chat.css">
+  <script type="module" src="/static/js/chat.js"></script>
 </head>
 <body>
-<main>
-  <header>
-    <h1>🔧 Assistente da Loja de Ferramentas</h1>
-    <button id="nova" type="button">Nova conversa</button>
+<div class="app">
+  <header class="topo">
+    <div class="topo-interno">
+      <img class="logo logo-claro" src="/static/brand/logo-toolexpert.svg" alt="ToolExpert AI" width="134" height="34">
+      <img class="logo logo-escuro" src="/static/brand/logo-toolexpert-escuro.svg" alt="ToolExpert AI" width="134" height="34">
+      <output id="status" class="status" aria-live="polite">Conectando…</output>
+      <button id="tema" class="botao-icone" type="button" aria-label="Alternar tema">🌙</button>
+      <button id="nova" class="botao-secundario" type="button" aria-label="Começar nova conversa">↺ <span class="rotulo">Nova conversa</span></button>
+    </div>
   </header>
-  <p class="aviso">Versão inicial: tiro dúvidas gerais sobre ferramentas. Ainda não consulto preços, estoque nem pedidos.
-    <br><span class="contador" id="contador">Carregando base...</span></p>
 
-  <details class="fluxo" open>
-    <summary>Como o agente responde?</summary>
-    <ol>
-      <li>Procura a pergunta no <b>banco de dados SQLite</b> (<span class="selo banco">📚 Banco</span>).</li>
-      <li>Se não encontrar, consulta o <b>agente de IA local (Ollama)</b> (<span class="selo agente">🤖 Agente IA</span>).</li>
-      <li>A resposta do agente é <b>gravada no banco</b>. Pergunte de novo e ela virá do banco!</li>
-      <li>O agente <b>lembra a conversa</b>: depois de "Qual broca usar em concreto?", tente "e para metal?".</li>
-      <li><b>Guardrails</b> (<span class="selo bloqueado">🛡️</span>) bloqueiam preço inventado, conselho perigoso e dados pessoais.</li>
-    </ol>
-  </details>
+  <main class="palco">
+    <section id="conversa" class="conversa" role="log" aria-live="polite" aria-label="Conversa com o Tork"></section>
+  </main>
 
-  <section id="conversa" aria-live="polite" aria-label="Conversa"></section>
-
-  <div id="sugestoes" aria-label="Sugestões de perguntas"></div>
-
-  <form id="form">
-    <label for="mensagem" class="aviso" hidden>Sua mensagem</label>
-    <input id="mensagem" maxlength="500" autocomplete="off" placeholder="Digite sua dúvida..." aria-label="Sua mensagem">
-    <button id="enviar" type="submit">Enviar</button>
-  </form>
-</main>
-<script>
-  const SUGESTOES = [
-    "Quanto custa uma furadeira de impacto?",
-    "Tem parafusadeira a bateria até R$ 600?",
-    "Qual broca usar em concreto?",
-    "Que horas a loja abre?",
-    "Quais as formas de pagamento?",
-    "Não sei qual ferramenta comprar",
-  ];
-  const conversa = document.getElementById("conversa");
-  const form = document.getElementById("form");
-  const campo = document.getElementById("mensagem");
-  const botao = document.getElementById("enviar");
-
-  const SELOS = {
-    banco: ["banco", "📚 Banco de dados"],
-    agente: ["agente", "🤖 Tork IA · resposta gerada, ainda não revisada"],
-    sugestao: ["sugestao", "🤖 Resposta aprendida · aguardando revisão"],
-    fallback: ["outro", "⚠️ Sem resposta"],
-    fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
-    saudacao: ["outro", "👋 Saudação"],
-    bloqueado: ["bloqueado", "🛡️ Bloqueado por guardrail"],
-    catalogo: ["catalogo", "🛒 Catálogo (dados fictícios)"],
-    loja: ["loja", "🏬 Dados da loja"],
-  };
-
-  // Cada conversa tem um identificador: é ele que permite ao agente lembrar o contexto.
-  function novoId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    const bytes = new Uint8Array(16);
-    crypto.getRandomValues(bytes);  // gerador criptográfico, nunca Math.random
-    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-  }
-  let conversationId = novoId();
-
-  async function atualizarContador() {
-    try {
-      const r = await fetch("/health");
-      const d = await r.json();
-      document.getElementById("contador").textContent =
-        `Perguntas no banco: ${d.faqs} (${d.aprendidas} aprendidas com o agente)`;
-    } catch (e) {
-      document.getElementById("contador").textContent = "API indisponível";
-    }
-  }
-
-  function adicionar(texto, quem, meta, origem) {
-    const div = document.createElement("div");
-    div.className = "msg " + quem;
-    if (origem && SELOS[origem]) {
-      const selo = document.createElement("span");
-      selo.className = "selo " + SELOS[origem][0];
-      selo.textContent = SELOS[origem][1];
-      div.appendChild(selo);
-      div.appendChild(document.createElement("br"));
-    }
-    div.appendChild(document.createTextNode(texto));
-    if (meta) {
-      const m = document.createElement("div");
-      m.className = "meta";
-      m.textContent = meta;
-      div.appendChild(m);
-    }
-    conversa.appendChild(div);
-    conversa.scrollTop = conversa.scrollHeight;
-    return div;
-  }
-
-  // Cards de produto montados só com textContent: dados da API nunca viram HTML.
-  const ALIMENTACAO = { "127V": "127 V", "220V": "220 V", bivolt: "Bivolt", bateria: "A bateria", nao_eletrico: "" };
-  function el(tag, classe, texto) {
-    const e = document.createElement(tag);
-    if (classe) e.className = classe;
-    if (texto !== undefined) e.textContent = texto;
-    return e;
-  }
-  function montarCards(produtos) {
-    const grade = el("div", "cards");
-    for (const p of produtos) {
-      const card = el("article", "card");
-      const img = el("img");
-      img.src = p.imagem || "/static/produtos/placeholder.svg";
-      img.alt = "Imagem ilustrativa: " + p.nome;
-      card.appendChild(img);
-      card.appendChild(el("div", "nome", p.nome));
-      card.appendChild(el("div", "preco", p.preco_formatado));
-      const info = [p.marca, ALIMENTACAO[p.alimentacao], p.sku].filter(Boolean).join(" · ");
-      card.appendChild(el("div", "info", info));
-      card.appendChild(el("div", "estoque " + (p.em_estoque ? "sim" : "nao"), p.em_estoque ? "Em estoque" : "Sem estoque no momento"));
-      if (p.especificacoes && p.especificacoes.length) {
-        const ul = el("ul");
-        for (const e of p.especificacoes) ul.appendChild(el("li", "", `${e.nome}: ${e.valor}${e.unidade ? " " + e.unidade : ""}`));
-        card.appendChild(ul);
-      }
-      grade.appendChild(card);
-    }
-    return grade;
-  }
-
-  function iniciar() {
-    if (conversationId) fetch(`/conversas/${conversationId}`, { method: "DELETE" }).catch(() => {});
-    conversationId = novoId();
-    conversa.innerHTML = "";
-    adicionar("Olá! Sou o assistente virtual da loja de ferramentas. Como posso ajudar?", "agente");
-    campo.focus();
-  }
-
-  async function enviar(texto) {
-    texto = texto.trim();
-    if (!texto) return;
-    adicionar(texto, "cliente");
-    campo.value = "";
-    botao.disabled = true;
-    const espera = adicionar("Respondendo...", "agente digitando");
-    try {
-      const r = await fetch("/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: texto, conversationId }),
-      });
-      if (!r.ok) throw new Error(r.status);
-      const dados = await r.json();
-      espera.remove();
-      const partes = [];
-      if (dados.perguntaInterpretada) partes.push(`Entendi como: "${dados.perguntaInterpretada}"`);
-      if (dados.origem === "banco") partes.push(`${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`);
-      if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} para revisão humana`);
-      if (dados.origem === "sugestao") partes.push(`${dados.matchedFaqId} · ainda não revisada por um especialista`);
-      if (dados.guardrails && dados.guardrails.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
-      const meta = partes.join(" · ");
-      const bolha = adicionar(dados.answer, "agente", meta, dados.origem);
-      if (dados.produtos && dados.produtos.length) bolha.appendChild(montarCards(dados.produtos));
-      atualizarContador();
-    } catch (e) {
-      espera.remove();
-      adicionar("Não consegui responder agora. Tente novamente em instantes.", "agente");
-    } finally {
-      botao.disabled = false;
-      campo.focus();
-    }
-  }
-
-  const caixa = document.getElementById("sugestoes");
-  for (const s of SUGESTOES) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = s;
-    b.addEventListener("click", () => enviar(s));
-    caixa.appendChild(b);
-  }
-  form.addEventListener("submit", (e) => { e.preventDefault(); enviar(campo.value); });
-  document.getElementById("nova").addEventListener("click", iniciar);
-  iniciar();
-  atualizarContador();
-</script>
+  <footer class="rodape">
+    <div class="rodape-interno">
+      <div id="sugestoes" class="chips" aria-label="Sugestões de perguntas"></div>
+      <form id="form" class="compositor" autocomplete="off">
+        <label for="mensagem" class="sr-only">Sua mensagem</label>
+        <input id="mensagem" maxlength="500" placeholder="Digite sua dúvida ou &quot;menu&quot;…" aria-label="Sua mensagem">
+        <button id="enviar" class="enviar" type="submit">Enviar</button>
+      </form>
+      <p class="aviso-rodape">Versão de demonstração: produtos, preços e estoques são fictícios. Não envie dados pessoais (CPF, cartão, endereço).</p>
+    </div>
+  </footer>
+</div>
+<noscript>O chat do Tork precisa de JavaScript habilitado.</noscript>
 </body>
 </html>
