@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.0] — 2026-11-19 — Contexto e guardrails
+
+### Adicionado
+- **Contexto da conversa:** `conversationId` no `/chat`, memória em RAM (5 trocas por conversa),
+  detecção de continuação e reescrita da pergunta pelo Ollama ("e para metal?" → "Qual broca usar em metal?").
+  O agente recebe o histórico e o banco grava só a pergunta completa.
+- `DELETE /conversas/{id}` e campos `perguntaInterpretada` e `guardrails` na resposta.
+- **Pasta `app/guardrails/`** com 19 guardrails em camadas: entrada (tamanho, dados pessoais, prompt injection),
+  escopo (comercial sem LLM, fora do escopo), prompt, saída (preço/estoque/prazo/garantia/desconto inventados,
+  pedido de dados, conselho perigoso, links/telefones, tamanho), reescrita e aprendizado.
+- Página: linha "Entendi como…", selo 🛡️ de bloqueio e lista de guardrails acionados.
+- Terminal: memória de conversa e comando `nova`.
+- `docs/0013-Guardrails.md` e testes `test_guardrails.py` e `test_contexto.py` (572 testes no total).
+
+### Alterado
+- Pergunta com sinal comercial que não está no banco agora recebe os textos comerciais fixos em vez de ir ao LLM.
+- "tem" deixou de ser palavra-chave da FAQ-041 (era genérica demais).
+
 ## [0.1.0] — 2026-11-19 — MVP 1
 
 ### Adicionado

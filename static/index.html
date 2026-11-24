@@ -48,6 +48,7 @@
     .selo.banco { background: #d9f2e3; color: #11643a; }
     .selo.agente { background: #e4e0ff; color: #3d2a9c; }
     .selo.outro { background: #ececec; color: #4a4a4a; }
+    .selo.bloqueado { background: #ffe1e1; color: #9b1c1c; }
   </style>
 </head>
 <body>
@@ -65,6 +66,8 @@
       <li>Procura a pergunta no <b>banco de dados SQLite</b> (<span class="selo banco">📚 Banco</span>).</li>
       <li>Se não encontrar, consulta o <b>agente de IA local (Ollama)</b> (<span class="selo agente">🤖 Agente IA</span>).</li>
       <li>A resposta do agente é <b>gravada no banco</b>. Pergunte de novo e ela virá do banco!</li>
+      <li>O agente <b>lembra a conversa</b>: depois de "Qual broca usar em concreto?", tente "e para metal?".</li>
+      <li><b>Guardrails</b> (<span class="selo bloqueado">🛡️</span>) bloqueiam preço inventado, conselho perigoso e dados pessoais.</li>
     </ol>
   </details>
 
@@ -98,7 +101,15 @@
     fallback: ["outro", "⚠️ Sem resposta"],
     fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
     saudacao: ["outro", "👋 Saudação"],
+    bloqueado: ["bloqueado", "🛡️ Bloqueado por guardrail"],
   };
+
+  // Cada conversa tem um identificador: é ele que permite ao agente lembrar o contexto.
+  function novoId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+  }
+  let conversationId = novoId();
 
   async function atualizarContador() {
     try {
@@ -134,6 +145,8 @@
   }
 
   function iniciar() {
+    if (conversationId) fetch(`/conversas/${conversationId}`, { method: "DELETE" }).catch(() => {});
+    conversationId = novoId();
     conversa.innerHTML = "";
     adicionar("Olá! Sou o assistente virtual da loja de ferramentas. Como posso ajudar?", "agente");
     campo.focus();
@@ -150,14 +163,17 @@
       const r = await fetch("/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: texto }),
+        body: JSON.stringify({ message: texto, conversationId }),
       });
       if (!r.ok) throw new Error(r.status);
       const dados = await r.json();
       espera.remove();
-      let meta = "";
-      if (dados.origem === "banco") meta = `${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`;
-      if (dados.origem === "agente") meta = `Gravada como ${dados.matchedFaqId} (pendente de validação)`;
+      const partes = [];
+      if (dados.perguntaInterpretada) partes.push(`Entendi como: "${dados.perguntaInterpretada}"`);
+      if (dados.origem === "banco") partes.push(`${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`);
+      if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} (pendente de validação)`);
+      if (dados.guardrails && dados.guardrails.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
+      const meta = partes.join(" · ");
       adicionar(dados.answer, "agente", meta, dados.origem);
       atualizarContador();
     } catch (e) {

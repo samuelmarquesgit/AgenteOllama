@@ -1,4 +1,4 @@
-# Arquitetura — MVP 1
+# 0011 — Arquitetura atual (v0.2)
 
 ## Visão geral
 
@@ -40,6 +40,25 @@ flowchart TD
     FE -- não --> GR[Grava no banco como pendente_validacao]
     GR --> RA[🤖 Responde e na próxima vez vem do banco]
 ```
+
+## Contexto da conversa (`app/memoria.py`)
+
+Sem memória, "e para metal?" depois de "Qual broca usar em concreto?" vira só "metal" e cai
+em "cortar metal". A solução usada é a **reescrita da pergunta de continuação**:
+
+1. A página gera um `conversationId`; a API guarda em RAM as últimas 5 trocas daquela conversa.
+2. `parece_continuacao()` detecta mensagens que dependem da anterior: começam com "e", "mas",
+   "então"…; têm pronomes ("isso", "ela", "dele"…); ou têm no máximo 2 palavras relevantes.
+3. Só nesse caso o Ollama reescreve a mensagem como pergunta completa
+   ("Qual broca é adequada para uso em metal?"). A reescrita passa pelo guardrail G15.
+4. A pergunta completa é usada para buscar no banco, para chamar o agente (que também recebe o
+   histórico) e para gravar. Assim, **o banco nunca recebe perguntas soltas** como "e para metal?".
+5. "Nova conversa" chama `DELETE /conversas/{id}` e gera outro ID.
+
+## Guardrails (`app/guardrails/`)
+
+Proteções em camadas (entrada → escopo → prompt → saída → reescrita → aprendizado).
+Catálogo completo G01–G19 em **[0013-Guardrails.md](0013-Guardrails.md)**.
 
 ## Algoritmo de busca (`app/busca.py`)
 
@@ -107,5 +126,7 @@ erDiagram
 
 - **O llama3.2 (3B) pode errar conteúdo técnico.** Por isso toda resposta aprendida fica como `pendente_validacao` e precisa de revisão humana.
 - A busca por palavras-chave não entende sinônimos que não estejam cadastrados.
-- Não há limite de requisições (rate limit), autenticação nem histórico de conversa.
+- Não há limite de requisições (rate limit) nem autenticação.
+- O histórico de conversa fica só em memória: some quando a API reinicia (intencional no MVP).
+- Cada continuação reescrita custa uma chamada extra ao Ollama (~0,3 a 1 s).
 - A primeira chamada ao Ollama demora de 10 a 12 s (carregamento do modelo).

@@ -1,10 +1,10 @@
-# Base de conhecimento — manutenção
+# 0014 — Base de conhecimento: manutenção
 
 ## De onde vêm as respostas
 
 | Origem | Onde fica | Quem cria |
 |--------|-----------|-----------|
-| Carga inicial (60 FAQs) | `knowledge/faq.json`, copiado para o banco na 1ª execução | Equipe (a partir de `docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md`) |
+| Carga inicial (60 FAQs) | `knowledge/faq.json`, copiado para o banco na 1ª execução | Equipe (a partir de `docs/0003-Requisitos-do-Produto.md`) |
 | Respostas aprendidas | Banco `data/loja.db`, `origem='agente'` | Ollama, quando a pergunta não existia |
 
 > O arquivo `data/loja.db` **não vai para o Git** (está no `.gitignore`). Ele é recriado
@@ -20,7 +20,7 @@
   "variacoes": ["broca para parede", "broca de concreto"],
   "palavras_chave": ["broca", "concreto", "sds", "sds plus", "sds max", "videa", "alvenaria"],
   "resposta": "Utilize broca adequada a concreto/alvenaria e compatível com a máquina. ...",
-  "fonte": "docs/TASKS_AGENTE_LOJA_FERRAMENTAS.md",
+  "fonte": "docs/0003-Requisitos-do-Produto.md",
   "revisado_em": null,
   "status": "rascunho"
 }

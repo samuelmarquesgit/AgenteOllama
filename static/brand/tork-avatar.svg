@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t d">
+  <title id="t">Tork</title>
+  <desc id="d">Avatar do Tork, atendente virtual da ToolExpert AI: uma porca sextavada laranja com visor e olhos de LED.</desc>
+  <!-- antena com LED (amarelo alerta) -->
+  <line x1="64" y1="18" x2="64" y2="8" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="64" cy="7" r="5" fill="#FACC15" stroke="#1C2128" stroke-width="2"/>
+  <!-- porca sextavada -->
+  <polygon points="118,66 91,19 37,19 10,66 37,113 91,113"
+           fill="#EA580C" stroke="#C2410C" stroke-width="8" stroke-linejoin="round"/>
+  <!-- brilho metálico -->
+  <path d="M40 27 L88 27" stroke="#FB923C" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <!-- visor -->
+  <rect x="28" y="46" width="72" height="42" rx="21" fill="#1C2128"/>
+  <!-- olhos de LED -->
+  <circle cx="49" cy="64" r="7" fill="#FFF7ED"/>
+  <circle cx="79" cy="64" r="7" fill="#FFF7ED"/>
+  <!-- sorriso -->
+  <path d="M54 76 Q64 83 74 76" fill="none" stroke="#FB923C" stroke-width="4" stroke-linecap="round"/>
+</svg>

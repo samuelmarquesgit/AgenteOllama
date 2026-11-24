@@ -1,9 +1,10 @@
 """API do agente.
 
-GET  /          -> página de chat
-GET  /health    -> status e quantidade de perguntas no banco
-POST /chat      -> {"message": "..."} -> {"answer", "matchedFaqId", "confidence", "origem"}
-GET  /faqs      -> perguntas cadastradas (para mostrar a base crescendo na demo)
+GET    /                       -> página de chat
+GET    /health                 -> status e quantidade de perguntas no banco
+POST   /chat                   -> {"message": "...", "conversationId": "..."} -> resposta
+DELETE /conversas/{id}         -> esquece o histórico de uma conversa
+GET    /faqs                   -> perguntas cadastradas (para mostrar a base crescendo na demo)
 """
 
 import logging
@@ -14,18 +15,22 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 
 from app.agente import Agente
+from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
+from app.memoria import Memoria
 
 PASTA_STATIC = Path(__file__).resolve().parent.parent / "static"
-LIMITE_CARACTERES = 500
+ORIGENS_COM_CONTEXTO = {"banco", "agente"}
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("agente")
-app = FastAPI(title="Agente da loja de ferramentas", version="0.1.0")
+app = FastAPI(title="Agente da loja de ferramentas", version="0.2.0")
 agente = Agente()
+memoria = Memoria()
 
 
 class Pergunta(BaseModel):
     message: str = Field(min_length=1, max_length=LIMITE_CARACTERES)
+    conversationId: str | None = Field(default=None, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
 
 
 class RespostaChat(BaseModel):
@@ -33,6 +38,8 @@ class RespostaChat(BaseModel):
     matchedFaqId: str | None
     confidence: float
     origem: str
+    perguntaInterpretada: str | None = None
+    guardrails: list[str] = []
 
 
 @app.exception_handler(Exception)
@@ -53,10 +60,27 @@ def health():
 def chat(pergunta: Pergunta):
     if not pergunta.message.strip():
         return JSONResponse(status_code=422, content={"detail": "Mensagem vazia."})
-    resposta = agente.responder(pergunta.message)
+
+    historico = memoria.historico(pergunta.conversationId)
+    resposta = agente.responder(pergunta.message, historico)
+
+    # Só respostas úteis entram no contexto; nunca com dados pessoais.
+    if resposta.origem in ORIGENS_COM_CONTEXTO:
+        pergunta_segura = resposta.perguntaInterpretada or mascarar_dados_pessoais(pergunta.message.strip())[0]
+        memoria.registrar(pergunta.conversationId, pergunta_segura, resposta.answer)
+
     # Métrica técnica sem guardar o texto do cliente no log.
-    log.info("chat faq=%s nota=%.2f origem=%s", resposta.matchedFaqId, resposta.confidence, resposta.origem)
+    log.info(
+        "chat faq=%s nota=%.2f origem=%s contexto=%d reescrita=%s guardrails=%s",
+        resposta.matchedFaqId, resposta.confidence, resposta.origem, len(historico),
+        resposta.perguntaInterpretada is not None, ",".join(resposta.guardrails) or "-",
+    )
     return resposta.para_dict()
+
+
+@app.delete("/conversas/{conversa_id}", status_code=204)
+def esquecer_conversa(conversa_id: str):
+    memoria.esquecer(conversa_id)
 
 
 @app.get("/faqs")
