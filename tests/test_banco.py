@@ -8,7 +8,6 @@ from tests.conftest import N_FAQS
 
 from app import banco
 from app.db import migracoes, seeds
-from app.db.conexao import abrir
 from app.db.repositorios import (
     AtendimentoRepository,
     CatalogoRepository,

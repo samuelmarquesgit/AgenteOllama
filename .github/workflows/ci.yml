@@ -1,0 +1,42 @@
+# P1.6 — CI: lint (Ruff) + testes (pytest) em todo push e pull request.
+# Não precisa de Ollama: os testes usam um modelo simulado.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.14"]
+    env:
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint (Ruff)
+        run: ruff check .
+      - name: Testes (pytest)
+        run: python -m pytest -q
+      - name: Avaliação de roteamento (RT-008)
+        run: python -m tests.eval.avaliar

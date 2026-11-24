@@ -20,7 +20,7 @@ import sqlite3
 from dataclasses import dataclass, field
 
 from app import banco
-from app.busca import Faq, buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
+from app.busca import buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
 from app.guardrails.risco import NOTA_MINIMA_RISCO, REFORCO_RISCO, acao_perigosa, resposta_sem_base, tema_de_risco

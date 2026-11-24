@@ -8,7 +8,6 @@ import pytest
 from app import agente as modulo
 from app.agente import (
     APRESENTACAO,
-    FALLBACK,
     FALLBACK_IA_INDISPONIVEL,
     FORA_DO_ESCOPO,
     RESPOSTA_FORA_DO_ESCOPO,
