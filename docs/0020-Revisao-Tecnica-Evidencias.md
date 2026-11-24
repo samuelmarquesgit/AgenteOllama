@@ -176,3 +176,46 @@ Mix: 60% `/chat` (FAQ, catálogo, loja), 20% `POST /avaliacoes` (escrita), 20% `
 
 **Testes:** `tests/test_concorrencia.py` (leituras e escritas simultâneas sem erro, uma conexão por thread, memória concorrente).
 **Arquivos:** `app/db/conexao.py`, `app/agente.py`, `app/memoria.py`, `tests/test_concorrencia.py`.
+
+---
+
+## RT-010 — Indisponibilidade e lentidão do Ollama
+
+**Data:** 2026-11-24
+
+### Medição antes da correção
+
+| Cenário | Comportamento |
+|---------|---------------|
+| Ollama desligado (porta fechada) | `ConnectionError` em 2,2 s → fallback |
+| **Ollama travado** (aceita a conexão e não responde) | **requisição pendurada indefinidamente**: o cliente `ollama` não tem timeout por padrão (`timeout=None`) |
+
+### Correção
+
+- `app/agente.py`: o Ollama é chamado por `ollama.Client(host, timeout)`:
+  - geração: `OLLAMA_TIMEOUT` (padrão **45 s**, porque a 1ª chamada carrega o modelo);
+  - reescrita de contexto: `OLLAMA_TIMEOUT_REESCRITA` (padrão **10 s**; se passar, segue com a pergunta original);
+  - `OLLAMA_HOST` opcional; valores inválidos voltam ao padrão.
+- Qualquer falha (timeout, conexão, resposta vazia) vira **fallback com mensagem clara**:
+  *"No momento não consegui consultar a inteligência artificial do Tork. Posso responder perguntas da nossa base
+  (produtos, preços de demonstração, horários e dúvidas técnicas comuns) ou chamar um atendente da loja."*,
+  com o guardrail `ia:indisponivel`. O log registra só o tipo do erro, nunca a pergunta.
+- Respostas do banco (FAQ, catálogo, loja) **não dependem do Ollama** e continuam funcionando com ele fora do ar.
+
+### Medição com o Ollama real (`llama3.2`, 3B)
+
+| Situação | Tempo |
+|----------|-------|
+| 1ª chamada (modelo frio, carregando) | 4,7 s nesta medição (11,7 s na primeira sessão de 19/11) |
+| Chamadas seguintes (modelo quente) | média 1,1 s · máx 1,5 s (5 perguntas) |
+| Memória do modelo carregado | 2,6 GB (100% GPU); descarregado após 5 min sem uso |
+
+Recomendação para a demonstração: fazer uma pergunta de aquecimento antes de começar (já está no roteiro `0015`).
+
+### Testes
+
+`tests/test_agente.py`: `test_rt010_timeout_configuravel_por_variavel`, `test_rt010_timeout_invalido_usa_padrao`,
+`test_rt010_reescrita_tem_timeout_curto`, `test_rt010_falha_do_ollama_vira_fallback_claro` (timeout, conexão, rede) e
+`test_rt010_ollama_travado_nao_trava_o_atendimento` (servidor que nunca responde: o atendimento termina em ~1 s).
+
+**Arquivos:** `app/agente.py`, `app/guardrails/prompts.py`, `tests/test_agente.py`.

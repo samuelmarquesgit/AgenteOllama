@@ -9,6 +9,7 @@ from app import agente as modulo
 from app.agente import (
     APRESENTACAO,
     FALLBACK,
+    FALLBACK_IA_INDISPONIVEL,
     FORA_DO_ESCOPO,
     RESPOSTA_FORA_DO_ESCOPO,
     Agente,
@@ -165,7 +166,7 @@ def test_fora_do_escopo_no_meio_do_texto(con):
 def test_ollama_indisponivel_gera_fallback(con, resposta_llm):
     ag = Agente(con, perguntar=OllamaFalso(resposta_llm))
     r = ag.responder("como funciona um soprador térmico industrial")
-    assert r == Resposta(FALLBACK, None, 0.0, "fallback")
+    assert r == Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
     assert len(ag.faqs) == N_FAQS
 
 
@@ -198,8 +199,18 @@ def test_usar_ollama_padrao_e_ligado(monkeypatch):
 
 
 # ---- perguntar_ao_ollama (com o pacote ollama simulado) ------------------------
+CLIENTES_CRIADOS: list[dict] = []
+
+
 def _ollama_simulado(monkeypatch, chat):
-    monkeypatch.setitem(sys.modules, "ollama", types.SimpleNamespace(chat=chat))
+    """Simula o pacote ollama: Client(host, timeout).chat(...) delega para `chat` e registra o timeout."""
+    CLIENTES_CRIADOS.clear()
+
+    def cliente(host=None, timeout=None):
+        CLIENTES_CRIADOS.append({"host": host, "timeout": timeout})
+        return types.SimpleNamespace(chat=chat)
+
+    monkeypatch.setitem(sys.modules, "ollama", types.SimpleNamespace(Client=cliente))
 
 
 def test_perguntar_ao_ollama_envia_instrucao_e_pergunta(monkeypatch):
@@ -215,6 +226,7 @@ def test_perguntar_ao_ollama_envia_instrucao_e_pergunta(monkeypatch):
     assert recebido["messages"][0] == {"role": "system", "content": modulo.INSTRUCAO_LLM}
     assert recebido["messages"][1] == {"role": "user", "content": "Qual serra?"}
     assert recebido["options"]["temperature"] <= 0.3
+    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_GERACAO_PADRAO   # RT-010: sempre com timeout
 
 
 def test_perguntar_ao_ollama_erro_devolve_none(monkeypatch):
@@ -354,3 +366,73 @@ def test_rt001_sugestao_pendente_nunca_tem_origem_banco(con, variante):
     if r.matchedFaqId == "SUG-0001":
         assert r.origem == "sugestao"
         assert "aprendizado:nao_revisada" in r.guardrails
+
+
+
+# ---- RT-010: Ollama fora do ar, lento ou travado ------------------------------------
+def test_rt010_timeout_configuravel_por_variavel(monkeypatch):
+    _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "ok"}})
+    monkeypatch.setenv("OLLAMA_TIMEOUT", "7")
+    perguntar_ao_ollama("Qual serra?")
+    assert CLIENTES_CRIADOS[-1]["timeout"] == 7.0
+
+
+def test_rt010_timeout_invalido_usa_padrao(monkeypatch):
+    _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "ok"}})
+    monkeypatch.setenv("OLLAMA_TIMEOUT", "abc")
+    perguntar_ao_ollama("Qual serra?")
+    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_GERACAO_PADRAO
+
+
+def test_rt010_reescrita_tem_timeout_curto(monkeypatch):
+    from app.memoria import Troca
+
+    _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "Qual broca usar em metal?"}})
+    modulo.reescrever_com_ollama("e para metal?", [Troca("Qual broca usar em concreto?", "...")])
+    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_REESCRITA_PADRAO
+
+
+@pytest.mark.parametrize("erro", [TimeoutError("lento"), ConnectionError("fora do ar"), OSError("rede")])
+def test_rt010_falha_do_ollama_vira_fallback_claro(monkeypatch, con, erro):
+    def chat(**_):
+        raise erro
+
+    _ollama_simulado(monkeypatch, chat)
+    r = Agente(con).responder("Como funciona uma plaina desengrossadeira de bancada?")
+    assert r.origem == "fallback"
+    assert "não consegui consultar a inteligência artificial" in r.answer
+    assert "ia:indisponivel" in r.guardrails
+
+
+def test_rt010_ollama_travado_nao_trava_o_atendimento(monkeypatch, con):
+    """Servidor que aceita a conexão e nunca responde: o atendimento termina pelo timeout."""
+    import socket
+    import threading
+    import time
+
+    servidor = socket.socket()
+    servidor.bind(("127.0.0.1", 0))
+    servidor.listen(5)
+    abertas = []
+
+    def aceitar():  # aceita conexões e nunca responde; termina quando o socket é fechado
+        while True:
+            try:
+                abertas.append(servidor.accept()[0])
+            except OSError:
+                return
+
+    aceitador = threading.Thread(target=aceitar, daemon=True)
+    aceitador.start()
+    monkeypatch.setenv("OLLAMA_HOST", f"http://127.0.0.1:{servidor.getsockname()[1]}")
+    monkeypatch.setenv("OLLAMA_TIMEOUT", "1")
+    inicio = time.perf_counter()
+    try:
+        r = Agente(con).responder("Como funciona uma plaina desengrossadeira de bancada?")
+    finally:
+        servidor.close()
+        aceitador.join(timeout=5)
+        for c in abertas:
+            c.close()
+    assert time.perf_counter() - inicio < 10
+    assert r.origem == "fallback"

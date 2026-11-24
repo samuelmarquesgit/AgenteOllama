@@ -35,6 +35,7 @@ from app.guardrails.prompts import (
     APRESENTACAO,
     AVISO_DADOS_PESSOAIS,
     FALLBACK,
+    FALLBACK_IA_INDISPONIVEL,
     FORA_DO_ESCOPO,
     INSTRUCAO_LLM,
     INSTRUCAO_REESCRITA,
@@ -62,6 +63,8 @@ COBERTURA_REVERSA_SUGESTAO = 0.75  # ...e que contenham a maior parte das palavr
 CATEGORIA_SUGESTAO = "aprendida"
 
 MODELO = os.getenv("OLLAMA_MODELO", "llama3.2")
+TIMEOUT_GERACAO_PADRAO = 45.0    # s; a 1ª chamada carrega o modelo na memória (~12 s nesta máquina)
+TIMEOUT_REESCRITA_PADRAO = 10.0  # s; reescrita de contexto é curta: se passar disso, usa a pergunta original
 
 # Indícios de que a mensagem depende da anterior ("e para metal?", "e essa?", "quanto dura ela?").
 INICIOS_CONTINUACAO = ("e ", "e se ", "mas ", "entao ", "tambem ", "agora ", "so que ", "ainda ")
@@ -104,14 +107,28 @@ def _mensagens_do_historico(historico: list[Troca]) -> list[dict]:
     return mensagens
 
 
-def _chat_ollama(mensagens: list[dict], temperatura: float) -> str | None:
-    """Chama o Ollama; devolve None se ele não estiver disponível ou responder vazio."""
+def _segundos(variavel: str, padrao: float) -> float:
+    try:
+        return max(1.0, float(os.getenv(variavel, padrao)))
+    except ValueError:
+        return padrao
+
+
+def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | None = None) -> str | None:
+    """Chama o Ollama; devolve None se ele não estiver disponível, demorar demais ou responder vazio.
+
+    RT-010: o cliente do Ollama não tem timeout por padrão; com o serviço travado a requisição
+    ficava pendurada para sempre. Agora há limite de tempo (OLLAMA_TIMEOUT, padrão 45 s).
+    """
     try:
         import ollama
 
-        r = ollama.chat(model=MODELO, messages=mensagens, options={"temperature": temperatura})
+        cliente = ollama.Client(host=os.getenv("OLLAMA_HOST") or None,
+                                timeout=timeout or _segundos("OLLAMA_TIMEOUT", TIMEOUT_GERACAO_PADRAO))
+        r = cliente.chat(model=MODELO, messages=mensagens, options={"temperature": temperatura})
         return r["message"]["content"].strip() or None
-    except Exception:
+    except Exception as erro:  # noqa: BLE001 - qualquer falha do LLM vira fallback seguro
+        log.warning("Ollama indisponível ou lento: %s", type(erro).__name__)
         return None
 
 
@@ -132,6 +149,7 @@ def reescrever_com_ollama(pergunta: str, historico: list[Troca]) -> str | None:
             {"role": "user", "content": f"HISTÓRICO:\n{contexto}\n\nÚLTIMA MENSAGEM: {pergunta}"},
         ],
         temperatura=0.0,
+        timeout=_segundos("OLLAMA_TIMEOUT_REESCRITA", TIMEOUT_REESCRITA_PADRAO),  # se demorar, segue com a pergunta original
     )
     return limpar_reescrita(texto)
 
@@ -291,7 +309,7 @@ class Agente:
             return Resposta(FALLBACK, None, 0.0, "fallback")
         texto = self.perguntar(pergunta, historico)
         if not texto:
-            return Resposta(FALLBACK, None, 0.0, "fallback")
+            return Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
         if eh_fora_do_escopo(texto):
             return Resposta(RESPOSTA_FORA_DO_ESCOPO, None, 0.0, "fora_do_escopo", guardrails=["escopo:fora_do_escopo"])
 

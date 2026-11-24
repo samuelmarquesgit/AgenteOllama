@@ -43,6 +43,11 @@ FALLBACK = (
     "ou falar com um atendente da loja."
 )
 
+FALLBACK_IA_INDISPONIVEL = (
+    "No momento não consegui consultar a inteligência artificial do Tork. Posso responder perguntas da nossa "
+    "base (produtos, preços de demonstração, horários e dúvidas técnicas comuns) ou chamar um atendente da loja."
+)
+
 RESPOSTA_FORA_DO_ESCOPO = (
     "Só consigo ajudar com dúvidas sobre ferramentas, acessórios e atendimento da loja. "
     "Quer perguntar algo sobre isso?"
