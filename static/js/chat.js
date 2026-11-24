@@ -17,6 +17,7 @@ const SELOS = {
   fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
   saudacao: ["outro", "👋 Tork"],
   bloqueado: ["bloqueado", "🛡️ Bloqueado por guardrail"],
+  fluxo: ["loja", "🧭 Atendimento guiado"],
 };
 const ORIGENS_ALERTA = new Set(["bloqueado", "fallback", "fora_do_escopo"]);
 const ORIGENS_AVALIAVEIS = new Set(["banco", "catalogo", "loja", "agente", "sugestao"]);
@@ -61,6 +62,7 @@ const indicadorStatus = $("#status");
 
 let conversationId = novoId();
 let enviando = false;
+let fluxoAberto = false; // há um fluxo guiado (troca/atendente) em andamento nesta conversa
 
 // ---------------------------------------------------------------- utilidades
 function novoId() {
@@ -196,6 +198,7 @@ async function enviar(texto) {
   if (!texto || enviando) return;
   if (texto.toLowerCase() === "menu") {
     campo.value = "";
+    if (fluxoAberto) encerrarFluxo();
     adicionarCliente(texto);
     mostrarBoasVindas(false);
     return;
@@ -216,6 +219,8 @@ async function enviar(texto) {
     pensando.remove();
     const balao = adicionarTork(dados.answer, { origem: dados.origem, meta: montarMeta(dados) });
     if (dados.produtos?.length) balao.appendChild(montarCards(dados.produtos));
+    fluxoAberto = Boolean(dados.fluxoAberto);
+    if (dados.opcoes?.length) balao.appendChild(montarOpcoes(dados.opcoes));
     if (ORIGENS_AVALIAVEIS.has(dados.origem)) balao.appendChild(montarAvaliacao());
     void atualizarStatus();
   } catch {
@@ -227,6 +232,32 @@ async function enviar(texto) {
     campo.focus();
     rolarParaFim();
   }
+}
+
+// Respostas rápidas dos fluxos guiados (troca, atendente): somem depois do clique.
+function montarOpcoes(opcoes) {
+  const caixa = el("div", "submenu opcoes");
+  caixa.setAttribute("aria-label", "Respostas rápidas");
+  for (const opcao of opcoes) {
+    const b = el("button", "chip", opcao);
+    b.type = "button";
+    b.addEventListener("click", () => {
+      caixa.remove();
+      void enviar(opcao);
+    });
+    caixa.appendChild(b);
+  }
+  return caixa;
+}
+
+// "menu" é tratado no navegador; avisa o servidor para fechar o fluxo aberto nesta conversa.
+function encerrarFluxo() {
+  fluxoAberto = false;
+  fetch(API.chat, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: "cancelar", conversationId }),
+  }).catch(() => {});
 }
 
 // ---------------------------------------------------------------- boas-vindas e menu

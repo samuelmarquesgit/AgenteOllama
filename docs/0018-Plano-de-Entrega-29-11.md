@@ -46,9 +46,9 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P1.1 | ✅ Identidade do Tork aplicada ao chat (cores, avatar, logo, selos, fontes locais, tema claro/escuro) | T-041, T-042 |
 | P1.2 | ✅ Boas-vindas + **menu em botões** com submenu de categorias, sugestões, avaliação 👍/👎 e links diretos `/?q=` | T-043, T-044 |
 | P1.3 | Respostas da loja (horário, endereço, pagamento, trocas) a partir de `loja.yaml` | T-030, T-035 |
-| P1.4 | Fluxo **F-TROCA** (CDC) e **F-HUMANO** simples (registro do pedido de atendimento) | T-032, T-033 |
+| P1.4 | ✅ Fluxo **F-TROCA** (CDC) e **F-HUMANO** (resumo mascarado + consentimento G23 → `atendimentos_humanos`, dentro/fora do horário), na API, no chat (respostas rápidas) e na CLI | T-032, T-033 |
 | P1.5 | **G20** (confirmação de voltagem) | T-037 |
-| P1.6 | CI mínimo: pytest com serviço Postgres + Ruff | T-010 |
+| P1.6 | ✅ CI mínimo: Ruff + pytest + avaliação de roteamento (Python 3.12 e 3.14). ~~Serviço Postgres~~: banco é SQLite (D019) | T-010 |
 | P1.7 | Revisão humana registrada de uma amostra de **30 FAQs** + todas as de risco alto | T-025 |
 
 ### P2 — só se sobrar tempo, ou na extensão

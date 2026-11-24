@@ -399,3 +399,14 @@ estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirma
 - **Privacidade:** não guarda pergunta, resposta, id de conversa nem IP. Há um teste que confere que o texto e o id da conversa não aparecem em `/metricas`. Os dados ficam em memória e zeram quando a aplicação reinicia.
 - **Fora do escopo do Gate:** exportar para Prometheus/OpenTelemetry e ter um painel ficam no backlog.
 - **Testes:** suíte com 1425 testes aprovados.
+
+## P1.4 — Fluxos guiados F-TROCA e F-HUMANO (T-032, T-033, T-039 · 2026-11-24)
+
+- **Arquivos:** `app/fluxos.py` (novo), `app/main.py` (o fluxo tem prioridade enquanto está aberto; campos `opcoes` e `fluxoAberto`; `DELETE /conversas/{id}` também encerra o fluxo), `agente.py` (CLI), `static/js/chat.js` e `static/css/chat.css` (botões de resposta rápida e selo "🧭 Atendimento guiado"), `tests/test_fluxos.py`, `docs/0013` (G23).
+- **Comportamento** (desenho de `0008` §5):
+  - F-TROCA pergunta o motivo. Desistência leva à pergunta online ou loja física: online responde com o CDC art. 49 (7 dias); loja física responde com a política da loja. Defeito responde com a garantia legal e a assistência autorizada. Produto ou voltagem errada vira atendimento **prioritário**.
+  - F-HUMANO pede o resumo em uma frase, mascarado pelo G02 e limitado a 300 caracteres. Depois pede consentimento (G23) e registra em `atendimentos_humanos`. A resposta muda conforme o horário de atendimento da unidade.
+  - "cancelar", "sair" ou "menu" encerram o fluxo. Duas respostas não entendidas seguidas também encerram.
+  - O fluxo só abre quando há `conversationId`. Dúvidas técnicas como "como trocar o disco?" não abrem o fluxo de trocas.
+- **Limites:** sem IA generativa, e os textos do CDC ainda precisam de revisão jurídica (T-032, aceite). A avaliação RT-008 chama o agente direto, sem fluxos, então os números de roteamento não mudam.
+- **Testes:** 31 casos novos com relógio fixo para dentro e fora do horário. Suíte com 1456 testes aprovados; Ruff sem erros. Teste manual na CLI: pedido de atendente → resumo → "não" → nada gravado e contato da loja mostrado.

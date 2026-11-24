@@ -64,6 +64,7 @@ button { cursor: pointer; }
 .menu button:hover { border-color: var(--brand-700); background: var(--surface); }
 .menu .icone { font-size: 1.2rem; }
 .submenu { display: flex; flex-wrap: wrap; gap: 8px; }
+.opcoes { margin-top: 10px; }
 .dica { font-size: var(--fs-xs); color: var(--steel); }
 
 /* ---------- mensagens ---------- */

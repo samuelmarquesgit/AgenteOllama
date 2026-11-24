@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 
 from app import config
 from app.agente import Agente
+from app.fluxos import Fluxos
 from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
 from app.db.repositorios import AtendimentoRepository, CatalogoRepository, FiltroProdutos, LojaRepository
 from app.intencoes import produto_publico
@@ -36,6 +37,7 @@ log = logging.getLogger("agente")
 app = FastAPI(title="Agente da loja de ferramentas", version="0.3.0")
 agente = Agente()
 memoria = Memoria()
+fluxos = Fluxos(lambda: agente.con)  # F-TROCA e F-HUMANO (P1.4)
 app.mount("/static", StaticFiles(directory=PASTA_STATIC), name="static")
 
 
@@ -53,6 +55,8 @@ class RespostaChat(BaseModel):
     guardrails: list[str] = []
     produtos: list[dict] = []
     statusConteudo: str | None = None
+    opcoes: list[str] = []  # respostas rápidas sugeridas pelos fluxos guiados
+    fluxoAberto: bool = False  # True enquanto um fluxo guiado espera a próxima resposta
 
 
 @app.exception_handler(Exception)
@@ -76,10 +80,21 @@ def chat(pergunta: Pergunta):
     if not pergunta.message.strip():
         return JSONResponse(status_code=422, content={"detail": "Mensagem vazia."})
 
-    historico = memoria.historico(pergunta.conversationId)
     with metricas.cronometro("chat"):
-        resposta = agente.responder(pergunta.message, historico)
-    metricas.registrar_resposta(resposta.origem, resposta.statusConteudo, resposta.guardrails)
+        dados = _responder(pergunta)
+    metricas.registrar_resposta(dados["origem"], dados["statusConteudo"], dados["guardrails"])
+    return dados
+
+
+def _responder(pergunta: Pergunta) -> dict:
+    # Fluxos guiados (troca, atendente) têm prioridade enquanto estiverem abertos na conversa.
+    fluxo = fluxos.tratar(pergunta.conversationId, pergunta.message)
+    if fluxo:
+        log.info("chat origem=fluxo passo=%s encerrado=%s", fluxo.passo, fluxo.encerrado)
+        return fluxo.para_dict()
+
+    historico = memoria.historico(pergunta.conversationId)
+    resposta = agente.responder(pergunta.message, historico)
 
     # Só respostas úteis entram no contexto; nunca com dados pessoais.
     if resposta.origem in ORIGENS_COM_CONTEXTO:
@@ -92,7 +107,7 @@ def chat(pergunta: Pergunta):
         resposta.matchedFaqId, resposta.confidence, resposta.origem, resposta.statusConteudo, len(historico),
         resposta.perguntaInterpretada is not None, ",".join(resposta.guardrails) or "-",
     )
-    return resposta.para_dict()
+    return {**resposta.para_dict(), "opcoes": [], "fluxoAberto": False}
 
 
 class Avaliacao(BaseModel):
@@ -115,6 +130,7 @@ def ver_metricas():
 @app.delete("/conversas/{conversa_id}", status_code=204)
 def esquecer_conversa(conversa_id: str):
     memoria.esquecer(conversa_id)
+    fluxos.esquecer(conversa_id)
 
 
 @app.get("/faqs")
