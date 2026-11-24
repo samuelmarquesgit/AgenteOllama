@@ -40,3 +40,5 @@ jobs:
         run: python -m pytest -q
       - name: Avaliação de roteamento (RT-008)
         run: python -m tests.eval.avaliar
+      - name: Red team do G26 (perguntas de risco não chegam à IA)
+        run: python -m tests.eval.redteam

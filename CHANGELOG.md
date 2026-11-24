@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.6.0] — 2026-11-24 — Falhar fechado em perguntas de risco (análise crítica pós-v0.5.0)
+
+### Segurança
+- **Red team do G26:** 50 perguntas (40 de risco reformuladas + 10 de controle) viraram teste de regressão. Na
+  v0.5.0, 15 das 40 iam para a IA generativa e 2 caíam no catálogo; agora 50/50 ok.
+- **G26 endurecido:** ação perigosa é avaliada antes do catálogo ("solda sem máscara" não lista mais máquinas de
+  solda). Novos temas: carga de bateria, mistura química, crianças, trabalho em altura, reservatório sob pressão.
+  Novos verbos: "abro a bateria", "travar o gatilho", "tirar a trava de segurança".
+- **Falhar fechado:** pergunta que pede julgamento de segurança ("posso...?", "ainda é seguro?", "deixo...?") sem
+  FAQ não vai para a IA.
+- **G27:** antes de gerar, o Ollama classifica a pergunta (RISCO/SEGURO); risco ou resposta ambígua é encaminhada.
+  Com o Ollama real, 0 de 70 perguntas de risco chegaram à geração (`TORK_CLASSIFICAR_RISCO`, padrão ligado).
+
+### Alterado
+- **D032:** respostas da IA não são mais reaproveitadas antes da revisão humana (`TORK_SERVIR_SUGESTOES` agora é
+  `false` por padrão), porque o llama3.2 inventou conteúdo técnico nos testes com o modelo real.
+- Roteiro da demo, guardrails (`0013`), decisões D032/D033 e análise crítica com as 11 perguntas (`docs/0021`).
+- Documentação: G20 e G24 documentados; G21 e G22 registrados como parciais.
+
+### Limitações conhecidas
+- Com o G27, cerca de metade das perguntas comuns fora da base recebe o encaminhamento seguro em vez da resposta da
+  IA, e há cerca de 140 ms a mais por pergunta que chega à IA.
+- A base continua sem revisão humana; a avaliação mede roteamento, não correção.
+
+
 ## [0.5.0] — 2026-11-24 — Revisão técnica (RT-001 a RT-014) e plano de entrega
 
 ### Adicionado

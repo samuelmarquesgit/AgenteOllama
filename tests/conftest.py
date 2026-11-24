@@ -13,6 +13,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 os.environ["BANCO_SQLITE"] = str(Path(tempfile.mkdtemp()) / "teste_import.db")
 os.environ["USAR_OLLAMA"] = "true"
+os.environ["TORK_SERVIR_SUGESTOES"] = "true"  # a lógica de reaproveitamento é testada; o padrão (false) tem teste próprio
 sys.path.insert(0, str(RAIZ))
 
 import pytest  # noqa: E402

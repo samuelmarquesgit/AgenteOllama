@@ -31,7 +31,8 @@ VARIAVEIS: dict[str, Variavel] = {v.nome: v for v in (
     Variavel("OLLAMA_MODELO", "llama3.2", "Modelo usado nas respostas e na reescrita de contexto."),
     Variavel("OLLAMA_TIMEOUT", "45", "Tempo máximo (s) de uma resposta da IA; depois disso, resposta segura (RT-010)."),
     Variavel("OLLAMA_TIMEOUT_REESCRITA", "10", "Tempo máximo (s) da reescrita de contexto; depois disso, usa a pergunta original."),
-    Variavel("TORK_SERVIR_SUGESTOES", "true", "false serve só conteúdo aprovado: sugestões da IA não revisadas não são reaproveitadas (RT-002)."),
+    Variavel("TORK_SERVIR_SUGESTOES", "false", "true reaproveita respostas da IA ainda não revisadas para perguntas quase idênticas (RT-002; padrão false desde D032)."),
+    Variavel("TORK_CLASSIFICAR_RISCO", "true", "Antes de gerar, a IA classifica a pergunta; RISCO não é respondido pela IA (G27, D033)."),
 )}
 
 

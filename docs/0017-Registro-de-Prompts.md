@@ -166,3 +166,15 @@ estavam escondidos: conexões SQLite abertas nos testes e nunca fechadas (`Resou
 - Roteiro `0015`, CHANGELOG 0.5.0 e referência da API atualizados. 1464 testes.
 
 Ficaram para o time: a revisão humana e jurídica, o vídeo de reserva e a tag `v0.5.0` depois dos merges. O Three.js ficou como opcional e não foi feito, para não ampliar o escopo do Gate.
+
+## P022 — Backlog pós-merge e análise crítica com as 11 perguntas (2026-11-24)
+**Prompt (resumo):** "veja se ficou algum backlog... o que falta fazer?" → "planeje e faça... após terminar leia [as 11 perguntas críticas], planeje e faça de novo".
+
+**Resultado:**
+- **Backlog:** tag e release `v0.5.0`; SUG-0006 rejeitada no banco local; PR #8 com P0.1, P1.3 e P1.5 marcados e os G20–G24 documentados.
+- **Crítica:** antes de responder, rodei medições novas.
+  - Red team de 40 perguntas de risco: 15 iam para a IA.
+  - Holdout de 20: 11 iam para a IA.
+  - Caminho da IA com o Ollama real: conteúdo inventado.
+  - Classificador de risco: 70/70 de risco, 12/25 de falso positivo.
+- **Refeito (v0.6.0):** G26 endurecido, falhar fechado, G27 e D032. Com o Ollama real, 0/70 perguntas de risco chegaram à geração. A crítica completa está em `docs/0021`.

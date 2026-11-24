@@ -77,3 +77,14 @@ O MVP fica em SQLite (D019). Os testes de RT-007 mostram 960/960 operações con
 | **Embeddings na busca** | ver D030: ganho confirmado em conjunto de validação independente | segundo modelo carregado; latência; busca passa a depender do Ollama |
 
 Benefício esperado da migração: escala horizontal e operação padrão de mercado. Enquanto nenhum gatilho ocorrer, o custo supera o benefício para a entrega acadêmica.
+
+## D032 — Resposta da IA não é reaproveitada antes da revisão (2026-11-24)
+`TORK_SERVIR_SUGESTOES` passa a ser `false` por padrão. Com o Ollama real, o llama3.2 inventou conteúdo técnico (rebitadeira, cola de madeira; ver `0021`), e servir essa resposta a outros clientes espalhava o erro. A IA continua respondendo na hora, com selo de não revisada. A resposta vai para a fila e só é servida de novo depois de aprovada (`python -m app.db.revisao aprovar`). `true` restaura o comportamento anterior, por exemplo para a demo.
+
+## D033 — Falhar fechado em perguntas de risco: G26 endurecido + G27 (2026-11-24)
+O G26 listava temas numa regex e deixava passar reformulações (15/40 no red team; 11/20 num holdout). Decisão:
+1. ação perigosa é avaliada antes do catálogo;
+2. pergunta que pede julgamento de segurança, sem FAQ, não vai para a IA;
+3. **G27:** antes de gerar, o Ollama classifica a pergunta; RISCO ou resposta ambígua é encaminhada.
+
+O resultado, com o Ollama real, foi 0/70 perguntas de risco chegando à geração. O custo é que metade das perguntas comuns fora da base também é encaminhada, mais cerca de 140 ms por pergunta. A segurança foi preferida à cobertura. `TORK_CLASSIFICAR_RISCO=false` desliga o G27.

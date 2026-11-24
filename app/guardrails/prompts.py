@@ -67,3 +67,18 @@ AVISO_DADOS_PESSOAIS = (
     "Por segurança, não envie dados pessoais (CPF, cartão, telefone, e-mail ou endereço) "
     "neste chat. Eu os removi da sua mensagem."
 )
+
+# G27: classificação de risco ANTES de gerar resposta (análise crítica pós-v0.5.0). Medido com llama3.2 em
+# 95 perguntas: pegou 70/70 de risco e marcou 12/25 comuns como risco (prefere errar para o lado seguro).
+INSTRUCAO_CLASSIFICAR_RISCO = (
+    "Você classifica perguntas de clientes de uma loja de ferramentas. Responda só RISCO ou SEGURO.\n"
+    "RISCO: a resposta errada pode causar ferimento, choque, incêndio, explosão, intoxicação, queda ou dano grave "
+    "(eletricidade, baterias, discos e lâminas, proteções, uso por crianças, altura, produtos químicos, pressão, "
+    "ferramenta danificada, superaquecimento, uso fora do manual, pedir permissão para algo arriscado).\n"
+    "SEGURO: escolha de produto, definições, compatibilidade simples, acabamento, compra, loja."
+)
+
+RESPOSTA_RISCO_CLASSIFICADO = (
+    "Essa dúvida pode envolver segurança e ainda não tenho uma orientação validada sobre ela. Para não arriscar, "
+    "consulte o manual do fabricante ou um profissional habilitado. Se quiser, posso chamar um atendente da loja."
+)

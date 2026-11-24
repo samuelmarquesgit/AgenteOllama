@@ -94,7 +94,7 @@ def test_pagina_inicial(cliente):
 
 def test_swagger_disponivel(cliente):
     assert cliente.get("/docs").status_code == 200
-    assert cliente.get("/openapi.json").json()["info"]["version"] == "0.5.0"
+    assert cliente.get("/openapi.json").json()["info"]["version"] == "0.6.0"
 
 
 def test_arquivos_estaticos_servidos(cliente):
