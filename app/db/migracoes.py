@@ -79,7 +79,9 @@ def _aplicar(con: sqlite3.Connection, ddl: str, registro_sql: str, registro_para
     """
     try:
         # executescript não aceita parâmetros: roda o DDL confiável dentro de um BEGIN explícito.
-        con.executescript("BEGIN;\n" + ddl)  # NOSONAR: DDL de migração versionada, não é entrada externa
+        # Falso positivo de "SQL injection via file content": o DDL vem de arquivo versionado da pasta
+        # database/migrations (validado em _ler_migracao), revisado em PR, nunca de entrada externa.
+        con.executescript("BEGIN;\n" + ddl)  # NOSONAR
         con.execute(registro_sql, registro_params)
         con.commit()
     except sqlite3.Error:

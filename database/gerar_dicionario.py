@@ -45,8 +45,8 @@ TABELA_COLUNAS = [
     "| Coluna | Tipo | Nulo? | Padrão | Chave / referência |",
     "|--------|------|:-----:|--------|--------------------|",
 ]
-# CHECK (...) seguido de vírgula, quebra de linha ou fim do texto.
-REGRA_CHECK = re.compile(r"CHECK \((.+?)\)(?:,|(?:\s*\n)|(?:\s*$))")
+# CHECK (...) seguido de vírgula ou de fim de linha (re.M: $ casa antes de cada quebra de linha).
+REGRA_CHECK = re.compile(r"CHECK \((.+?)\)\s*(?:,|$)", re.M)
 
 
 def _chaves_estrangeiras(con, tabela: str) -> dict[str, str]:
