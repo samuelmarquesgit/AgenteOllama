@@ -398,7 +398,7 @@ def test_rejeitar_sugestao_tira_da_busca(con):
 def test_aprovar_sugestao_vira_faq_oficial(con):
     codigo = banco.inserir_aprendida(con, "O que é parafuso cabeça chata?", "Rascunho.")
     novo = SugestaoRepository(con).aprovar(codigo, "brocas_discos_acessorios", "revisor", resposta="Texto revisado.")
-    assert novo == f"FAQ-{N_FAQS + 1:03d}"
+    assert novo == "FAQ-901"                                         # faixa própria das aprovadas
     faq = FaqRepository(con).obter_resposta_por_id(novo)
     assert faq["resposta"] == "Texto revisado."
     assert con.execute("SELECT status FROM faq_perguntas WHERE codigo = ?", (novo,)).fetchone()[0] == "validado"
@@ -489,3 +489,38 @@ def test_rollback_e_reaplicacao_com_banco_populado(con):
     seeds.popular_tudo(con)
     assert seeds.verificar(con) == {}
     assert con.execute("PRAGMA foreign_key_check").fetchall() == []
+
+
+# =============================================================================
+# RT-001 — auditoria do ciclo de sugestões (comportamento real comprovado)
+# =============================================================================
+def test_rt001_faq_aprovada_nao_e_sobrescrita_pelo_seed(con, tmp_path, monkeypatch):
+    import json as _json
+
+    codigo = banco.inserir_aprendida(con, "Como afiar uma corrente de motosserra?", "Rascunho.")
+    aprovada = SugestaoRepository(con).aprovar(codigo, "uso_manutencao_seguranca", "revisor", resposta="Texto do revisor.")
+    # o time acrescenta FAQs ao arquivo, inclusive na faixa logo acima das existentes
+    dados = _json.loads(seeds.ARQ_FAQ.read_text(encoding="utf-8"))
+    for n in range(len(dados) + 1, len(dados) + 4):
+        dados.append({**dados[0], "id": f"FAQ-{n:03d}", "pergunta": f"Pergunta nova {n}?", "variacoes": []})
+    arq = tmp_path / "faq.json"
+    arq.write_text(_json.dumps(dados, ensure_ascii=False), encoding="utf-8")
+    monkeypatch.setattr(seeds, "ARQ_FAQ", arq)
+    seeds.sincronizar(con)
+    assert FaqRepository(con).obter_resposta_por_id(aprovada)["resposta"] == "Texto do revisor."
+
+
+def test_rt001_segunda_aprovacao_continua_a_faixa(con):
+    repo = SugestaoRepository(con)
+    a = repo.aprovar(banco.inserir_aprendida(con, "Pergunta um?", "R1."), "uso_manutencao_seguranca", "r")
+    b = repo.aprovar(banco.inserir_aprendida(con, "Pergunta dois?", "R2."), "uso_manutencao_seguranca", "r")
+    assert (a, b) == ("FAQ-901", "FAQ-902")
+
+
+def test_rt001_unicos_pontos_que_inserem_na_faq_oficial():
+    """Só o seed (arquivo versionado) e a aprovação humana inserem em faq_perguntas."""
+    from tests.conftest import RAIZ
+
+    pontos = sorted(str(p.relative_to(RAIZ)).replace("\\", "/") for p in (RAIZ / "app").rglob("*.py")
+                    if "INSERT INTO faq_perguntas" in p.read_text(encoding="utf-8"))
+    assert pontos == ["app/db/repositorios.py", "app/db/seeds.py"]

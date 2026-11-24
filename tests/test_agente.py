@@ -336,3 +336,21 @@ def test_g25_resposta_incerta_nao_e_gravada_e_oferece_atendente(con):
     assert "atendente" in r.answer
     assert "aprendizado:resposta_incerta" in r.guardrails
     assert ag.sugestoes == []
+
+
+# ---- RT-001: sugestão pendente nunca é apresentada como resposta do banco -----------
+@pytest.mark.parametrize("variante", [
+    "Como regular o bico de um soprador térmico?",      # idêntica
+    "como regular o bico de um soprador termico",       # idêntica sem acento
+    "regular bico soprador",                            # parcial
+    "soprador térmico regular",                         # parcial
+    "bico de soprador?",                                # parcial
+])
+def test_rt001_sugestao_pendente_nunca_tem_origem_banco(con, variante):
+    ag = Agente(con, perguntar=OllamaFalso("Resposta gerada."))
+    ag.responder("Como regular o bico de um soprador térmico?")      # gera e grava SUG-0001
+    r = Agente(con, perguntar=OllamaFalso("Outra resposta.")).responder(variante)
+    assert not (r.origem == "banco" and (r.matchedFaqId or "").startswith("SUG-"))
+    if r.matchedFaqId == "SUG-0001":
+        assert r.origem == "sugestao"
+        assert "aprendizado:nao_revisada" in r.guardrails

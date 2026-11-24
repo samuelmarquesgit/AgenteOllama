@@ -67,6 +67,9 @@ class FaqRepository:
         return itens
 
 
+INICIO_FAIXA_APROVADAS = 901  # FAQ-001..FAQ-900: knowledge/faq.json · FAQ-901+: aprovadas na revisão humana
+
+
 class SugestaoRepository:
     """Respostas geradas pela IA aguardando revisão (D010)."""
 
@@ -120,9 +123,12 @@ class SugestaoRepository:
         if linha_cat is None:
             raise ValueError(f"Categoria de FAQ inexistente: {categoria}")
         categoria_id = int(linha_cat[0])
+        # FAQs aprovadas na revisão usam uma faixa própria (FAQ-901+), separada da faixa do knowledge/faq.json:
+        # assim o seed (upsert por código) nunca sobrescreve uma FAQ aprovada por um revisor (achado da RT-001).
         ultimo = self.con.execute(
-            "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas").fetchone()[0] or 0
-        novo = f"FAQ-{ultimo + 1:03d}"
+            "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas WHERE CAST(substr(codigo, 5) AS INTEGER) >= ?",
+            (INICIO_FAIXA_APROVADAS,)).fetchone()[0]
+        novo = f"FAQ-{(ultimo or INICIO_FAIXA_APROVADAS - 1) + 1:03d}"
         cur = self.con.execute(
             """INSERT INTO faq_perguntas (codigo, categoria_id, pergunta, resposta, fonte, nivel_risco, status,
                                           revisado_por, revisado_em)
