@@ -259,6 +259,6 @@ class Agente:
         # ---- guardrails de aprendizado (G16–G19) ----
         if not pode_gravar(pergunta, saida.permitido, tinha_dados_pessoais):
             return Resposta(saida.texto, None, 0.0, "agente", guardrails=["aprendizado:nao_gravado"])
-        novo_id = banco.inserir_aprendida(self.con, pergunta, saida.texto, sorted(tokens(pergunta)))
+        novo_id = banco.inserir_aprendida(self.con, pergunta, saida.texto)
         self.recarregar()
         return Resposta(saida.texto, novo_id, 0.0, "agente")

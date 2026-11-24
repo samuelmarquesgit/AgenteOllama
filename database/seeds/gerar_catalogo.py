@@ -99,6 +99,11 @@ def b(v):
     return "sim" if v else "não"
 
 
+def produto(**campos) -> dict:
+    """Monta o dicionário de um produto gerado (nome, alimentacao, preco, specs, descricao)."""
+    return campos
+
+
 def br(x):
     """Número com vírgula decimal para nomes de produto (1.5 -> 1,5)."""
     return f"{x:g}".replace(".", ",")
@@ -108,7 +113,7 @@ def br(x):
 def furadeira(rng, marca):
     w = rng.choice([450, 550, 600, 650, 710, 750, 850])
     v = rng.choice(CORDED)
-    return dict(nome=f"Furadeira {marca} F{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
+    return produto(nome=f"Furadeira {marca} F{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
                 preco=preco(rng, 140, 420, w / 650),
                 specs=[("potencia_w", w), ("rotacao_rpm", rng.choice([2800, 3000, 3200])),
                        ("mandril_mm", rng.choice([10, 13])), ("velocidade_variavel", b(True))],
@@ -118,7 +123,7 @@ def furadeira(rng, marca):
 def impacto(rng, marca):
     w = rng.choice([550, 650, 710, 750, 850, 1000])
     v = rng.choice(CORDED)
-    return dict(nome=f"Furadeira de Impacto {marca} FI{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
+    return produto(nome=f"Furadeira de Impacto {marca} FI{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
                 preco=preco(rng, 190, 620, w / 750),
                 specs=[("potencia_w", w), ("impactos_bpm", rng.choice([44800, 48000, 51000])),
                        ("mandril_mm", 13), ("reversivel", b(True))],
@@ -129,7 +134,7 @@ def martelete(rng, marca):
     w = rng.choice([800, 850, 1000, 1200, 1500])
     v = rng.choice(CORDED)
     j = {800: 2.7, 850: 3.0, 1000: 3.5, 1200: 5.0, 1500: 8.0}[w]
-    return dict(nome=f"Martelete {marca} M{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
+    return produto(nome=f"Martelete {marca} M{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
                 preco=preco(rng, 450, 1650, w / 1000),
                 specs=[("potencia_w", w), ("energia_impacto_j", j),
                        ("encaixe", "SDS-max" if w >= 1200 else "SDS-plus"), ("inclui_maleta", b(True))],
@@ -141,7 +146,7 @@ def parafusadeira(rng, marca):
     ah = rng.choice([1.5, 2.0, 4.0])
     nb = rng.choice([1, 2])
     faixa = (190, 520) if tensao == 12 else (420, 1150)
-    return dict(nome=f"Parafusadeira e Furadeira a Bateria {marca} P{rng.randint(100, 999)} {tensao}V {nb}x{br(ah)}Ah",
+    return produto(nome=f"Parafusadeira e Furadeira a Bateria {marca} P{rng.randint(100, 999)} {tensao}V {nb}x{br(ah)}Ah",
                 alimentacao="bateria", preco=preco(rng, *faixa, 1 + 0.12 * (nb - 1)),
                 specs=[("tensao_bateria_v", tensao), ("torque_nm", rng.choice([25, 30, 45, 55, 65])),
                        ("qtd_baterias", nb), ("plataforma", f"{marca} {tensao}V")],
@@ -152,7 +157,7 @@ def esmerilhadeira(rng, marca):
     disco = rng.choice([115, 115, 125, 180])
     w = {115: rng.choice([720, 850]), 125: rng.choice([900, 1100]), 180: 2200}[disco]
     v = rng.choice(CORDED)
-    return dict(nome=f"Esmerilhadeira Angular {marca} E{rng.randint(100, 999)} {disco}mm {w}W {v}", alimentacao=v,
+    return produto(nome=f"Esmerilhadeira Angular {marca} E{rng.randint(100, 999)} {disco}mm {w}W {v}", alimentacao=v,
                 preco=preco(rng, 170, 820, w / 1000),
                 specs=[("potencia_w", w), ("diametro_disco_mm", disco),
                        ("rotacao_rpm", 8500 if disco == 180 else 11000), ("peso_kg", round(rng.uniform(1.6, 4.8), 1))],
@@ -163,7 +168,7 @@ def serra_circular(rng, marca):
     disco = rng.choice([165, 185, 185, 235])
     w = {165: 1200, 185: 1400, 235: 2000}[disco]
     v = rng.choice(CORDED)
-    return dict(nome=f"Serra Circular {marca} SC{rng.randint(100, 999)} {disco}mm {w}W {v}", alimentacao=v,
+    return produto(nome=f"Serra Circular {marca} SC{rng.randint(100, 999)} {disco}mm {w}W {v}", alimentacao=v,
                 preco=preco(rng, 350, 1150, w / 1400),
                 specs=[("potencia_w", w), ("diametro_disco_mm", disco),
                        ("profundidade_corte_mm", {165: 55, 185: 63, 235: 85}[disco]), ("angulo_bisel_graus", 45)],
@@ -173,7 +178,7 @@ def serra_circular(rng, marca):
 def tico_tico(rng, marca):
     w = rng.choice([400, 500, 600, 750])
     v = rng.choice(CORDED)
-    return dict(nome=f"Serra Tico-Tico {marca} T{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
+    return produto(nome=f"Serra Tico-Tico {marca} T{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
                 preco=preco(rng, 180, 760, w / 600),
                 specs=[("potencia_w", w), ("golpes_min", rng.choice([3000, 3100, 3200])),
                        ("angulo_bisel_graus", 45), ("velocidade_variavel", b(True))],
@@ -183,7 +188,7 @@ def tico_tico(rng, marca):
 def lixadeira(rng, marca):
     w = rng.choice([200, 240, 300, 450])
     v = rng.choice(CORDED)
-    return dict(nome=f"Lixadeira Orbital {marca} L{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
+    return produto(nome=f"Lixadeira Orbital {marca} L{rng.randint(100, 999)} {w}W {v}", alimentacao=v,
                 preco=preco(rng, 170, 690, w / 300),
                 specs=[("potencia_w", w), ("orbita_mm", rng.choice([1.6, 2.0, 2.5])),
                        ("velocidade_variavel", b(w >= 300)), ("peso_kg", round(rng.uniform(1.1, 2.4), 1))],
@@ -194,7 +199,7 @@ def broca(rng, marca):
     aplic = rng.choice(["Madeira", "Metal", "Concreto"])
     pecas = rng.choice([5, 8, 10, 13, 15])
     material = {"Madeira": "Aço carbono", "Metal": "Aço rápido HSS", "Concreto": "Ponta de metal duro (vídea)"}[aplic]
-    return dict(nome=f"Jogo de Brocas para {aplic} {marca} {pecas} peças", alimentacao="nao_eletrico",
+    return produto(nome=f"Jogo de Brocas para {aplic} {marca} {pecas} peças", alimentacao="nao_eletrico",
                 preco=preco(rng, 22, 210, pecas / 10),
                 specs=[("aplicacao", aplic), ("qtd_pecas", pecas), ("material", material),
                        ("encaixe", "SDS-plus" if aplic == "Concreto" and rng.random() < 0.4 else "Cilíndrico")],
@@ -206,7 +211,7 @@ def disco(rng, marca):
     d = rng.choice([115, 115, 180])
     nome = "Disco Diamantado" if tipo == "Diamantado" else f"Disco de {tipo}"
     faixa = (35, 120) if tipo == "Diamantado" else (6, 32)
-    return dict(nome=f"{nome} {marca} {d}mm", alimentacao="nao_eletrico",
+    return produto(nome=f"{nome} {marca} {d}mm", alimentacao="nao_eletrico",
                 preco=preco(rng, *faixa, d / 115),
                 specs=[("diametro_disco_mm", d), ("espessura_disco_mm", {"Corte": 1.0, "Desbaste": 6.4, "Diamantado": 2.0}[tipo]),
                        ("furo_central_mm", 22.23), ("rotacao_maxima_rpm", 13300 if d == 115 else 8500)],
@@ -215,7 +220,7 @@ def disco(rng, marca):
 
 def bit(rng, marca):
     pecas = rng.choice([10, 20, 32, 45])
-    return dict(nome=f"Jogo de Bits e Pontas {marca} {pecas} peças", alimentacao="nao_eletrico",
+    return produto(nome=f"Jogo de Bits e Pontas {marca} {pecas} peças", alimentacao="nao_eletrico",
                 preco=preco(rng, 25, 190, pecas / 25),
                 specs=[("qtd_pecas", pecas), ("tipo_encaixe_bit", '1/4" sextavado'),
                        ("material", "Aço cromo-vanádio"), ("inclui_maleta", b(pecas >= 32))],
@@ -225,7 +230,7 @@ def bit(rng, marca):
 def lamina(rng, marca):
     aplic = rng.choice(["Madeira", "Metal"])
     pecas = rng.choice([3, 5, 10])
-    return dict(nome=f"Lâminas de Serra Tico-Tico para {aplic} {marca} {pecas} unidades", alimentacao="nao_eletrico",
+    return produto(nome=f"Lâminas de Serra Tico-Tico para {aplic} {marca} {pecas} unidades", alimentacao="nao_eletrico",
                 preco=preco(rng, 18, 140, pecas / 5),
                 specs=[("aplicacao", aplic), ("qtd_pecas", pecas),
                        ("dentes_por_polegada", 6 if aplic == "Madeira" else 24), ("comprimento_mm", 100)],
@@ -235,7 +240,7 @@ def lamina(rng, marca):
 def bateria(rng, marca):
     tensao = rng.choice([12, 20])
     ah = rng.choice([2.0, 4.0, 5.0])
-    return dict(nome=f"Bateria {marca} {tensao}V {br(ah)}Ah", alimentacao="bateria",
+    return produto(nome=f"Bateria {marca} {tensao}V {br(ah)}Ah", alimentacao="bateria",
                 preco=preco(rng, 150, 520, (tensao / 16) * (ah / 3.5)),
                 specs=[("tensao_bateria_v", tensao), ("capacidade_ah", ah),
                        ("plataforma", f"{marca} {tensao}V"), ("peso_kg", round(0.3 + ah * 0.12, 1))],
@@ -245,7 +250,7 @@ def bateria(rng, marca):
 def carregador(rng, marca):
     tensao = rng.choice([12, 20])
     v = "bivolt"
-    return dict(nome=f"Carregador {marca} {tensao}V Bivolt", alimentacao=v,
+    return produto(nome=f"Carregador {marca} {tensao}V Bivolt", alimentacao=v,
                 preco=preco(rng, 120, 480, tensao / 16),
                 specs=[("tensao_bateria_v", tensao), ("tempo_recarga_min", rng.choice([30, 45, 60, 90])),
                        ("plataforma", f"{marca} {tensao}V"), ("peso_kg", 0.5)],
@@ -254,27 +259,31 @@ def carregador(rng, marca):
 
 def multimetro(rng, marca):
     cat = rng.choice(["CAT II 600V", "CAT III 600V", "CAT III 1000V"])
-    return dict(nome=f"Multímetro Digital {marca} MD{rng.randint(100, 999)} {cat}", alimentacao="nao_eletrico",
+    return produto(nome=f"Multímetro Digital {marca} MD{rng.randint(100, 999)} {cat}", alimentacao="nao_eletrico",
                 preco=preco(rng, 55, 620, 1 + 0.8 * ("1000V" in cat)),
                 specs=[("cat_seguranca", cat), ("funcoes", rng.choice([8, 12, 18, 24])),
                        ("cabo_m", 0.9), ("peso_kg", 0.3)],
                 descricao="Multímetro para medições elétricas; siga a categoria de segurança e os procedimentos.")
 
 
+TRENA_LASER = "Trena a Laser"
+NIVEL_LASER = "Nível a Laser"
+
+
 def laser(rng, marca):
-    tipo = rng.choice(["Trena a Laser", "Nível a Laser"])
-    alcance = rng.choice([20, 30, 40, 60]) if tipo == "Trena a Laser" else rng.choice([10, 15, 20])
-    return dict(nome=f"{tipo} {marca} {alcance}m", alimentacao="bateria",
-                preco=preco(rng, *((120, 520) if tipo == "Trena a Laser" else (280, 1400)),
-                            alcance / (40 if tipo == "Trena a Laser" else 15)),
-                specs=[("alcance_m", alcance), ("precisao_mm", 2 if tipo == "Trena a Laser" else 3),
-                       ("classe_laser", "Classe 2"), ("peso_kg", 0.2 if tipo == "Trena a Laser" else 0.6)],
+    tipo = rng.choice([TRENA_LASER, NIVEL_LASER])
+    trena = tipo == TRENA_LASER
+    alcance = rng.choice([20, 30, 40, 60]) if trena else rng.choice([10, 15, 20])
+    return produto(nome=f"{tipo} {marca} {alcance}m", alimentacao="bateria",
+                preco=preco(rng, *((120, 520) if trena else (280, 1400)), alcance / (40 if trena else 15)),
+                specs=[("alcance_m", alcance), ("precisao_mm", 2 if trena else 3),
+                       ("classe_laser", "Classe 2"), ("peso_kg", 0.2 if trena else 0.6)],
                 descricao=f"{tipo} para medições; não aponte o laser para os olhos.")
 
 
 def epi(rng, marca):
     item = rng.choice(["Óculos de Proteção", "Luvas de Proteção", "Protetor Auricular Tipo Concha", "Máscara PFF2"])
-    return dict(nome=f"{item} {marca}", alimentacao="nao_eletrico",
+    return produto(nome=f"{item} {marca}", alimentacao="nao_eletrico",
                 preco=preco(rng, 9, 85),
                 specs=[("tamanho", "Único" if "Luvas" not in item else rng.choice(["P", "M", "G"])),
                        ("material", rng.choice(["Policarbonato", "Nitrílico", "ABS", "Polipropileno"])),
@@ -285,7 +294,7 @@ def epi(rng, marca):
 def compressor(rng, marca):
     litros = rng.choice([24, 50, 100])
     v = rng.choice(CORDED + ["bivolt"])
-    return dict(nome=f"Compressor de Ar {marca} {litros}L {v}", alimentacao=v,
+    return produto(nome=f"Compressor de Ar {marca} {litros}L {v}", alimentacao=v,
                 preco=preco(rng, 650, 3400, litros / 50),
                 specs=[("reservatorio_l", litros), ("pressao_max_psi", rng.choice([116, 120, 140])),
                        ("vazao_l_min", {24: 160, 50: 230, 100: 340}[litros]), ("potencia_w", {24: 1500, 50: 1800, 100: 2200}[litros])],
@@ -295,7 +304,7 @@ def compressor(rng, marca):
 def lavadora(rng, marca):
     bar = rng.choice([110, 130, 150])
     v = rng.choice(CORDED)
-    return dict(nome=f"Lavadora de Alta Pressão {marca} {bar} bar {v}", alimentacao=v,
+    return produto(nome=f"Lavadora de Alta Pressão {marca} {bar} bar {v}", alimentacao=v,
                 preco=preco(rng, 380, 2300, bar / 130),
                 specs=[("pressao_max_bar", bar), ("vazao_l_h", rng.choice([330, 390, 420, 500])),
                        ("potencia_w", {110: 1400, 130: 1700, 150: 2100}[bar]), ("cabo_m", 5)],

@@ -80,53 +80,66 @@ def _reais(centavos: int) -> str:
     return f"R$ {inteiro:,}".replace(",", ".") + f",{cent:02d}"
 
 
+COM_FIO = ["127V", "220V", "bivolt"]
+REGRAS_ALIMENTACAO: list[tuple[str, list[str]]] = [
+    (r"\b(a bateria|sem fio|cordless)\b", ["bateria"]),
+    (r"\bbivolt\b", ["bivolt"]),
+    (r"\b220 ?v?\b", ["220V", "bivolt"]),
+    (r"\b(127|110) ?v?\b", ["127V", "bivolt"]),
+    (r"\bcom fio\b", COM_FIO),
+]
+PRECO_MAXIMO = re.compile(r"\b(?:ate|menos de|abaixo de|no maximo|max)\s+(?:reais\s+)?(\d{2,6})\b")
+
+
+def _categorias(texto: str) -> tuple[list[str], str | None]:
+    """Categorias citadas no texto (com as exceções: 'a bateria', 'serra' genérica, 'furadeira de impacto')."""
+    categorias: list[str] = []
+    nome = None
+    for padrao, codigo, legivel in TERMOS_CATEGORIA:
+        if not re.search(padrao, texto) or _ignorar_categoria(codigo, categorias):
+            continue
+        categorias += ["serras_circulares", "serras_tico_tico"] if codigo == "SERRAS" else [codigo]
+        nome = nome or legivel
+    return categorias, nome
+
+
+def _ignorar_categoria(codigo: str, ja_encontradas: list[str]) -> bool:
+    if codigo == "baterias":
+        return bool(ja_encontradas)  # "parafusadeira a bateria": bateria é a alimentação, não a categoria
+    if codigo == "SERRAS":
+        return any(c.startswith("serras") for c in ja_encontradas)
+    return codigo == "furadeiras" and "furadeiras_impacto" in ja_encontradas
+
+
+def _alimentacao(texto: str, categorias: list[str]) -> list[str]:
+    if "bateria" in texto and "baterias" not in categorias:
+        return ["bateria"]
+    return next((valor for padrao, valor in REGRAS_ALIMENTACAO if re.search(padrao, texto)), [])
+
+
+def _preco_maximo(texto: str) -> int | None:
+    m = PRECO_MAXIMO.search(texto)
+    return int(m.group(1)) * 100 if m else None
+
+
+def _marca_citada(texto: str, marcas: list[str]) -> str | None:
+    return next((mc for mc in marcas if re.search(rf"\b{re.escape(normalizar(mc))}\b", texto)), None)
+
+
 def detectar_produto(pergunta: str, marcas_catalogo: list[str]) -> IntencaoProduto | None:
     texto = normalizar(pergunta)
     if not SINAIS_COMPRA.search(texto):
         return None
-
-    categorias, nome = [], None
-    for padrao, codigo, legivel in TERMOS_CATEGORIA:
-        if re.search(padrao, texto):
-            if codigo == "baterias" and categorias:
-                continue  # "parafusadeira a bateria": bateria é a alimentação, não a categoria
-            if codigo == "SERRAS":
-                if any(c.startswith("serras") for c in categorias):
-                    continue
-                categorias += ["serras_circulares", "serras_tico_tico"]
-            elif codigo == "furadeiras" and "furadeiras_impacto" in categorias:
-                continue
-            else:
-                categorias.append(codigo)
-            nome = nome or legivel
+    categorias, nome = _categorias(texto)
     if not categorias:
         return None
-
-    alimentacao: list[str] = []
-    if re.search(r"\b(a bateria|sem fio|cordless)\b", texto) or ("bateria" in texto and "baterias" not in categorias):
-        alimentacao = ["bateria"]
-    elif re.search(r"\bbivolt\b", texto):
-        alimentacao = ["bivolt"]
-    elif re.search(r"\b220 ?v?\b", texto):
-        alimentacao = ["220V", "bivolt"]
-    elif re.search(r"\b(127|110) ?v?\b", texto):
-        alimentacao = ["127V", "bivolt"]
-    elif re.search(r"\bcom fio\b", texto):
-        alimentacao = ["127V", "220V", "bivolt"]
-
-    preco_max = None
-    m = re.search(r"\b(?:ate|menos de|abaixo de|no maximo|max)\s+(?:reais\s+)?(\d{2,6})\b", texto)
-    if m:
-        preco_max = int(m.group(1)) * 100
-
-    marca = next((mc for mc in marcas_catalogo if re.search(rf"\b{re.escape(normalizar(mc))}\b", texto)), None)
-    marca_real = next((mr for mr in MARCAS_REAIS if re.search(rf"\b{mr}\b", texto)), None)
-
+    alimentacao = _alimentacao(texto, categorias)
     return IntencaoProduto(
-        filtro=FiltroProdutos(categorias=categorias, alimentacao=alimentacao, marca=marca, preco_max_centavos=preco_max),
+        filtro=FiltroProdutos(categorias=categorias, alimentacao=alimentacao,
+                              marca=_marca_citada(texto, marcas_catalogo), preco_max_centavos=_preco_maximo(texto)),
         nome_categoria=nome or "produtos",
-        marca_real=marca_real,
-        voltagem_informada=bool(alimentacao) and alimentacao != ["127V", "220V", "bivolt"],
+        marca_real=_marca_citada(texto, MARCAS_REAIS),
+        voltagem_informada=bool(alimentacao) and alimentacao != COM_FIO,
     )
 
 

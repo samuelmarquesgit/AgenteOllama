@@ -114,7 +114,7 @@ def produtos(
     return [produto_publico(p) for p in CatalogoRepository(agente.con).buscar(filtro)]
 
 
-@app.get("/produtos/{sku}")
+@app.get("/produtos/{sku}", responses={404: {"description": "Produto não encontrado."}})
 def produto(sku: str):
     p = CatalogoRepository(agente.con).obter(sku)
     if not p:

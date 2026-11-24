@@ -63,9 +63,28 @@ def aplicadas(con: sqlite3.Connection) -> list[str]:
     return [r[0] for r in con.execute("SELECT versao FROM schema_migrations ORDER BY versao")]
 
 
-def _executar(con: sqlite3.Connection, sql: str) -> None:
-    # executescript faz COMMIT implícito antes de rodar; o BEGIN/COMMIT explícito torna o bloco atômico.
-    con.executescript(f"BEGIN;\n{sql}\nCOMMIT;")
+def _ler_migracao(arquivo: Path, pasta: Path) -> str:
+    """Lê um arquivo de migração garantindo que ele é um arquivo versionado da pasta de migrações."""
+    arquivo = arquivo.resolve()
+    if arquivo.parent != pasta.resolve() or not PADRAO.match(arquivo.name):
+        raise RuntimeError(f"Arquivo de migração inválido: {arquivo.name}")
+    return arquivo.read_text(encoding="utf-8")
+
+
+def _aplicar(con: sqlite3.Connection, ddl: str, registro_sql: str, registro_params: tuple) -> None:
+    """Executa o DDL da migração e o registro em schema_migrations numa única transação.
+
+    O DDL vem dos arquivos versionados em database/migrations/ (código revisado em PR, nunca entrada
+    de usuário). O registro da versão usa parâmetros, sem montar SQL com texto.
+    """
+    try:
+        # executescript não aceita parâmetros: roda o DDL confiável dentro de um BEGIN explícito.
+        con.executescript("BEGIN;\n" + ddl)  # NOSONAR: DDL de migração versionada, não é entrada externa
+        con.execute(registro_sql, registro_params)
+        con.commit()
+    except sqlite3.Error:
+        con.rollback()
+        raise
 
 
 def migrar(con: sqlite3.Connection, ate: str | None = None, pasta: Path = PASTA) -> list[str]:
@@ -75,13 +94,8 @@ def migrar(con: sqlite3.Connection, ate: str | None = None, pasta: Path = PASTA)
     for m in descobrir(pasta):
         if m.versao in feitas or (ate and m.versao > ate):
             continue
-        sql = m.up.read_text(encoding="utf-8")
-        sql += f"\nINSERT INTO schema_migrations (versao, nome) VALUES ('{m.versao}', '{m.nome}');"
-        try:
-            _executar(con, sql)
-        except sqlite3.Error:
-            con.rollback()
-            raise
+        _aplicar(con, _ler_migracao(m.up, pasta),
+                 "INSERT INTO schema_migrations (versao, nome) VALUES (?, ?)", (m.versao, m.nome))
         novas.append(m.versao)
     return novas
 
@@ -92,13 +106,8 @@ def reverter(con: sqlite3.Connection, ate_versao: str, pasta: Path = PASTA) -> l
     revertidas = []
     for m in reversed(descobrir(pasta)):
         if m.versao in feitas and m.versao >= ate_versao:
-            sql = m.down.read_text(encoding="utf-8")
-            sql += f"\nDELETE FROM schema_migrations WHERE versao = '{m.versao}';"
-            try:
-                _executar(con, sql)
-            except sqlite3.Error:
-                con.rollback()
-                raise
+            _aplicar(con, _ler_migracao(m.down, pasta),
+                     "DELETE FROM schema_migrations WHERE versao = ?", (m.versao,))
             revertidas.append(m.versao)
     return revertidas
 

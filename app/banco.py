@@ -49,6 +49,6 @@ def listar(con: sqlite3.Connection) -> list[dict]:
     return FaqRepository(con).listar_para_busca()
 
 
-def inserir_aprendida(con: sqlite3.Connection, pergunta: str, resposta: str, palavras_chave=None) -> str:
+def inserir_aprendida(con: sqlite3.Connection, pergunta: str, resposta: str) -> str:
     """Grava uma resposta nova da IA como sugestão pendente de revisão. Devolve o código (SUG-0001)."""
     return SugestaoRepository(con).inserir(pergunta, resposta)
