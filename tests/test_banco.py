@@ -408,8 +408,9 @@ def test_aprovar_sugestao_vira_faq_oficial(con):
 
 @pytest.mark.parametrize("codigo", ["SUG-9999", "FAQ-0001", "abc"])
 def test_revisao_rejeita_codigo_invalido(con, codigo):
+    repo = SugestaoRepository(con)
     with pytest.raises(ValueError):
-        SugestaoRepository(con).rejeitar(codigo, "x", "revisor")
+        repo.rejeitar(codigo, "x", "revisor")
 
 
 def test_sugestao_ja_revisada_nao_pode_ser_revisada_de_novo(con):
@@ -422,8 +423,9 @@ def test_sugestao_ja_revisada_nao_pode_ser_revisada_de_novo(con):
 
 def test_aprovar_com_categoria_inexistente(con):
     codigo = banco.inserir_aprendida(con, "Pergunta?", "Resposta.")
+    repo = SugestaoRepository(con)
     with pytest.raises(ValueError, match="Categoria"):
-        SugestaoRepository(con).aprovar(codigo, "nao_existe", "revisor")
+        repo.aprovar(codigo, "nao_existe", "revisor")
 
 
 def test_cli_de_revisao(con, monkeypatch, capsys):

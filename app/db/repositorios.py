@@ -94,13 +94,14 @@ class SugestaoRepository:
             raise ValueError(f"Código de sugestão inválido: {codigo} (formato esperado: SUG-0001)")
         return int(numero)
 
-    def _pendente(self, codigo: str) -> sqlite3.Row:
-        r = self.con.execute("SELECT * FROM faq_sugestoes WHERE id = ?", (self._id(codigo),)).fetchone()
-        if not r:
+    def _pendente(self, codigo: str) -> dict:
+        linha = self.con.execute("SELECT * FROM faq_sugestoes WHERE id = ?", (self._id(codigo),)).fetchone()
+        if linha is None:
             raise ValueError(f"Sugestão {codigo} não encontrada.")
-        if r["status"] != "pendente":
-            raise ValueError(f"Sugestão {codigo} já foi revisada (status: {r['status']}).")
-        return r
+        sugestao = dict(linha)
+        if sugestao["status"] != "pendente":
+            raise ValueError(f"Sugestão {codigo} já foi revisada (status: {sugestao['status']}).")
+        return sugestao
 
     def rejeitar(self, codigo: str, motivo: str, revisor: str) -> None:
         """Descarta uma resposta gerada pela IA (ela deixa de ser usada pelo Tork)."""
@@ -115,9 +116,10 @@ class SugestaoRepository:
                 nivel_risco: str = "baixo") -> str:
         """Promove a sugestão a FAQ oficial (opcionalmente com a resposta corrigida). Devolve o código FAQ-NNN."""
         sug = self._pendente(codigo)
-        cat = self.con.execute("SELECT id FROM faq_categorias WHERE codigo = ?", (categoria,)).fetchone()
-        if not cat:
+        linha_cat = self.con.execute("SELECT id FROM faq_categorias WHERE codigo = ?", (categoria,)).fetchone()
+        if linha_cat is None:
             raise ValueError(f"Categoria de FAQ inexistente: {categoria}")
+        categoria_id = int(linha_cat[0])
         ultimo = self.con.execute(
             "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas").fetchone()[0] or 0
         novo = f"FAQ-{ultimo + 1:03d}"
@@ -126,7 +128,7 @@ class SugestaoRepository:
                                           revisado_por, revisado_em)
                VALUES (?, ?, ?, ?, 'Sugestão da IA revisada por humano', ?, 'validado', ?,
                        strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))""",
-            (novo, cat["id"], sug["pergunta"], resposta or sug["resposta"], nivel_risco, revisor))
+            (novo, categoria_id, sug["pergunta"], resposta or sug["resposta"], nivel_risco, revisor))
         self.con.executemany("INSERT OR IGNORE INTO faq_palavras_chave (pergunta_id, termo) VALUES (?, ?)",
                              [(cur.lastrowid, t) for t in sorted(tokens(sug["pergunta"]))])
         self.con.execute(
