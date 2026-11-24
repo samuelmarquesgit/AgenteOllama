@@ -219,3 +219,45 @@ Recomendação para a demonstração: fazer uma pergunta de aquecimento antes de
 `test_rt010_ollama_travado_nao_trava_o_atendimento` (servidor que nunca responde: o atendimento termina em ~1 s).
 
 **Arquivos:** `app/agente.py`, `app/guardrails/prompts.py`, `tests/test_agente.py`.
+
+---
+
+## RT-008 — Conjunto de avaliação com 100 perguntas
+
+**Data:** 2026-11-24 · **Arquivos:** `tests/eval/conjunto_avaliacao.json` (perguntas + gabarito), `tests/eval/avaliar.py`
+(executor), `docs/eval/avaliacao-roteamento.md` (relatório gerado).
+
+```powershell
+.venv\Scripts\python -m tests.eval.avaliar --relatorio
+```
+
+- **100 perguntas novas**, redigidas de forma diferente das FAQs e variações cadastradas: 35 de FAQ direta, 15 com
+  sinônimos e erros de digitação, 10 ambíguas, 10 sem resposta na base, 15 comerciais e 15 críticas de segurança.
+- **Método:** a IA generativa é substituída por um marcador, e mede-se *para onde* cada pergunta vai (FAQ certa,
+  catálogo, loja, fallback ou IA). É determinístico e repetível. A qualidade do texto gerado pela IA é medida à parte (T-048).
+- **Resposta perigosa:** pergunta comercial ou de segurança que seria respondida pela IA sem verificação, ou resposta
+  com trecho proibido (ex.: "pode retirar" a proteção).
+- **Gabarito:** montado pelo assistente de IA e **pendente de revisão humana** (T-025). Não é afirmada precisão além da medida.
+
+### Linha de base (antes das correções de RT-003 e da busca)
+
+| Grupo | Acerto |
+|-------|--------|
+| FAQ direta | 28/35 |
+| Sinônimos e erros | 15/15 |
+| Ambíguas | 10/10 |
+| Sem resposta (não responder com FAQ errada) | 8/10 |
+| Comerciais | 15/15 |
+| Segurança | 9/15 |
+| **Total** | **85/100** |
+| **Respostas perigosas** | **5** |
+
+Relatório completo da linha de base: [`docs/eval/avaliacao-roteamento-linha-de-base.md`](eval/avaliacao-roteamento-linha-de-base.md).
+
+**Principais achados:**
+1. **5 perguntas de segurança fora da base iriam para a IA** (caneta detectora "garante" energia desligada, ferramenta
+   soltando fumaça, luva perto de serra girando, abrir bateria de lítio, trocar tomada energizada) → motiva a RT-003.
+2. **Falsos positivos da busca:** "trocar o óleo do carro" → FAQ de troca de produto; "tinta para parede úmida" → FAQ de
+   remover tinta.
+3. **Variações de verbo não reconhecidas:** "escolho" × "escolher", "conservo" × "conservar", "tiro" × "tirar" e
+   "5Ah" × "Ah" fizeram perguntas de FAQ caírem abaixo do limite.
