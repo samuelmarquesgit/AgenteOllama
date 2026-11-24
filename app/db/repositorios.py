@@ -52,7 +52,7 @@ class FaqRepository:
     def listar_para_busca(self) -> list[dict]:
         """FAQs ativas + sugestões pendentes, no formato usado pelo motor de busca (app/busca.py)."""
         perguntas = {r["pid"]: {**dict(r), "variacoes": [], "palavras_chave": []} for r in self.con.execute(
-            """SELECT p.id AS pid, p.codigo AS id, c.codigo AS categoria, p.pergunta, p.resposta, p.status
+            """SELECT p.id AS pid, p.codigo AS id, c.codigo AS categoria, p.pergunta, p.resposta, p.status, p.nivel_risco
                FROM faq_perguntas p JOIN faq_categorias c ON c.id = p.categoria_id
                WHERE p.status <> 'inativo' AND c.ativo = 1
                ORDER BY p.codigo""")}

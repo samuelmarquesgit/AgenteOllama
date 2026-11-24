@@ -341,3 +341,44 @@ def test_g25_detecta_incerteza(texto):
 ])
 def test_g25_nao_confunde_orientacao_com_incerteza(texto):
     assert not resposta_incerta(texto)
+
+
+# =============================================================================
+# G26 — política de perguntas técnicas de risco (RT-003)
+# =============================================================================
+from app.guardrails.risco import acao_perigosa, tema_de_risco  # noqa: E402
+
+
+@pytest.mark.parametrize("texto, tema", [
+    ("como trocar a tomada da cozinha?", "eletricidade"),
+    ("levei um choque na furadeira", "eletricidade"),
+    ("qual a melhor solda para iniciante?", "solda"),
+    ("posso usar disco maior na esmerilhadeira?", "disco_e_corte"),
+    ("posso trabalhar sem óculos?", "protecao"),
+    ("minha bateria de lítio está inchada", "bateria_litio"),
+    ("a lixadeira está soltando fumaça", "superaquecimento"),
+    ("posso usar thinner para limpar a ferramenta?", "quimicos"),
+])
+def test_g26_detecta_temas_de_risco(texto, tema):
+    assert tema_de_risco(texto) == tema
+
+
+@pytest.mark.parametrize("texto", ["qual broca usar em madeira?", "quanto custa uma furadeira?", "que horas a loja abre?"])
+def test_g26_nao_marca_pergunta_comum_como_risco(texto):
+    assert tema_de_risco(texto) is None
+
+
+@pytest.mark.parametrize("texto", [
+    "como abrir a bateria de lítio pra consertar as células?",
+    "como trocar a tomada sem desligar a energia?",
+    "dá pra mexer no quadro com a energia ligada?",
+    "como retirar a proteção da esmerilhadeira pra usar disco maior?",
+    "como fazer um gato na fiação?",
+])
+def test_g26_detecta_acao_perigosa(texto):
+    assert acao_perigosa(texto)
+
+
+@pytest.mark.parametrize("texto", ["posso retirar a proteção da esmerilhadeira?", "como guardar baterias de lítio?"])
+def test_g26_pergunta_sobre_regra_nao_e_acao_perigosa(texto):
+    assert not acao_perigosa(texto)

@@ -23,6 +23,7 @@ from app import banco
 from app.busca import Faq, buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
+from app.guardrails.risco import NOTA_MINIMA_RISCO, REFORCO_RISCO, acao_perigosa, resposta_sem_base, tema_de_risco
 from app.guardrails import (
     eh_fora_do_escopo,
     limpar_reescrita,
@@ -223,6 +224,7 @@ class Agente:
                 self._responder_por_dados(independente)
                 or self._responder_pelo_banco(independente)
                 or self._responder_comercial(independente)
+                or self._responder_risco(independente)
                 or self._responder_por_sugestao(independente)
                 or self._responder_pelo_agente(independente, historico, bool(entrada.dados_pessoais))
             )
@@ -285,6 +287,22 @@ class Agente:
 
     # ---- 3) agente de IA ---------------------------------------------------
     # ---- 4) resposta aprendida, ainda não revisada --------------------------
+    # ---- 3b) G26: pergunta de risco sem FAQ suficiente -----------------------
+    def _responder_risco(self, pergunta: str) -> Resposta | None:
+        """Tema de risco: usa a FAQ mais próxima (nota >= 0,3) com reforço; sem FAQ, encaminha. Nunca chama a IA."""
+        tema = tema_de_risco(pergunta)
+        if not tema:
+            return None
+        if acao_perigosa(pergunta):  # ex.: abrir bateria de lítio, mexer com energia ligada
+            return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:acao_perigosa:{tema}"])
+        candidatos = [r for r in buscar(pergunta, self.oficiais, limite=5)
+                      if r.nota >= NOTA_MINIMA_RISCO and r.faq.nivel_risco in ("medio", "alto")]
+        if candidatos:
+            melhor = candidatos[0]
+            return Resposta(melhor.faq.resposta + REFORCO_RISCO, melhor.faq.id, melhor.nota, "banco",
+                            guardrails=[f"G26:risco:{tema}"])
+        return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:risco_sem_base:{tema}"])
+
     def _responder_por_sugestao(self, pergunta: str) -> Resposta | None:
         """Reaproveita uma resposta gerada pela IA SÓ se a pergunta for praticamente a mesma.
 

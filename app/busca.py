@@ -87,6 +87,7 @@ class Faq:
     palavras_chave: list[str]
     variacoes: list[str] = field(default_factory=list)
     status: str = "rascunho"
+    nivel_risco: str = "baixo"
     # calculados
     tokens_chave: set[str] = field(default_factory=set)
     tokens_texto: set[str] = field(default_factory=set)

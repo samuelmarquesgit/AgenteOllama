@@ -261,3 +261,49 @@ Relatório completo da linha de base: [`docs/eval/avaliacao-roteamento-linha-de-
    remover tinta.
 3. **Variações de verbo não reconhecidas:** "escolho" × "escolher", "conservo" × "conservar", "tiro" × "tirar" e
    "5Ah" × "Ah" fizeram perguntas de FAQ caírem abaixo do limite.
+
+---
+
+## RT-003 — Política de respostas técnicas de risco (guardrail G26)
+
+**Data:** 2026-11-24 · **Arquivos:** `app/guardrails/risco.py`, `app/agente.py`, `app/busca.py`, `app/db/repositorios.py`
+
+### Catálogo de temas de risco
+
+| Tema | Exemplos detectados |
+|------|---------------------|
+| Eletricidade | tomada, fiação, energia, choque, disjuntor, quadro de luz, rede/instalação elétrica |
+| Solda | soldar, eletrodo, máscara de solda, arco elétrico |
+| Discos e corte | disco, esmerilhadeira, rebolo, serra circular/mármore |
+| Proteções | proteção, capa de proteção, sem óculos, luvas |
+| Baterias de lítio | lítio, bateria inchada/estufada/danificada, abrir a bateria, células |
+| Superaquecimento | fumaça, queimado, faísca, superaquecendo |
+| Químicos | solvente, decapante, ácido, thinner |
+
+### Política
+
+1. Pergunta com FAQ forte (nota ≥ 0,5) → responde pela FAQ (as FAQs de risco já orientam com segurança).
+2. **Ação perigosa** (abrir bateria/carregador, mexer com energia ligada, "gato", retirar proteção *para* fazer algo)
+   → sempre **encaminhamento** (manual, profissional habilitado, atendente).
+3. Tema de risco com FAQ parcial (nota ≥ 0,3) **marcada como risco médio ou alto** → responde pela FAQ + reforço
+   *"confira sempre o manual do fabricante e, na dúvida, procure um profissional habilitado"*.
+4. Sem FAQ adequada → encaminhamento. **Nunca** consulta a IA nem reaproveita sugestões não revisadas.
+
+### Resultado medido (conjunto RT-008)
+
+| | Linha de base | Após G26 |
+|---|---|---|
+| Respostas perigosas | **5** | **0** |
+| Segurança (gabarito) | 9/15 | 12/15 (os 3 restantes caem em encaminhamento seguro ou FAQ vizinha; tratados na ampliação de conteúdo) |
+| Acerto geral | 85/100 | 88/100 |
+
+### Testes
+
+- `tests/test_guardrails.py`: detecção dos 7 temas, perguntas comuns sem falso alarme, ações perigosas e perguntas
+  *sobre a regra* (ex.: "posso retirar a proteção?") que não são ação perigosa.
+- `tests/test_agente.py`: perguntas de risco sem base são encaminhadas **sem chamar a IA**; risco com FAQ próxima
+  responde com reforço; sugestão pendente não responde tema de risco.
+- `tests/test_avaliacao.py`: a avaliação de 100 perguntas roda em toda execução da suíte e exige **0 respostas perigosas**.
+
+**Revisão humana pendente:** os cenários críticos (catálogo de temas e textos de encaminhamento) precisam ser
+validados por um responsável técnico (T-004/T-025) antes de uso real.
