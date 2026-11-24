@@ -1,0 +1,83 @@
+{
+  "aviso": "DADOS FICTÍCIOS PARA DEMONSTRAÇÃO. Endereços, telefones e políticas são inventados.",
+  "unidades": [
+    {
+      "codigo": "MATRIZ",
+      "nome": "ToolExpert Centro",
+      "logradouro": "Rua das Ferramentas",
+      "numero": "100",
+      "bairro": "Centro",
+      "cidade": "Joinville",
+      "uf": "SC",
+      "cep": "89200-000",
+      "telefone": "(47) 0000-0000",
+      "link_mapa": "https://www.openstreetmap.org/#map=16/-26.3045/-48.8487",
+      "horarios": [
+        {"dia_semana": 1, "abre": "08:00", "fecha": "18:00"},
+        {"dia_semana": 2, "abre": "08:00", "fecha": "18:00"},
+        {"dia_semana": 3, "abre": "08:00", "fecha": "18:00"},
+        {"dia_semana": 4, "abre": "08:00", "fecha": "18:00"},
+        {"dia_semana": 5, "abre": "08:00", "fecha": "18:00"},
+        {"dia_semana": 6, "abre": "08:00", "fecha": "12:00"}
+      ]
+    },
+    {
+      "codigo": "NORTE",
+      "nome": "ToolExpert Zona Norte",
+      "logradouro": "Avenida dos Parafusos",
+      "numero": "2500",
+      "bairro": "Zona Norte",
+      "cidade": "Joinville",
+      "uf": "SC",
+      "cep": "89220-000",
+      "telefone": "(47) 0000-0001",
+      "link_mapa": "https://www.openstreetmap.org/#map=16/-26.2500/-48.8500",
+      "horarios": [
+        {"dia_semana": 1, "abre": "09:00", "fecha": "19:00"},
+        {"dia_semana": 2, "abre": "09:00", "fecha": "19:00"},
+        {"dia_semana": 3, "abre": "09:00", "fecha": "19:00"},
+        {"dia_semana": 4, "abre": "09:00", "fecha": "19:00"},
+        {"dia_semana": 5, "abre": "09:00", "fecha": "19:00"},
+        {"dia_semana": 6, "abre": "09:00", "fecha": "13:00"}
+      ]
+    }
+  ],
+  "formas_pagamento": [
+    {"codigo": "pix", "nome": "Pix"},
+    {"codigo": "credito", "nome": "Cartão de crédito"},
+    {"codigo": "debito", "nome": "Cartão de débito"},
+    {"codigo": "boleto", "nome": "Boleto bancário"}
+  ],
+  "politicas": [
+    {
+      "codigo": "pagamento",
+      "titulo": "Pagamento e parcelamento",
+      "texto": "Parcelamento no cartão de crédito em até 10x sem juros para compras acima de R$ 300,00 (condição fictícia de demonstração). As condições podem variar conforme o produto e a campanha."
+    },
+    {
+      "codigo": "troca",
+      "titulo": "Trocas e devoluções",
+      "texto": "Em compras feitas fora da loja física (site, telefone, WhatsApp), você pode desistir em até 7 dias após receber o produto, conforme o art. 49 do CDC. Na loja física, trocas sem defeito seguem a política da loja: até 30 dias, com nota fiscal e produto sem uso, na embalagem original (política fictícia de demonstração)."
+    },
+    {
+      "codigo": "garantia",
+      "titulo": "Garantia",
+      "texto": "Além da garantia do fabricante, o CDC garante 90 dias para reclamar de defeito em produtos duráveis (art. 26). Para acionar, leve o produto e a nota fiscal a uma assistência técnica autorizada da marca."
+    },
+    {
+      "codigo": "frete",
+      "titulo": "Entrega e frete",
+      "texto": "O valor e o prazo de entrega dependem do CEP, do produto e da modalidade de envio, e são calculados no fechamento do pedido. Ainda não calculo frete por aqui."
+    },
+    {
+      "codigo": "retirada",
+      "titulo": "Retirada na loja",
+      "texto": "Compras online podem ser retiradas nas unidades ToolExpert após a confirmação de que o pedido está pronto (política fictícia de demonstração)."
+    },
+    {
+      "codigo": "atendimento_humano",
+      "titulo": "Atendimento humano",
+      "texto": "Nossa equipe atende de segunda a sexta, das 8h às 18h, e aos sábados, das 8h às 12h."
+    }
+  ]
+}

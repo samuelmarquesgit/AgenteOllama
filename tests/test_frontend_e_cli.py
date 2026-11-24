@@ -69,3 +69,9 @@ def test_cli_sem_ollama_usa_fallback(tmp_path):
     r = _rodar_cli("Como funciona uma tupia de bancada?\nsair\n", tmp_path)
     assert r.returncode == 0, r.stderr
     assert "sem resposta" in r.stdout
+
+
+def test_pagina_monta_cards_de_produto_com_seguranca():
+    assert "function montarCards" in HTML
+    assert "dados.produtos" in HTML
+    assert 'catalogo: ["catalogo"' in HTML and 'loja: ["loja"' in HTML

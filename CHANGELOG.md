@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.0] — 2026-11-23 — Banco normalizado e catálogo fictício
+
+### Adicionado
+- **Banco SQLite normalizado (3FN)** com 19 tabelas em 4 migrações SQL versionadas (`up`/`down`), executor com
+  transação por migração e tabela `schema_migrations`: FAQ, loja, catálogo e atendimento.
+- Integridade no banco: FKs (RESTRICT/CASCADE/SET NULL), unicidades, CHECKs (preço ≥ 0, estoque ≥ 0, formatos,
+  consentimento) e triggers (vigência de preço sem sobreposição, `atualizado_em`).
+- **Catálogo fictício** determinístico (`SEED=2026`): 25 categorias, 15 marcas inventadas, 300 produtos, 45 tipos
+  de especificação, 1.500 associações, histórico de preços e estoque por loja.
+- Dados fictícios da loja: 2 unidades, horários, formas de pagamento e políticas (CDC).
+- O Tork responde **produto e preço** (com cards) e **horário, endereço e pagamento** a partir do banco, nunca pelo LLM;
+  pede a voltagem (G20) e oferece equivalentes quando a marca pedida não existe no catálogo.
+- API: `GET /produtos`, `GET /produtos/{sku}`, `GET /loja`, campo `produtos` em `/chat`, arquivos `/static`.
+- `docs/db/`: README, DER, dicionário de dados gerado do esquema, catálogo dos seeds, segurança e log de execução.
+- 115 testes novos (687 no total).
+
+### Alterado
+- Respostas aprendidas pela IA vão para `faq_sugestoes` (código `SUG-0001`), não mais para a FAQ oficial.
+- Bancos da v0.2 são convertidos automaticamente; a tabela antiga é preservada como `legado_faq_v02`.
+- Geração do ID da conversa com `crypto.getRandomValues`; log de erro sem o caminho bruto da requisição.
+
+
 ## [0.2.0] — 2026-11-19 — Contexto e guardrails
 
 ### Adicionado

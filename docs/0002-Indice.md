@@ -56,6 +56,7 @@
 | [`README.md`](../README.md) | Instalação, execução, testes e visão rápida |
 | [`CHANGELOG.md`](../CHANGELOG.md) | Histórico de versões |
 | [`app/guardrails/README.md`](../app/guardrails/README.md) | Mapa dos arquivos de guardrails |
+| [`docs/db/`](db/README.md) | Banco de dados: README, DER, dicionário de dados, catálogo dos seeds, segurança e log de execução |
 | [`static/brand/`](../static/brand/) | Avatar, logo e favicon do Tork |
 | [`sql/`](../sql/) | Esboços SQL do time (PostgreSQL); serão substituídos pelas migrações da E2 |
 

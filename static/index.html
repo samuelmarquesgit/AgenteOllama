@@ -49,6 +49,17 @@
     .selo.agente { background: #e4e0ff; color: #3d2a9c; }
     .selo.outro { background: #ececec; color: #4a4a4a; }
     .selo.bloqueado { background: #ffe1e1; color: #9b1c1c; }
+    .selo.catalogo { background: #FFEDD5; color: #9A3412; }
+    .selo.loja { background: #FEF9C3; color: #854D0E; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-top: 10px; white-space: normal; }
+    .card { background: var(--card); border: 1px solid var(--borda); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .card img { width: 100%; height: 80px; object-fit: contain; }
+    .card .nome { font-weight: 600; font-size: .85rem; line-height: 1.3; }
+    .card .preco { font-size: 1.1rem; font-weight: 700; color: #C2410C; }
+    .card .info { font-size: .75rem; color: var(--suave); }
+    .card .estoque.sim { color: #166534; font-weight: 600; font-size: .75rem; }
+    .card .estoque.nao { color: #9b1c1c; font-weight: 600; font-size: .75rem; }
+    .card ul { margin: 2px 0 0; padding-left: 16px; font-size: .75rem; }
   </style>
 </head>
 <body>
@@ -83,11 +94,11 @@
 </main>
 <script>
   const SUGESTOES = [
-    "Qual a diferença entre furadeira e parafusadeira?",
+    "Quanto custa uma furadeira de impacto?",
+    "Tem parafusadeira a bateria até R$ 600?",
     "Qual broca usar em concreto?",
-    "O que significa Ah na bateria?",
-    "Como escolher um multímetro?",
-    "Vocês fazem entrega?",
+    "Que horas a loja abre?",
+    "Quais as formas de pagamento?",
     "Não sei qual ferramenta comprar",
   ];
   const conversa = document.getElementById("conversa");
@@ -102,12 +113,16 @@
     fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
     saudacao: ["outro", "👋 Saudação"],
     bloqueado: ["bloqueado", "🛡️ Bloqueado por guardrail"],
+    catalogo: ["catalogo", "🛒 Catálogo (dados fictícios)"],
+    loja: ["loja", "🏬 Dados da loja"],
   };
 
   // Cada conversa tem um identificador: é ele que permite ao agente lembrar o contexto.
   function novoId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    const bytes = new Uint8Array(16);
+    crypto.getRandomValues(bytes);  // gerador criptográfico, nunca Math.random
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
   }
   let conversationId = novoId();
 
@@ -144,6 +159,37 @@
     return div;
   }
 
+  // Cards de produto montados só com textContent: dados da API nunca viram HTML.
+  const ALIMENTACAO = { "127V": "127 V", "220V": "220 V", bivolt: "Bivolt", bateria: "A bateria", nao_eletrico: "" };
+  function el(tag, classe, texto) {
+    const e = document.createElement(tag);
+    if (classe) e.className = classe;
+    if (texto !== undefined) e.textContent = texto;
+    return e;
+  }
+  function montarCards(produtos) {
+    const grade = el("div", "cards");
+    for (const p of produtos) {
+      const card = el("article", "card");
+      const img = el("img");
+      img.src = p.imagem || "/static/produtos/placeholder.svg";
+      img.alt = "Imagem ilustrativa: " + p.nome;
+      card.appendChild(img);
+      card.appendChild(el("div", "nome", p.nome));
+      card.appendChild(el("div", "preco", p.preco_formatado));
+      const info = [p.marca, ALIMENTACAO[p.alimentacao], p.sku].filter(Boolean).join(" · ");
+      card.appendChild(el("div", "info", info));
+      card.appendChild(el("div", "estoque " + (p.em_estoque ? "sim" : "nao"), p.em_estoque ? "Em estoque" : "Sem estoque no momento"));
+      if (p.especificacoes && p.especificacoes.length) {
+        const ul = el("ul");
+        for (const e of p.especificacoes) ul.appendChild(el("li", "", `${e.nome}: ${e.valor}${e.unidade ? " " + e.unidade : ""}`));
+        card.appendChild(ul);
+      }
+      grade.appendChild(card);
+    }
+    return grade;
+  }
+
   function iniciar() {
     if (conversationId) fetch(`/conversas/${conversationId}`, { method: "DELETE" }).catch(() => {});
     conversationId = novoId();
@@ -174,7 +220,8 @@
       if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} (pendente de validação)`);
       if (dados.guardrails && dados.guardrails.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
       const meta = partes.join(" · ");
-      adicionar(dados.answer, "agente", meta, dados.origem);
+      const bolha = adicionar(dados.answer, "agente", meta, dados.origem);
+      if (dados.produtos && dados.produtos.length) bolha.appendChild(montarCards(dados.produtos));
       atualizarContador();
     } catch (e) {
       espera.remove();

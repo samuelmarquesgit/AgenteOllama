@@ -5,19 +5,22 @@ Assistente virtual que tira dúvidas de clientes sobre ferramentas elétricas e 
 ## Como funciona
 
 ```
-Cliente ──► POST /chat ──► 1. procura no banco SQLite (60 FAQs iniciais)
+Cliente ──► POST /chat ──► 0. pergunta de produto, preço, horário ou pagamento?
+                              │ sim ──► responde com dados do banco: catálogo fictício 🛒 / loja 🏬
+                              ▼
+                           1. procura na FAQ (SQLite normalizado, 60 FAQs iniciais)
                               │ achou?  ──► responde com a resposta do banco  📚
                               │ não achou
                               ▼
                            2. pergunta ao agente de IA local (Ollama / llama3.2)  🤖
                               │
                               ▼
-                           3. grava pergunta + resposta no banco (pendente_validacao)
+                           3. grava como sugestão (faq_sugestoes, pendente de revisão)
                               → na próxima vez a resposta já sai do banco
 ```
 
 Regras de segurança:
-- Perguntas comerciais (preço, estoque, frete, pagamento) são sempre respondidas pelo banco e nunca passam pelo LLM.
+- Preço, estoque, horário e pagamento vêm **só do banco**, nunca do LLM. O catálogo é **fictício** (marcas inventadas, SKUs `FAKE-0001`…) para demonstração.
 - Perguntas fora do assunto (ex.: "capital da França") são recusadas e não são gravadas.
 - Se o Ollama estiver desligado, o agente admite que não sabe e sugere atendimento humano.
 
@@ -41,8 +44,15 @@ python -m venv .venv
 
 ```
 
-O banco `data/loja.db` é criado e populado automaticamente na primeira execução
-a partir de `knowledge/faq.json`. Para recomeçar do zero, apague `data/loja.db`.
+O banco `data/loja.db` (SQLite, 19 tabelas em 3FN) é criado, migrado e populado automaticamente na primeira
+execução: 60 FAQs, 2 lojas, 300 produtos fictícios com preços e estoque. Para recomeçar do zero, apague `data/loja.db`.
+
+```powershell
+.venv\Scripts\python -m app.db.migracoes status   # estado das migrações
+.venv\Scripts\python -m app.db.seeds              # migrar + popular + conferir contagens
+```
+
+Documentação do banco (DER, dicionário de dados, seeds, segurança e evidências): [docs/db/](docs/db/README.md).
 
 ## Endpoints
 
@@ -52,6 +62,9 @@ a partir de `knowledge/faq.json`. Para recomeçar do zero, apague `data/loja.db`
 | GET    | `/health` | `{"status":"ok","faqs":60,"aprendidas":0}` |
 | POST   | `/chat`   | Envia `{"message":"Qual broca usar em concreto?"}` e recebe a resposta abaixo |
 | GET    | `/faqs`   | Lista as perguntas cadastradas no banco |
+| GET    | `/produtos` | Catálogo fictício (filtros `categoria`, `alimentacao`, `marca`, `preco_max`, `limite`) |
+| GET    | `/produtos/{sku}` | Detalhes, especificações e estoque por unidade |
+| GET    | `/loja`   | Unidades, horários, formas de pagamento e políticas |
 
 Resposta de `/chat`:
 
@@ -59,7 +72,8 @@ Resposta de `/chat`:
 { "answer": "Utilize broca adequada a concreto...", "matchedFaqId": "FAQ-013", "confidence": 1.0, "origem": "banco" }
 ```
 
-`origem` pode ser `banco`, `agente`, `fallback`, `fora_do_escopo`, `saudacao` ou `bloqueado`.
+`origem` pode ser `banco`, `catalogo`, `loja`, `agente`, `fallback`, `fora_do_escopo`, `saudacao` ou `bloqueado`.
+Respostas de catálogo trazem também a lista `produtos` (cards com preço, voltagem, estoque e especificações).
 Enviando `conversationId`, o agente lembra o contexto ("e para metal?") e devolve também
 `perguntaInterpretada` e a lista de `guardrails` acionados. Detalhes em [docs/0012-Referencia-da-API.md](docs/0012-Referencia-da-API.md).
 
@@ -72,13 +86,14 @@ dados pessoais mascarados, prompt injection bloqueado, assunto comercial nunca v
 ## Testes
 
 ```powershell
-.venv\Scripts\python -m pytest -q        # 572 testes, ~12 s, não precisam do Ollama
+.venv\Scripts\python -m pytest -q        # 687 testes, ~6 s, não precisam do Ollama
 ```
 
 | Arquivo | O que cobre |
 |---------|-------------|
 | `tests/test_busca.py` | Normalização, plural, erros de digitação, pontuação, desempate |
-| `tests/test_banco.py` | Criação e carga do SQLite, gravação de respostas aprendidas |
+| `tests/test_banco.py` | Migrações e rollback, FKs, unicidades, CHECKs, triggers, seeds, SQL injection, repositórios |
+| `tests/test_intencoes.py` | Respostas de catálogo e loja com dados do banco, filtros, G20/G24, API `/produtos` e `/loja` |
 | `tests/test_agente.py` | Regras: banco → agente → grava; comercial sem LLM; fora do escopo; Ollama fora do ar |
 | `tests/test_api.py` | `/chat`, `/health`, `/faqs`, validação, erro 500 sem detalhes, log sem dados do cliente |
 | `tests/test_faq_json.py` | Integridade das 60 FAQs; cada pergunta e cada variação encontram a própria FAQ |
@@ -110,7 +125,10 @@ Toda a documentação fica em [`docs/`](docs/), numerada na ordem de leitura. **
 
 ```
 app/busca.py      normalização de texto + pontuação por palavras-chave
-app/banco.py      SQLite: criação, carga inicial e gravação de respostas aprendidas
+app/banco.py      fachada do banco usada pelo agente
+app/db/           conexão, migrações, seeds e repositórios (SQL parametrizado)
+app/intencoes.py  respostas de catálogo e loja a partir do banco
+database/         migrações SQL versionadas, seeds e gerador do catálogo fictício
 app/agente.py     regras: contexto → banco → agente IA → grava
 app/memoria.py    histórico das conversas (só em RAM)
 app/guardrails/   todas as proteções (entrada, escopo, prompt, saída, reescrita, aprendizado) no banco

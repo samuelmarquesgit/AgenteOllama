@@ -41,6 +41,8 @@ from app.guardrails.prompts import (
     RESPOSTA_BLOQUEADA_SAIDA,
     RESPOSTA_FORA_DO_ESCOPO,
 )
+from app.db.repositorios import CatalogoRepository, LojaRepository
+from app.intencoes import detectar_loja, detectar_produto, responder_loja, responder_produto
 from app.memoria import Troca
 
 __all__ = [
@@ -77,13 +79,15 @@ class Resposta:
     answer: str
     matchedFaqId: str | None
     confidence: float
-    origem: str  # "banco" | "agente" | "fallback" | "saudacao" | "fora_do_escopo" | "bloqueado"
+    origem: str  # "banco" | "catalogo" | "loja" | "agente" | "fallback" | "saudacao" | "fora_do_escopo" | "bloqueado"
     perguntaInterpretada: str | None = None   # preenchida quando a pergunta foi reescrita
     guardrails: list[str] = field(default_factory=list)  # guardrails acionados
+    produtos: list[dict] = field(default_factory=list)   # cards do catálogo (origem = "catalogo")
 
     def para_dict(self) -> dict:
         d = self.__dict__.copy()
         d["guardrails"] = list(self.guardrails)
+        d["produtos"] = list(self.produtos)
         return d
 
 
@@ -149,6 +153,9 @@ class Agente:
         self.con = con if con is not None else banco.conectar()
         self.perguntar = perguntar
         self.reescrever = reescrever
+        self.catalogo = CatalogoRepository(self.con)
+        self.loja = LojaRepository(self.con)
+        self.marcas_catalogo = self.catalogo.marcas()
         self.recarregar()
 
     def recarregar(self):
@@ -170,7 +177,8 @@ class Agente:
         else:
             independente = self._interpretar(pergunta, historico)
             resposta = (
-                self._responder_pelo_banco(independente)
+                self._responder_por_dados(independente)
+                or self._responder_pelo_banco(independente)
                 or self._responder_comercial(independente)
                 or self._responder_pelo_agente(independente, historico, bool(entrada.dados_pessoais))
             )
@@ -189,7 +197,19 @@ class Agente:
             return pergunta
         return self.reescrever(pergunta, historico) or pergunta
 
-    # ---- 1) banco de dados -------------------------------------------------
+    # ---- 1) dados da loja e do catálogo (nunca passam pelo LLM) -----------
+    def _responder_por_dados(self, pergunta: str) -> Resposta | None:
+        intencao_loja = detectar_loja(pergunta)
+        if intencao_loja:
+            r = responder_loja(intencao_loja, self.loja)
+            return Resposta(r.texto, None, 1.0, r.origem, guardrails=r.guardrails)
+        intencao_produto = detectar_produto(pergunta, self.marcas_catalogo)
+        if intencao_produto:
+            r = responder_produto(intencao_produto, self.catalogo)
+            return Resposta(r.texto, None, 1.0, r.origem, guardrails=r.guardrails, produtos=r.produtos)
+        return None
+
+    # ---- 2) banco de FAQ ---------------------------------------------------
     def _responder_pelo_banco(self, pergunta: str) -> Resposta | None:
         resultados = buscar(pergunta, self.faqs)
         if not resultados or resultados[0].nota < NOTA_MINIMA:
