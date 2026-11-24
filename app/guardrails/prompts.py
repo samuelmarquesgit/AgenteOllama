@@ -32,9 +32,9 @@ INSTRUCAO_REESCRITA = (
 )
 
 APRESENTACAO = (
-    "Olá! Sou o assistente virtual da loja de ferramentas. Posso tirar dúvidas "
-    "sobre ferramentas elétricas, brocas, discos, baterias, medição e segurança. "
-    "Ainda não consulto preços nem estoque. Como posso ajudar?"
+    "Olá! 👋 Eu sou o Tork, assistente da ToolExpert. Posso ajudar você a encontrar ferramentas, "
+    "escolher a certa para o seu trabalho e tirar dúvidas sobre pedidos, pagamento e trocas. "
+    "Como posso ajudar?"
 )
 
 FALLBACK = (

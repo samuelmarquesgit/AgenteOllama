@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0] — 2026-11-23 — Frontend profissional com a identidade do Tork
+
+### Adicionado
+- Chat redesenhado com a identidade visual: logo (versões clara e escura), avatar do Tork nos balões (versão
+  "alerta" para bloqueios e erros), selos coloridos por origem, cards de produto com preço e estoque.
+- Boas-vindas na voz do Tork e menu com 6 opções (produto, escolha, pedido, pagamento, trocas, atendente),
+  submenu de categorias de produtos, sugestões rápidas e "menu" para voltar.
+- Estado "Tork está pensando", avaliação 👍/👎 por resposta (`POST /avaliacoes`, sem dados pessoais).
+- Tema claro e escuro (automático ou pelo botão), fontes locais (Inter, Barlow Semi Condensed; OFL),
+  acessibilidade (foco visível, `role="log"`, `prefers-reduced-motion`), layout de 320 px a desktop.
+- Links diretos para a apresentação: `/?q=pergunta` abre o chat já perguntando; `?tema=claro|escuro`.
+
+### Alterado
+- Frontend separado em `static/css/tokens.css`, `static/css/chat.css` e `static/js/chat.js` (ES module, sem build);
+  nenhum recurso de CDN (a demo funciona sem internet) e nenhum `innerHTML`.
+
+
 ## [0.3.1] — 2026-11-23 — Respostas não revisadas sob controle
 
 ### Corrigido

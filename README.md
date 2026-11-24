@@ -65,6 +65,7 @@ Documentação do banco (DER, dicionário de dados, seeds, segurança e evidênc
 | GET    | `/produtos` | Catálogo fictício (filtros `categoria`, `alimentacao`, `marca`, `preco_max`, `limite`) |
 | GET    | `/produtos/{sku}` | Detalhes, especificações e estoque por unidade |
 | GET    | `/loja`   | Unidades, horários, formas de pagamento e políticas |
+| POST   | `/avaliacoes` | Registra o 👍/👎 de uma resposta (`{"conversationId", "util"}`) |
 
 Resposta de `/chat`:
 

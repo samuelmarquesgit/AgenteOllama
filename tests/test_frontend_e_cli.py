@@ -7,44 +7,93 @@ import sys
 from tests.conftest import N_FAQS, RAIZ
 
 HTML = (RAIZ / "static" / "index.html").read_text(encoding="utf-8")
+JS = (RAIZ / "static" / "js" / "chat.js").read_text(encoding="utf-8")
+CSS = (RAIZ / "static" / "css" / "chat.css").read_text(encoding="utf-8")
+TOKENS = (RAIZ / "static" / "css" / "tokens.css").read_text(encoding="utf-8")
+FRONT = HTML + JS + CSS + TOKENS
 
 
 # ---- página de chat -----------------------------------------------------------
+def test_pagina_carrega_css_e_js_locais():
+    for recurso in ["/static/css/tokens.css", "/static/css/chat.css", "/static/js/chat.js", "/static/brand/favicon.svg"]:
+        assert recurso in HTML
+        assert (RAIZ / recurso.lstrip("/")).exists()
+
+
+def test_pagina_nao_depende_de_internet():
+    # Nada de CDN: fontes, ícones e scripts são servidos pela própria API (demo funciona offline).
+    assert "http://" not in FRONT and "https://" not in FRONT
+    for fonte in ["inter-latin-400-normal.woff2", "barlow-semi-condensed-latin-700-normal.woff2"]:
+        assert fonte in TOKENS and (RAIZ / "static" / "fonts" / fonte).exists()
+
+
 def test_pagina_usa_endpoints_da_api():
-    assert 'fetch("/chat"' in HTML
-    assert 'fetch("/health")' in HTML
+    for endpoint in ['chat: "/chat"', 'health: "/health"', 'conversas: "/conversas"', 'avaliacoes: "/avaliacoes"']:
+        assert endpoint in JS
 
 
-def test_pagina_tem_aviso_de_versao_inicial():
-    assert "não consulto preços, estoque" in HTML
+def test_pagina_tem_aviso_de_dados_ficticios_e_privacidade():
+    assert "produtos, preços e estoques são fictícios" in HTML
+    assert "Não envie dados pessoais" in HTML
 
 
 def test_pagina_limita_tamanho_igual_a_api():
     assert 'maxlength="500"' in HTML
 
 
-def test_pagina_tem_selos_de_origem():
-    for origem in ["banco:", "agente:", "fallback:", "fora_do_escopo:", "saudacao:"]:
-        assert origem in HTML
+def test_pagina_tem_selos_de_todas_as_origens():
+    for origem in ["banco", "catalogo", "loja", "agente", "sugestao", "fallback", "fora_do_escopo", "saudacao", "bloqueado"]:
+        assert f'{origem}: ["' in JS
 
 
 def test_pagina_acessivel():
     assert 'lang="pt-BR"' in HTML
     assert 'name="viewport"' in HTML
     assert 'aria-label="Sua mensagem"' in HTML
-    assert 'aria-live="polite"' in HTML
+    assert 'aria-live="polite"' in HTML and 'role="log"' in HTML
+    assert "prefers-reduced-motion" in CSS
+    assert ":focus-visible" in CSS
 
 
-def test_pagina_nao_usa_innerhtml_com_texto_do_usuario():
+def test_pagina_nao_insere_html_vindo_da_api():
     # textContent/createTextNode evitam injeção de HTML vinda das respostas.
-    assert "createTextNode(texto)" in HTML
-    assert HTML.count("innerHTML") == 1  # só para limpar a conversa
-    assert 'innerHTML = ""' in HTML
+    assert "createTextNode(texto)" in JS
+    assert "innerHTML" not in JS and "insertAdjacentHTML" not in JS and "outerHTML" not in JS
 
 
 def test_pagina_tem_estado_de_carregamento_e_erro():
-    assert "Respondendo..." in HTML
-    assert "Não consegui responder agora" in HTML
+    assert "Respondendo..." in JS
+    assert "Não consegui responder agora" in JS
+    assert "tork-avatar-alerta.svg" in JS
+
+
+def test_pagina_tem_menu_inicial_e_categorias():
+    for rotulo in ["Encontrar um produto", "Ajuda para escolher", "Pedido ou entrega", "Pagamento e parcelamento",
+                   "Trocas e garantia", "Falar com um atendente"]:
+        assert rotulo in JS
+    assert "function mostrarCategorias" in JS
+    assert 'texto.toLowerCase() === "menu"' in JS
+
+
+def test_pagina_tem_avaliacao_e_tema():
+    assert "function montarAvaliacao" in JS and "aria-pressed" in JS
+    assert "function alternarTema" in JS
+    assert 'data-theme="dark"' in TOKENS and "prefers-color-scheme: dark" in TOKENS
+
+
+def test_id_de_conversa_usa_gerador_criptografico():
+    assert "crypto.getRandomValues" in JS or "crypto.randomUUID" in JS
+    assert "Math.random" not in JS
+
+
+def test_cores_da_identidade_visual():
+    for cor in ["#C2410C", "#EA580C", "#1C2128", "#F6F5F2"]:
+        assert cor in TOKENS
+
+
+def test_logos_para_tema_claro_e_escuro():
+    assert (RAIZ / "static" / "brand" / "logo-toolexpert-escuro.svg").exists()
+    assert "logo-escuro" in HTML and "logo-claro" in HTML
 
 
 # ---- versão de terminal -------------------------------------------------------
@@ -72,11 +121,11 @@ def test_cli_sem_ollama_usa_fallback(tmp_path):
 
 
 def test_pagina_monta_cards_de_produto_com_seguranca():
-    assert "function montarCards" in HTML
-    assert "dados.produtos" in HTML
-    assert 'catalogo: ["catalogo"' in HTML and 'loja: ["loja"' in HTML
+    assert "function montarCards" in JS
+    assert "dados.produtos" in JS
+    assert "preco_formatado" in JS and "em_estoque" in JS
 
 
 def test_pagina_diferencia_resposta_nao_revisada_do_banco():
-    assert 'sugestao: ["sugestao"' in HTML
-    assert "ainda não revisada" in HTML
+    assert 'sugestao: ["sugestao"' in JS
+    assert "ainda não revisada" in JS

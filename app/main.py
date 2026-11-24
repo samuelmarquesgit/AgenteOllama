@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 
 from app.agente import Agente
 from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
-from app.db.repositorios import CatalogoRepository, FiltroProdutos, LojaRepository
+from app.db.repositorios import AtendimentoRepository, CatalogoRepository, FiltroProdutos, LojaRepository
 from app.intencoes import produto_publico
 from app.memoria import Memoria
 
@@ -86,6 +86,17 @@ def chat(pergunta: Pergunta):
         resposta.perguntaInterpretada is not None, ",".join(resposta.guardrails) or "-",
     )
     return resposta.para_dict()
+
+
+class Avaliacao(BaseModel):
+    conversationId: str = Field(min_length=1, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
+    util: bool
+
+
+@app.post("/avaliacoes", status_code=204)
+def avaliar(avaliacao: Avaliacao):
+    """Registra o 👍/👎 do cliente (CSAT). Não guarda texto nem dados pessoais."""
+    AtendimentoRepository(agente.con).avaliar(avaliacao.conversationId, avaliacao.util)
 
 
 @app.delete("/conversas/{conversa_id}", status_code=204)

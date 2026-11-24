@@ -151,6 +151,6 @@ Escala: 14 / 16 (base) / 20 / 24 / 32 px; altura de linha de 1,5 no texto.
 - [ ] Aprovar o nome "Tork" e a paleta com o time.
 - [ ] Verificar o nome no INPI.
 - [ ] Criar a animação "pensando" e o estado "pensando" do avatar.
-- [ ] Baixar e servir as fontes localmente.
-- [ ] Aplicar ao frontend (fase F2 do plano).
+- [x] Baixar e servir as fontes localmente (`static/fonts/`, licença OFL).
+- [x] Aplicar ao frontend (2026-11-23: `static/css/tokens.css`, `chat.css`, `js/chat.js`).
 - [ ] Gerar `favicon.ico` e `apple-touch-icon.png` a partir do SVG.
