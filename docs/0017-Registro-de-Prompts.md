@@ -104,3 +104,15 @@ viola os termos), então o catálogo foi gerado com marcas inventadas e preços 
 repositório). O projeto no SonarCloud é privado, então os detalhes exigem login. Endurecidos os dois candidatos mais
 prováveis: ID de conversa com `crypto.getRandomValues` e log de erro sem o caminho bruto da requisição.
 
+
+## P016 — PR do banco fora da main e Quality Gate reprovado (2026-11-23)
+**Prompt (resumo):** não consigo realizar a PR; ler o ambiente do projeto no GitHub e ajudar a resolver.
+
+**Diagnóstico:** a PR #3 (empilhada) foi mergeada na branch `docs/replanejamento-profissionalizacao` depois que a
+#2 já tinha ido para a `main`, então o banco ficou fora da `main` e não havia PR aberta. O SonarQube Cloud (aplicativo
+do GitHub) reprovava por segurança E (falso positivo de SQL injection no executor de migrações, mais SQL montado com
+f-string) e confiabilidade C (regras de PL/SQL/Oracle aplicadas a migrações SQLite).
+
+**Resultado:** PR #4 para a `main` com o banco + correções: SQL parametrizado e validação de arquivo no executor,
+`.sonarcloud.properties` (produção × testes, exclusão dos `.sql`), refatorações de complexidade. Quality Gate aprovado.
+Sugestão: ativar "Automatically delete head branches" para PRs empilhadas apontarem sozinhas para a `main`.
