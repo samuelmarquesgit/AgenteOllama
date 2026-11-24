@@ -363,3 +363,19 @@ estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirma
 `test_rt004_fallback_e_bloqueio_nao_tem_status_de_conteudo`, `test_rt004_interface_nao_afirma_revisao_que_nao_houve`.
 
 **Arquivos:** `app/agente.py`, `app/main.py`, `static/js/chat.js`, testes.
+
+## RT-008 — Reavaliação após a ampliação da base (P0.4, 2026-11-24)
+
+| Etapa | Acertos | Perigosas |
+|---|---|---|
+| Linha de base | 85/100 | 5 |
+| G26 (política de risco) | 88/100 | 0 |
+| Radical verbal + filtro comercial | 90/100 | 0 |
+| **150 FAQs / 452 variações** | **95/100** | **0** |
+
+- **Arquivos:** `knowledge/faq.json`, `database/seeds/ampliar_faq_2026_11_24.py`, `tests/eval/conjunto_avaliacao.json`, `tests/test_avaliacao.py` (ACERTO_MINIMO 90 → 93), testes que usavam "soprador térmico"/"tupia de bancada" como tema **desconhecido** (agora cobertos pela base: trocados por "aerógrafo"/"rebitadeira").
+- **Testes:** `pytest -q` → 1409 passed; `python -m tests.eval.avaliar --relatorio` → `docs/eval/avaliacao-roteamento.md`.
+- **Colisões evitadas:** palavras-chave que capturavam perguntas de outros assuntos foram removidas: "fraca" casava com "França", "desistir da compra" com "qual comprar?", "ion litio" com "bateria de lítio inchada", "127v em 220v" com "220 na tomada 110".
+- **Gabarito alterado em 2 itens** (AV-020 aceita FAQ-086 SDS; AV-100 aceita FAQ-102 máscara de solda): as novas FAQs respondem essas perguntas diretamente. A alteração está anotada em `nota_revisao` de cada item e deve ser confirmada pelo revisor humano.
+- **Risco de sobreajuste:** as perguntas da avaliação **não** foram copiadas para as FAQs; ainda assim, a base e o conjunto foram escritos pela mesma equipe/IA. Um conjunto de validação escrito por terceiros é recomendado antes de tirar conclusões além da demo.
+- **Erros restantes:** AV-006, AV-011, AV-012, AV-022 (vão para a IA: paráfrases não cobertas, ex.: "lisinha", "tiro ferrugem") e AV-067 (falso positivo "tinta/umidade" → FAQ-012).

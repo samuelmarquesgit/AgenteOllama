@@ -268,13 +268,13 @@ def test_g15_reescrita_nao_vaza_dado_pessoal():
 # G16–G18 — aprendizado
 # =============================================================================
 def test_g16_nao_grava_resposta_reprovada():
-    assert not pode_gravar("Como funciona uma tupia de bancada?", resposta_aprovada=False)
+    assert not pode_gravar("Como funciona uma rebitadeira?", resposta_aprovada=False)
 
 
 def test_g17_nao_grava_pergunta_sem_assunto():
     assert not pode_gravar("e ai?", True)
     assert not pode_gravar("ok", True)
-    assert pode_gravar("Como funciona uma tupia de bancada?", True)
+    assert pode_gravar("Como funciona uma rebitadeira?", True)
 
 
 def test_g18_nao_grava_pergunta_com_dado_pessoal():
@@ -317,7 +317,7 @@ def test_remover_rotulos(texto, esperado):
 
 
 def test_g18_nao_grava_quando_a_mensagem_tinha_dado_pessoal():
-    assert not pode_gravar("Como funciona uma tupia de bancada?", True, tinha_dados_pessoais=True)
+    assert not pode_gravar("Como funciona uma rebitadeira?", True, tinha_dados_pessoais=True)
 
 
 # ---- G25: resposta incerta não é gravada ------------------------------------------

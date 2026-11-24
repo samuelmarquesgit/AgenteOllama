@@ -29,7 +29,7 @@ def test_chat_aceita_acentos_utf8(cliente):
 
 
 def test_chat_aprende_e_health_reflete(cliente):
-    r = cliente.post("/chat", json={"message": "Como funciona uma tupia de bancada?"})
+    r = cliente.post("/chat", json={"message": "Como funciona uma rebitadeira?"})
     assert r.json() == {"answer": RESPOSTA_FALSA, "matchedFaqId": "SUG-0001", "confidence": 0.0, "origem": "agente",
                         "perguntaInterpretada": None, "guardrails": [], "produtos": [], "statusConteudo": "gerado_por_ia"}
     assert cliente.get("/health").json() == {"status": "ok", "faqs": N_FAQS + 1, "aprendidas": 1}

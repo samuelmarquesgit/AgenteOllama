@@ -123,7 +123,7 @@ def test_cli_responde_e_encerra(tmp_path):
 
 
 def test_cli_sem_ollama_usa_fallback(tmp_path):
-    r = _rodar_cli("Como funciona uma tupia de bancada?\nsair\n", tmp_path)
+    r = _rodar_cli("Como funciona uma rebitadeira?\nsair\n", tmp_path)
     assert r.returncode == 0, r.stderr
     assert "sem resposta" in r.stdout
 

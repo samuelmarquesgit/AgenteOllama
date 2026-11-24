@@ -33,7 +33,7 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P0.1 | Repositório consolidado: contexto, guardrails e documentação na `main` | T-007 |
 | P0.2 | ✅ ~~PostgreSQL via Docker~~ **SQLite normalizado** (decisão do time, D019) com **migrações SQL versionadas** up/down + executor | DB §0–2, T-016 |
 | P0.3 | ✅ Tabelas da FAQ (DB §2) + `faq_sugestoes`, e também loja, catálogo fictício (300 produtos) e atendimento: 19 tabelas em 3FN | DB §2–5, T-016, T-017 |
-| P0.4 | **150 FAQs + 450 variações** em 8 categorias, em YAML, com seed idempotente e verificador de contagens | DB §6, T-022–T-024, T-026 |
+| P0.4 | ✅ **150 FAQs + 452 variações** em 8 categorias, com seed idempotente (sincronização por hash) e verificador de contagens. Mantido em JSON (não YAML), sem nova dependência. Conteúdo novo em rascunho até a revisão (P1.7). Avaliação RT-008: 90 → 95/100, 0 perigosas | DB §6, T-022–T-024, T-026 |
 | P0.5 | ✅ Busca **parametrizada** (função `norm()` sem acento + LIKE) usada pelo Tork; comportamento mantido | DB §7, T-020 |
 | P0.6 | ✅ 687 testes, incluindo FKs, unicidades, CHECKs, triggers, contagens, SQL injection, acentos e rollback | DB §8, T-021 |
 | P0.7 | ✅ `docs/db/`: README, DER, dicionário de dados (gerado), catálogo do seed, segurança e log de execução | DB §1, §10 |

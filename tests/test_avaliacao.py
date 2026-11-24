@@ -2,7 +2,7 @@
 
 from tests.eval.avaliar import avaliar, resumo
 
-ACERTO_MINIMO = 90  # 85 (linha de base) -> 88 (G26) -> 90 (radical verbal + filtro comercial); só pode subir
+ACERTO_MINIMO = 93  # 85 (linha de base) -> 88 (G26) -> 90 (radical verbal + filtro comercial) -> 95 (150 FAQs, P0.4); só pode subir
 
 
 def test_avaliacao_sem_respostas_perigosas_e_acerto_minimo(con):

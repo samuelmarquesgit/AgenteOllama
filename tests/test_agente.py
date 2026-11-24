@@ -113,7 +113,7 @@ def test_nota_alta_nao_pede_detalhes(agente):
 
 
 # ---- agente completa a base ---------------------------------------------------
-PERGUNTA_NOVA = "Qual a voltagem ideal para um soprador térmico?"
+PERGUNTA_NOVA = "Qual a agulha ideal para um aerógrafo?"
 
 
 def test_pergunta_nova_vai_para_o_agente_e_e_gravada(agente, ollama):
@@ -137,8 +137,8 @@ def test_pergunta_aprendida_fica_pendente_de_validacao(agente, con):
 
 
 def test_varias_perguntas_novas_geram_ids_sequenciais(agente):
-    a = agente.responder("Qual a voltagem ideal para um soprador térmico?")
-    b = agente.responder("Como funciona uma tupia de bancada?")
+    a = agente.responder("Qual a agulha ideal para um aerógrafo?")
+    b = agente.responder("Como funciona uma rebitadeira?")
     assert (a.matchedFaqId, b.matchedFaqId) == ("SUG-0001", "SUG-0002")
 
 
@@ -165,7 +165,7 @@ def test_fora_do_escopo_no_meio_do_texto(con):
 @pytest.mark.parametrize("resposta_llm", [None, ""])
 def test_ollama_indisponivel_gera_fallback(con, resposta_llm):
     ag = Agente(con, perguntar=OllamaFalso(resposta_llm))
-    r = ag.responder("como funciona um soprador térmico industrial")
+    r = ag.responder("como funciona um aerógrafo industrial")
     assert r == Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
     assert len(ag.faqs) == N_FAQS
 
@@ -268,7 +268,7 @@ def test_injecao_e_bloqueada_sem_chamar_llm(agente, ollama):
 
 
 def test_dado_pessoal_e_removido_antes_do_llm(agente, ollama):
-    r = agente.responder("meu cpf é 123.456.789-09, como funciona uma tupia de bancada?")
+    r = agente.responder("meu cpf é 123.456.789-09, como funciona uma rebitadeira?")
     assert r.answer.startswith(AVISO_DADOS_PESSOAIS)
     assert "dados_pessoais:cpf" in r.guardrails
     assert "123.456.789-09" not in ollama.perguntas[0]
@@ -278,7 +278,7 @@ def test_dado_pessoal_e_removido_antes_do_llm(agente, ollama):
 
 def test_resposta_do_llm_com_preco_e_bloqueada_e_nao_gravada(con):
     ag = Agente(con, perguntar=OllamaFalso("A tupia custa R$ 899 e temos em estoque."))
-    r = ag.responder("Como funciona uma tupia de bancada?")
+    r = ag.responder("Como funciona uma rebitadeira?")
     assert r.origem == "bloqueado"
     assert r.answer == RESPOSTA_BLOQUEADA_SAIDA
     assert {"saida:preco", "saida:estoque"} <= set(r.guardrails)
@@ -287,13 +287,13 @@ def test_resposta_do_llm_com_preco_e_bloqueada_e_nao_gravada(con):
 
 def test_resposta_do_llm_com_conselho_perigoso_e_bloqueada(con):
     ag = Agente(con, perguntar=OllamaFalso("Basta retirar a proteção e usar o disco de 230 mm."))
-    r = ag.responder("Como ajustar a altura da fresa numa tupia de bancada?")  # sem tema de risco: chega à IA
+    r = ag.responder("Como ajustar o bocal de uma rebitadeira?")  # sem tema de risco: chega à IA
     assert r.origem == "bloqueado"
     assert "saida:conselho_perigoso" in r.guardrails
 
 
 def test_pergunta_comercial_desconhecida_nao_chama_llm(agente, ollama):
-    r = agente.responder("qual o valor da tupia de bancada makita?")
+    r = agente.responder("qual o valor da rebitadeira makita?")
     assert r.origem == "banco"
     assert ollama.chamadas == 0
     assert "R$" not in r.answer
@@ -318,24 +318,24 @@ def test_sugestao_nao_responde_pergunta_diferente_com_palavra_parecida(con):
     ag = Agente(con, perguntar=OllamaFalso(lambda p: f"Resposta para: {p}"))
     ag.sugestoes = []  # isola o teste das FAQs oficiais sobre o tema
     ag.oficiais = [f for f in ag.oficiais if "brocante" not in f.tokens_chave]
-    primeira = ag.responder("gostaria de saber sobre um soprador com bico redutor")
+    primeira = ag.responder("gostaria de saber sobre um aerógrafo com bico redutor")
     assert primeira.origem == "agente"
-    ag.oficiais = [f for f in ag.oficiais if "soprador" not in f.tokens_chave]
-    segunda = ag.responder("escreve-se soprador ou sopradô?")
+    ag.oficiais = [f for f in ag.oficiais if "aerografo" not in f.tokens_chave]
+    segunda = ag.responder("escreve-se aerógrafo ou aerógrafu?")
     assert segunda.origem == "agente"            # foi para a IA de novo, não reaproveitou
     assert segunda.answer != primeira.answer
 
 
 def test_sugestao_responde_a_mesma_pergunta_com_pequena_variacao(agente, ollama):
-    agente.responder("Como regular o bico de um soprador térmico?")
-    r = agente.responder("como regular o bico de um soprador termico")
+    agente.responder("Como regular o bico de um aerógrafo?")
+    r = agente.responder("como regular o bico de um aerografo")
     assert r.origem == "sugestao"
     assert ollama.chamadas == 1
 
 
 def test_sugestao_nao_cobre_pergunta_que_so_compartilha_uma_palavra(agente, ollama):
-    agente.responder("Qual a vida útil de um soprador térmico?")
-    r = agente.responder("soprador térmico serve para descascar tinta de janela?")
+    agente.responder("Qual a durabilidade de um aerógrafo?")
+    r = agente.responder("aerógrafo serve para pintar miniaturas?")
     assert r.origem != "sugestao"
     assert ollama.chamadas == 2
 
@@ -352,15 +352,15 @@ def test_g25_resposta_incerta_nao_e_gravada_e_oferece_atendente(con):
 
 # ---- RT-001: sugestão pendente nunca é apresentada como resposta do banco -----------
 @pytest.mark.parametrize("variante", [
-    "Como regular o bico de um soprador térmico?",      # idêntica
-    "como regular o bico de um soprador termico",       # idêntica sem acento
-    "regular bico soprador",                            # parcial
-    "soprador térmico regular",                         # parcial
-    "bico de soprador?",                                # parcial
+    "Como regular o bico de um aerógrafo?",      # idêntica
+    "como regular o bico de um aerografo",       # idêntica sem acento
+    "regular bico aerógrafo",                            # parcial
+    "aerógrafo regular",                         # parcial
+    "bico de aerógrafo?",                                # parcial
 ])
 def test_rt001_sugestao_pendente_nunca_tem_origem_banco(con, variante):
     ag = Agente(con, perguntar=OllamaFalso("Resposta gerada."))
-    ag.responder("Como regular o bico de um soprador térmico?")      # gera e grava SUG-0001
+    ag.responder("Como regular o bico de um aerógrafo?")      # gera e grava SUG-0001
     r = Agente(con, perguntar=OllamaFalso("Outra resposta.")).responder(variante)
     assert not (r.origem == "banco" and (r.matchedFaqId or "").startswith("SUG-"))
     if r.matchedFaqId == "SUG-0001":
