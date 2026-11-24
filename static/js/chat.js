@@ -322,7 +322,7 @@ async function atualizarStatus() {
   try {
     const r = await fetch(API.health);
     const d = await r.json();
-    indicadorStatus.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas revisadas`;
+    indicadorStatus.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas na base`;
     indicadorStatus.classList.remove("offline");
   } catch {
     indicadorStatus.textContent = "Tork offline";

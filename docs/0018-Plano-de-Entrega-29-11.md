@@ -37,7 +37,7 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P0.5 | ✅ Busca **parametrizada** (função `norm()` sem acento + LIKE) usada pelo Tork; comportamento mantido | DB §7, T-020 |
 | P0.6 | ✅ 687 testes, incluindo FKs, unicidades, CHECKs, triggers, contagens, SQL injection, acentos e rollback | DB §8, T-021 |
 | P0.7 | ✅ `docs/db/`: README, DER, dicionário de dados (gerado), catálogo do seed, segurança e log de execução | DB §1, §10 |
-| P0.8 | Demo funcionando + **vídeo de reserva** + versão `v0.3.0` | T-052, T-055 |
+| P0.8 | 🟡 Demo funcionando (roteiro `0015` atualizado e conferido) + **vídeo de reserva** (time) + versão `v0.5.0` (tag após o merge dos PRs) | T-052, T-055 |
 
 ### P1 — importante (faz a entrega se destacar)
 
@@ -76,7 +76,7 @@ uv, mypy, pre-commit, Alembic, Playwright, painel admin, roteador de intenções
 | **Qua 25** | Conteúdo | P0.4 (rascunho das 90 novas + 450 variações, priorizando os temas da pesquisa: voltagem, garantia/CDC, compatibilidade, manutenção); P1.1 | 150/450 no seed, verificador verde; chat com a cara do Tork |
 | **Qui 26** | Revisão e conversa | P1.7 (revisão), P1.2, P1.3, P1.4, P1.5 | Amostra revisada; menu e respostas da loja funcionando |
 | **Sex 27** | Qualidade e documentação | P0.6, P0.7; correções; **congelar funcionalidades às 18h** | Testes verdes; `docs/db/` completo |
-| **Sáb 28** | Entrega | Ensaio da demo, gravar o vídeo de reserva, P0.8 (`v0.3.0`), revisar a documentação, **entregar até 23:00** | Entregue com 1 h de folga |
+| **Sáb 28** | Entrega | Ensaio da demo, gravar o vídeo de reserva, P0.8 (`v0.5.0`), revisar a documentação, **entregar até 23:00** | Entregue com 1 h de folga |
 | *Dom 29 – seg 30* | *Reserva* | *Só correções ou P2, e só se a extensão for confirmada* | *Entrega final até 30/11 20:00 (2 h antes do limite)* |
 
 ### Divisão sugerida (se os 4 estiverem ativos)

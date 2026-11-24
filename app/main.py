@@ -34,7 +34,7 @@ ORIGENS_COM_CONTEXTO = {"banco", "agente", "catalogo", "loja"}
 config.carregar_env()  # .env opcional (RT-012); não sobrescreve o ambiente
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("agente")
-app = FastAPI(title="Agente da loja de ferramentas", version="0.3.0")
+app = FastAPI(title="Agente da loja de ferramentas", version="0.5.0")
 agente = Agente()
 memoria = Memoria()
 fluxos = Fluxos(lambda: agente.con)  # F-TROCA e F-HUMANO (P1.4)
