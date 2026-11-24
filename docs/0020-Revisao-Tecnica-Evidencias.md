@@ -410,3 +410,9 @@ estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirma
   - O fluxo só abre quando há `conversationId`. Dúvidas técnicas como "como trocar o disco?" não abrem o fluxo de trocas.
 - **Limites:** sem IA generativa, e os textos do CDC ainda precisam de revisão jurídica (T-032, aceite). A avaliação RT-008 chama o agente direto, sem fluxos, então os números de roteamento não mudam.
 - **Testes:** 31 casos novos com relógio fixo para dentro e fora do horário. Suíte com 1456 testes aprovados; Ruff sem erros. Teste manual na CLI: pedido de atendente → resumo → "não" → nada gravado e contato da loja mostrado.
+
+## RT-009 — Busca textual × semântica × híbrida (2026-11-24)
+
+- **Arquivos:** `tests/eval/experimento_embeddings.py` (experimento isolado: troca a função de busca só dentro do próprio processo; não roda no pytest nem no CI) e o relatório `docs/eval/experimento-embeddings.md`.
+- **Resultado (mesmas 100 perguntas):** textual 95; semântica pura 78 (0/10 em "sem resposta"); híbrida 88, 92, 96, **97** e 96 com limiares de cosseno de 0,60 a 0,80. Nenhuma configuração teve resposta perigosa. Indexar 602 vetores levou 47 s; o embedding de cada pergunta levou 13 ms de mediana e 37 ms no p95.
+- **Decisão:** a solução atual continua (D030): o ganho é pequeno e foi medido com limiar ajustado no próprio conjunto. Os gatilhos para PostgreSQL e RAG estão em D031 (RT-013).

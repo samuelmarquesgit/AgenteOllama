@@ -57,3 +57,23 @@ validar as respostas aprendidas e histórico de conversa.
 A RT-002 sugere PENDENTE/EM_REVISAO/APROVADA/REJEITADA. Com um revisor e revisão atômica pelo terminal, o estado
 EM_REVISAO não agrega; entra com o painel admin (T-050) por uma migração que recria a tabela (o SQLite não altera CHECK).
 Os estados atuais mapeiam 1:1. `TORK_SERVIR_SUGESTOES=false` permite servir só conteúdo aprovado.
+
+## D030 — Embeddings não entram no Gate; busca textual continua (RT-009, 2026-11-24)
+Um experimento isolado (`tests/eval/experimento_embeddings.py`, relatório em `docs/eval/experimento-embeddings.md`) rodou as mesmas 100 perguntas da RT-008 com `nomic-embed-text`:
+
+- busca textual atual: **95/100**;
+- busca semântica pura: **78/100**, com 0/10 nas perguntas sem resposta na base, porque sempre "acha" alguma FAQ;
+- busca híbrida (semântica só quando a textual não acha), com limiar de cosseno 0,75: **97/100**, 0 perigosas e +13 ms de mediana por pergunta.
+
+O ganho de 2 perguntas foi medido com o limiar ajustado **no próprio conjunto de avaliação**, então provavelmente está superestimado. Adotar a híbrida também cria uma segunda dependência do Ollama no caminho da busca: hoje a busca funciona com o Ollama desligado. **Decisão:** não trocar agora. Volta à pauta (MVP 2) se a híbrida mantiver o ganho num conjunto de validação escrito por outra pessoa, com o Ollama desligado tratado como fallback para a busca textual.
+
+## D031 — Gatilhos para PostgreSQL e RAG (RT-013, 2026-11-24)
+O MVP fica em SQLite (D019). Os testes de RT-007 mostram 960/960 operações concorrentes sem erro e 30 usuários simultâneos com 100% de respostas 200/204.
+
+| Migrar para | Quando (qualquer um dos gatilhos) | Custo / risco |
+|---|---|---|
+| **PostgreSQL** (Docker) | mais de uma instância da API ao mesmo tempo; escrita concorrente sustentada com `database is locked` nos logs; painel admin multiusuário (T-050); backup/retenção exigidos por política (LGPD, F6) | serviço a mais para operar; as migrações SQL já são portáveis (D008), mas `norm()` e os triggers precisam de equivalentes |
+| **RAG com manuais** | perguntas que dependem do modelo exato (torque, consumíveis, códigos de erro) passarem de ~10% do volume de fallback em `/metricas`; manuais com licença de uso | risco de alucinação citando o manual errado; exige citação da fonte e os guardrails G06–G13 e G26 na saída |
+| **Embeddings na busca** | ver D030: ganho confirmado em conjunto de validação independente | segundo modelo carregado; latência; busca passa a depender do Ollama |
+
+Benefício esperado da migração: escala horizontal e operação padrão de mercado. Enquanto nenhum gatilho ocorrer, o custo supera o benefício para a entrega acadêmica.
