@@ -555,6 +555,29 @@ flowchart LR
 - **Entrega:** demo + relatórios (testes, avaliação, usabilidade, métricas) + lista de pendências. **Aceite:** decisão registrada (seguir para o pós-Gate, ajustar ou encerrar). **Depende:** todas · **Esforço:** 0,5 d
 - ⚠️ Gate "carimbado" sem crítica · 🧪 Que haverá decisor externo · 💡 Autoavaliação com esta análise crítica · **C/T/R 1/1/2**
 
+**Registro da revisão técnica para o Gate (RT-014 · 2026-11-24, autoavaliação; decisão final do time/avaliador):**
+
+| Evidência | Resultado |
+|---|---|
+| Testes automatizados | 1464 testes aprovados, 0 avisos (`filterwarnings = error`); CI no GitHub Actions (Ruff + pytest + avaliação) com Python 3.12 e 3.14 |
+| Avaliação de roteamento (RT-008) | 95/100 e **0 respostas perigosas** (linha de base: 85/100 e 5 perigosas) |
+| Concorrência (RT-007) | 960/960 operações sem erro; 30 usuários HTTP com 100% de 200/204 |
+| Ollama fora do ar ou lento (RT-010) | resposta segura dentro de 45 s, sem travar |
+| Base de conhecimento | 150 FAQs, 452 variações e nível de risco em todas |
+| Fluxos | F-TROCA e F-HUMANO com consentimento (G23) |
+| Observabilidade e configuração | `/metricas` anônimo; `app/config.py` com `.env.example` |
+
+**Riscos remanescentes:**
+
+1. Nenhuma FAQ está `validado`: as 89 novas foram escritas com assistência de IA. A planilha de revisão (`docs/revisao/`) está pronta, mas a revisão humana não foi feita.
+2. O gabarito da avaliação foi montado pela mesma equipe/IA, com risco de sobreajuste.
+3. Os textos do CDC não passaram por revisão jurídica.
+4. O catálogo e a loja são fictícios.
+5. Os guardrails são regex: frases muito diferentes podem escapar.
+6. Não há teste de usabilidade com clientes reais.
+
+**Recomendação:** **seguir com ajustes**. Antes de qualquer uso real, é obrigatório concluir a revisão humana (risco alto primeiro) e a revisão jurídica do F-TROCA. A escala (PostgreSQL), RAG e embeddings entram só pelos gatilhos de D030/D031.
+
 ---
 
 ## Pós-Gate (backlog, só após aprovação)
@@ -588,26 +611,26 @@ flowchart LR
 
 ### P0 — Segurança e confiabilidade das respostas
 
-- [ ] **RT-001 — Auditar o ciclo de sugestões/aprendizado.** Localizar todos os pontos que gravam, recuperam e promovem sugestões geradas pelo Ollama; verificar se sugestões não aprovadas podem aparecer como respostas confiáveis. **Aceite:** mapa de fluxo e testes que demonstram o comportamento real. **Relaciona-se a:** T-050.
-- [ ] **RT-002 — Impedir promoção automática de conhecimento não revisado.** Se a auditoria confirmar esse risco, exigir aprovação humana explícita antes de incorporar respostas geradas à FAQ principal. Estados sugeridos: `PENDENTE`, `EM_REVISAO`, `APROVADA`, `REJEITADA`. **Aceite:** teste prova que somente conteúdo aprovado é servido como FAQ; prever migração dos estados existentes. **Depende:** RT-001.
-- [ ] **RT-003 — Definir política de respostas técnicas de risco.** Catalogar perguntas sobre eletricidade, soldagem, discos de corte, proteções e acessórios incompatíveis; exigir referência confiável ou encaminhamento quando a resposta não puder ser validada. **Aceite:** cenários críticos testados com revisão humana. **Relaciona-se a:** T-041 a T-043.
-- [ ] **RT-004 — Verificar a origem e a incerteza de cada resposta.** Diferenciar FAQ aprovada, consulta comercial, geração pelo modelo e fallback; não apresentar informação não verificada como especificação técnica confirmada. **Aceite:** testes de origem/fallback e registro de decisão sem expor dados pessoais.
+- [x] **RT-001 — Auditar o ciclo de sugestões/aprendizado.** Localizar todos os pontos que gravam, recuperam e promovem sugestões geradas pelo Ollama; verificar se sugestões não aprovadas podem aparecer como respostas confiáveis. **Aceite:** mapa de fluxo e testes que demonstram o comportamento real. **Relaciona-se a:** T-050. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-001 (ciclo mapeado; FAQ aprovada não é mais sobrescrita pelo seed: faixa FAQ-901+).
+- [x] **RT-002 — Impedir promoção automática de conhecimento não revisado.** Se a auditoria confirmar esse risco, exigir aprovação humana explícita antes de incorporar respostas geradas à FAQ principal. Estados sugeridos: `PENDENTE`, `EM_REVISAO`, `APROVADA`, `REJEITADA`. **Aceite:** teste prova que somente conteúdo aprovado é servido como FAQ; prever migração dos estados existentes. **Depende:** RT-001. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-002 (sugestão só serve pergunta quase idêntica, com selo próprio; `TORK_SERVIR_SUGESTOES=false`).
+- [x] **RT-003 — Definir política de respostas técnicas de risco.** Catalogar perguntas sobre eletricidade, soldagem, discos de corte, proteções e acessórios incompatíveis; exigir referência confiável ou encaminhamento quando a resposta não puder ser validada. **Aceite:** cenários críticos testados com revisão humana. **Relaciona-se a:** T-041 a T-043. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-003 (guardrail G26; respostas perigosas na avaliação: 5 → 0).
+- [x] **RT-004 — Verificar a origem e a incerteza de cada resposta.** Diferenciar FAQ aprovada, consulta comercial, geração pelo modelo e fallback; não apresentar informação não verificada como especificação técnica confirmada. **Aceite:** testes de origem/fallback e registro de decisão sem expor dados pessoais. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-004 (`statusConteudo` em toda resposta e no chat).
 
 ### P1 — Qualidade, testes e estabilidade
 
-- [ ] **RT-005 — Executar a suíte de testes existente.** Registrar comando, ambiente, quantidade de testes, falhas e evidências; corrigir falhas regressivas sem remover testes. **Aceite:** relatório reproduzível de execução.
-- [ ] **RT-006 — Verificar integridade do SQLite e migrações.** Conferir `PRAGMA integrity_check`, `PRAGMA foreign_key_check`, aplicação das migrações em base vazia, seeds idempotentes e constraints. **Aceite:** execução reproduzível sem erros de integridade.
-- [ ] **RT-007 — Avaliar concorrência no acesso ao SQLite.** Inspecionar conexões/objetos compartilhados no FastAPI, transações e locks; executar testes com requisições paralelas. **Aceite:** nenhuma falha de concorrência no cenário de carga definido; documentar limites operacionais.
-- [ ] **RT-008 — Montar conjunto de avaliação com 100 perguntas reais ou representativas.** Incluir sinônimos, perguntas ambíguas, sem resposta, comerciais e críticas de segurança. **Aceite:** gabarito revisado, métricas de acerto, fallback e respostas perigosas; não afirmar precisão sem medição. **Relaciona-se a:** T-041 a T-043.
-- [ ] **RT-009 — Avaliar busca textual atual antes de introduzir embeddings.** Medir cobertura, falsos positivos e latência; testar busca híbrida textual/semântica em experimento isolado, sem trocar a solução atual sem ganho demonstrado. **Aceite:** comparação documentada com o mesmo conjunto de perguntas. **Relaciona-se a:** E4 / B-04.
-- [ ] **RT-010 — Testar indisponibilidade e lentidão do Ollama.** Medir latência, timeouts, consumo de recursos e comportamento quando o serviço está desligado. **Aceite:** fallback seguro e mensagens claras, sem travar o atendimento.
+- [x] **RT-005 — Executar a suíte de testes existente.** Registrar comando, ambiente, quantidade de testes, falhas e evidências; corrigir falhas regressivas sem remover testes. **Aceite:** relatório reproduzível de execução. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-005 (suíte atual: 1464 testes aprovados, 0 avisos; CI verde).
+- [x] **RT-006 — Verificar integridade do SQLite e migrações.** Conferir `PRAGMA integrity_check`, `PRAGMA foreign_key_check`, aplicação das migrações em base vazia, seeds idempotentes e constraints. **Aceite:** execução reproduzível sem erros de integridade. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-006 (integrity_check/foreign_key_check ok; rollback com banco populado corrigido).
+- [x] **RT-007 — Avaliar concorrência no acesso ao SQLite.** Inspecionar conexões/objetos compartilhados no FastAPI, transações e locks; executar testes com requisições paralelas. **Aceite:** nenhuma falha de concorrência no cenário de carga definido; documentar limites operacionais. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-007 (25/320 falhas → 960/960 ok; 30 usuários HTTP 100% 200/204).
+- [x] **RT-008 — Montar conjunto de avaliação com 100 perguntas reais ou representativas.** Incluir sinônimos, perguntas ambíguas, sem resposta, comerciais e críticas de segurança. **Aceite:** gabarito revisado, métricas de acerto, fallback e respostas perigosas; não afirmar precisão sem medição. **Relaciona-se a:** T-041 a T-043. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-008 e `docs/eval/` (100 perguntas; 85 → 95/100, 0 perigosas; gabarito ainda sem revisão humana).
+- [x] **RT-009 — Avaliar busca textual atual antes de introduzir embeddings.** Medir cobertura, falsos positivos e latência; testar busca híbrida textual/semântica em experimento isolado, sem trocar a solução atual sem ganho demonstrado. **Aceite:** comparação documentada com o mesmo conjunto de perguntas. **Relaciona-se a:** E4 / B-04. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-009, `docs/eval/experimento-embeddings.md` e D030 (híbrida 97 × textual 95; não adotada).
+- [x] **RT-010 — Testar indisponibilidade e lentidão do Ollama.** Medir latência, timeouts, consumo de recursos e comportamento quando o serviço está desligado. **Aceite:** fallback seguro e mensagens claras, sem travar o atendimento. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-010 (timeouts de 45 s e 10 s, fallback seguro, latência e memória medidas).
 
 ### P2 — Operação e evolução controlada
 
-- [ ] **RT-011 — Revisar observabilidade.** Registrar latência por etapa, origem da resposta, falhas de ferramenta/modelo e taxas de fallback, com anonimização e retenção definidas. **Aceite:** métricas e logs consultáveis sem vazamento de perguntas sensíveis. **Relaciona-se a:** T-054.
-- [ ] **RT-012 — Separar configurações por ambiente.** Inventariar parâmetros do Ollama, banco, timeouts e segredos; usar variáveis de ambiente e exemplo sem credenciais. **Aceite:** execução local reproduzível sem segredos versionados.
-- [ ] **RT-013 — Reavaliar PostgreSQL/RAG apenas após evidências.** Manter SQLite no MVP salvo necessidade demonstrada; documentar gatilhos técnicos para migração e uso de manuais/embeddings. **Aceite:** decisão arquitetural registrada com custos, benefícios e riscos. **Relaciona-se a:** B-04.
-- [ ] **RT-014 — Consolidar o resultado da revisão no Gate existente.** Anexar evidências de testes, riscos remanescentes e recomendação de seguir/ajustar; não criar um documento paralelo de tarefas. **Aceite:** decisão registrada em T-055.
+- [x] **RT-011 — Revisar observabilidade.** Registrar latência por etapa, origem da resposta, falhas de ferramenta/modelo e taxas de fallback, com anonimização e retenção definidas. **Aceite:** métricas e logs consultáveis sem vazamento de perguntas sensíveis. **Relaciona-se a:** T-054. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-011 (`GET /metricas`, agregados anônimos, latência por etapa).
+- [x] **RT-012 — Separar configurações por ambiente.** Inventariar parâmetros do Ollama, banco, timeouts e segredos; usar variáveis de ambiente e exemplo sem credenciais. **Aceite:** execução local reproduzível sem segredos versionados. **Evidência:** `docs/0020-Revisao-Tecnica-Evidencias.md` §RT-012 (`app/config.py`, `.env.example`, testes de sincronia).
+- [x] **RT-013 — Reavaliar PostgreSQL/RAG apenas após evidências.** Manter SQLite no MVP salvo necessidade demonstrada; documentar gatilhos técnicos para migração e uso de manuais/embeddings. **Aceite:** decisão arquitetural registrada com custos, benefícios e riscos. **Relaciona-se a:** B-04. **Evidência:** D031 em `0016` (gatilhos, custos e riscos de PostgreSQL, RAG e embeddings).
+- [x] **RT-014 — Consolidar o resultado da revisão no Gate existente.** Anexar evidências de testes, riscos remanescentes e recomendação de seguir/ajustar; não criar um documento paralelo de tarefas. **Aceite:** decisão registrada em T-055. **Evidência:** T-055 acima (recomendação do Gate com evidências e riscos remanescentes).
 
 ### Regras de execução por agente de programação
 
