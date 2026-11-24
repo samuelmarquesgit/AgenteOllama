@@ -3,6 +3,7 @@
 Uso:  .venv\\Scripts\\python agente.py
 """
 
+from app import config
 from app.agente import Agente
 from app.guardrails import mascarar_dados_pessoais
 from app.memoria import Memoria
@@ -17,6 +18,7 @@ ORIGEM = {
 }
 CONVERSA = "terminal"
 
+config.carregar_env()  # .env opcional (RT-012)
 agente = Agente()
 memoria = Memoria()
 print(f"Agente da loja de ferramentas pronto! ({len(agente.faqs)} perguntas no banco)")

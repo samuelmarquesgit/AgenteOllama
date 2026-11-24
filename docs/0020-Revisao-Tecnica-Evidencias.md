@@ -379,3 +379,15 @@ estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirma
 - **Gabarito alterado em 2 itens** (AV-020 aceita FAQ-086 SDS; AV-100 aceita FAQ-102 máscara de solda): as novas FAQs respondem essas perguntas diretamente. A alteração está anotada em `nota_revisao` de cada item e deve ser confirmada pelo revisor humano.
 - **Risco de sobreajuste:** as perguntas da avaliação **não** foram copiadas para as FAQs; ainda assim, a base e o conjunto foram escritos pela mesma equipe/IA. Um conjunto de validação escrito por terceiros é recomendado antes de tirar conclusões além da demo.
 - **Erros restantes:** AV-006, AV-011, AV-012, AV-022 (vão para a IA: paráfrases não cobertas, ex.: "lisinha", "tiro ferrugem") e AV-067 (falso positivo "tinta/umidade" → FAQ-012).
+
+## RT-012 — Configuração centralizada (2026-11-24)
+
+- **Antes:** 6 variáveis lidas com `os.getenv` espalhado em `app/agente.py` e `app/db/conexao.py`, sem lista única nem exemplo.
+- **Depois:** `app/config.py` é o registro único (nome, padrão, descrição). Os valores são lidos no momento do uso, por isso os testes conseguem alterá-los. `.env.example` na raiz traz todas as variáveis com os padrões. Um `.env` opcional (ignorado pelo git) é carregado pela API e pela CLI e não sobrescreve o ambiente.
+- **Variáveis:** `BANCO_SQLITE`, `USAR_OLLAMA`, `OLLAMA_HOST`, `OLLAMA_MODELO`, `OLLAMA_TIMEOUT`, `OLLAMA_TIMEOUT_REESCRITA`, `TORK_SERVIR_SUGESTOES`.
+- **Testes:** `tests/test_config.py` confere que o `.env.example` bate com o registro, que nenhum módulo de `app/` usa `os.getenv` fora do `config.py`, a interpretação de liga/desliga e de segundos, a resolução de caminho relativo e o carregamento do `.env`. Suíte: 1421 passed; Ruff sem erros.
+
+## P1.6 — Integração contínua (2026-11-24)
+
+- `.github/workflows/ci.yml`: Ruff (`ruff.toml`, regras E9 e F), pytest e avaliação de roteamento em push na `main` e em pull requests, com Python 3.12 e 3.14. Não usa Ollama.
+- **Evidência:** a execução 45324650813 no PR #7 passou (`success`, 1m37s).

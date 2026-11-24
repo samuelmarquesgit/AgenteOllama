@@ -18,6 +18,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from app import config
 from app.agente import Agente
 from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
 from app.db.repositorios import AtendimentoRepository, CatalogoRepository, FiltroProdutos, LojaRepository
@@ -27,6 +28,7 @@ from app.memoria import Memoria
 PASTA_STATIC = Path(__file__).resolve().parent.parent / "static"
 ORIGENS_COM_CONTEXTO = {"banco", "agente", "catalogo", "loja"}
 
+config.carregar_env()  # .env opcional (RT-012); não sobrescreve o ambiente
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("agente")
 app = FastAPI(title="Agente da loja de ferramentas", version="0.3.0")

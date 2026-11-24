@@ -15,11 +15,10 @@ Fluxo de cada pergunta (os guardrails ficam em app/guardrails/):
 """
 
 import logging
-import os
 import sqlite3
 from dataclasses import dataclass, field
 
-from app import banco
+from app import banco, config
 from app.busca import buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
@@ -63,9 +62,9 @@ NOTA_SUGESTAO = 0.9     # sugestões não revisadas só respondem perguntas prat
 COBERTURA_REVERSA_SUGESTAO = 0.75  # ...e que contenham a maior parte das palavras da sugestão
 CATEGORIA_SUGESTAO = "aprendida"
 
-MODELO = os.getenv("OLLAMA_MODELO", "llama3.2")
-TIMEOUT_GERACAO_PADRAO = 45.0    # s; a 1ª chamada carrega o modelo na memória (~12 s nesta máquina)
-TIMEOUT_REESCRITA_PADRAO = 10.0  # s; reescrita de contexto é curta: se passar disso, usa a pergunta original
+# Configuração (modelo, host, timeouts, liga/desliga) vem de app/config.py (RT-012).
+# OLLAMA_TIMEOUT padrão 45 s: a 1ª chamada carrega o modelo na memória (~12 s nesta máquina).
+# OLLAMA_TIMEOUT_REESCRITA padrão 10 s: se passar disso, usa a pergunta original.
 
 # Indícios de que a mensagem depende da anterior ("e para metal?", "e essa?", "quanto dura ela?").
 INICIOS_CONTINUACAO = ("e ", "e se ", "mas ", "entao ", "tambem ", "agora ", "so que ", "ainda ")
@@ -80,7 +79,7 @@ log = logging.getLogger("agente")
 
 
 def usar_ollama() -> bool:
-    return os.getenv("USAR_OLLAMA", "true").lower() in ("1", "true", "sim", "yes")
+    return config.ligado("USAR_OLLAMA")
 
 
 @dataclass
@@ -111,13 +110,6 @@ def _mensagens_do_historico(historico: list[Troca]) -> list[dict]:
     return mensagens
 
 
-def _segundos(variavel: str, padrao: float) -> float:
-    try:
-        return max(1.0, float(os.getenv(variavel, padrao)))
-    except ValueError:
-        return padrao
-
-
 def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | None = None) -> str | None:
     """Chama o Ollama; devolve None se ele não estiver disponível, demorar demais ou responder vazio.
 
@@ -127,9 +119,9 @@ def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | Non
     try:
         import ollama
 
-        cliente = ollama.Client(host=os.getenv("OLLAMA_HOST") or None,
-                                timeout=timeout or _segundos("OLLAMA_TIMEOUT", TIMEOUT_GERACAO_PADRAO))
-        r = cliente.chat(model=MODELO, messages=mensagens, options={"temperature": temperatura})
+        cliente = ollama.Client(host=config.texto("OLLAMA_HOST") or None,
+                                timeout=timeout or config.segundos("OLLAMA_TIMEOUT"))
+        r = cliente.chat(model=config.texto("OLLAMA_MODELO"), messages=mensagens, options={"temperature": temperatura})
         return r["message"]["content"].strip() or None
     except Exception as erro:  # noqa: BLE001 - qualquer falha do LLM vira fallback seguro
         log.warning("Ollama indisponível ou lento: %s", type(erro).__name__)
@@ -153,7 +145,7 @@ def reescrever_com_ollama(pergunta: str, historico: list[Troca]) -> str | None:
             {"role": "user", "content": f"HISTÓRICO:\n{contexto}\n\nÚLTIMA MENSAGEM: {pergunta}"},
         ],
         temperatura=0.0,
-        timeout=_segundos("OLLAMA_TIMEOUT_REESCRITA", TIMEOUT_REESCRITA_PADRAO),  # se demorar, segue com a pergunta original
+        timeout=config.segundos("OLLAMA_TIMEOUT_REESCRITA"),  # se demorar, segue com a pergunta original
     )
     return limpar_reescrita(texto)
 
@@ -324,7 +316,7 @@ class Agente:
         FAQ oficial faz. Exige nota alta nos dois sentidos (a pergunta cobre a sugestão e vice-versa).
         RT-002: TORK_SERVIR_SUGESTOES=false desliga o reaproveitamento (só conteúdo aprovado é servido).
         """
-        if os.getenv("TORK_SERVIR_SUGESTOES", "true").lower() in ("0", "false", "nao", "no"):
+        if not config.ligado("TORK_SERVIR_SUGESTOES"):
             return None
         q = tokens(pergunta)
         melhor, nota_melhor = None, 0.0

@@ -221,11 +221,11 @@ def test_perguntar_ao_ollama_envia_instrucao_e_pergunta(monkeypatch):
 
     _ollama_simulado(monkeypatch, chat)
     assert perguntar_ao_ollama("Qual serra?") == "resposta"
-    assert recebido["model"] == modulo.MODELO
+    assert recebido["model"] == "llama3.2"  # padrão de OLLAMA_MODELO
     assert recebido["messages"][0] == {"role": "system", "content": modulo.INSTRUCAO_LLM}
     assert recebido["messages"][1] == {"role": "user", "content": "Qual serra?"}
     assert recebido["options"]["temperature"] <= 0.3
-    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_GERACAO_PADRAO   # RT-010: sempre com timeout
+    assert CLIENTES_CRIADOS[-1]["timeout"] == 45.0   # RT-010: sempre com timeout
 
 
 def test_perguntar_ao_ollama_erro_devolve_none(monkeypatch):
@@ -380,7 +380,7 @@ def test_rt010_timeout_invalido_usa_padrao(monkeypatch):
     _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "ok"}})
     monkeypatch.setenv("OLLAMA_TIMEOUT", "abc")
     perguntar_ao_ollama("Qual serra?")
-    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_GERACAO_PADRAO
+    assert CLIENTES_CRIADOS[-1]["timeout"] == 45.0
 
 
 def test_rt010_reescrita_tem_timeout_curto(monkeypatch):
@@ -388,7 +388,7 @@ def test_rt010_reescrita_tem_timeout_curto(monkeypatch):
 
     _ollama_simulado(monkeypatch, lambda **_: {"message": {"content": "Qual broca usar em metal?"}})
     modulo.reescrever_com_ollama("e para metal?", [Troca("Qual broca usar em concreto?", "...")])
-    assert CLIENTES_CRIADOS[-1]["timeout"] == modulo.TIMEOUT_REESCRITA_PADRAO
+    assert CLIENTES_CRIADOS[-1]["timeout"] == 10.0
 
 
 @pytest.mark.parametrize("erro", [TimeoutError("lento"), ConnectionError("fora do ar"), OSError("rede")])

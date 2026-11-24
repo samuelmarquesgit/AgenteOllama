@@ -8,11 +8,11 @@
   `sqlite3.Connection` entre threads causava erros como "bad parameter or other API misuse".
 """
 
-import os
 import sqlite3
 import threading
 from pathlib import Path
 
+from app import config
 from app.busca import normalizar
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -21,7 +21,7 @@ ESPERA_ESCRITA_MS = 5000
 
 
 def caminho_banco() -> Path:
-    return Path(os.getenv("BANCO_SQLITE", CAMINHO_PADRAO))
+    return config.caminho("BANCO_SQLITE")  # padrão: data/loja.db (CAMINHO_PADRAO)
 
 
 def abrir(caminho: Path | str | None = None) -> sqlite3.Connection:
