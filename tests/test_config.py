@@ -26,8 +26,8 @@ def test_nenhuma_variavel_lida_fora_do_registro():
 @pytest.mark.parametrize("valor, esperado", [("true", True), ("SIM", True), ("1", True), ("false", False),
                                               ("não", False), ("0", False), ("talvez", True)])
 def test_ligado_aceita_formas_comuns(monkeypatch, valor, esperado):
-    monkeypatch.setenv("TORK_SERVIR_SUGESTOES", valor)
-    assert config.ligado("TORK_SERVIR_SUGESTOES") is esperado
+    monkeypatch.setenv("USAR_OLLAMA", valor)
+    assert config.ligado("USAR_OLLAMA") is esperado
 
 
 def test_segundos_invalido_ou_baixo_usa_limites(monkeypatch):
@@ -53,3 +53,13 @@ def test_carregar_env_nao_sobrescreve_e_ignora_desconhecidas(tmp_path, monkeypat
     assert os.environ["OLLAMA_TIMEOUT"] == "30"
     assert "SEGREDO_QUALQUER" not in os.environ
     monkeypatch.delenv("OLLAMA_TIMEOUT")
+
+
+def test_d032_sugestoes_nao_revisadas_desligadas_por_padrao(monkeypatch):
+    monkeypatch.delenv("TORK_SERVIR_SUGESTOES", raising=False)
+    assert config.ligado("TORK_SERVIR_SUGESTOES") is False
+
+
+def test_g27_classificador_ligado_por_padrao(monkeypatch):
+    monkeypatch.delenv("TORK_CLASSIFICAR_RISCO", raising=False)
+    assert config.ligado("TORK_CLASSIFICAR_RISCO") is True

@@ -23,7 +23,9 @@ from app.metricas import metricas
 from app.busca import buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
-from app.guardrails.risco import NOTA_MINIMA_RISCO, REFORCO_RISCO, acao_perigosa, resposta_sem_base, tema_de_risco
+from app.guardrails.risco import (
+    NOTA_MINIMA_RISCO, REFORCO_RISCO, acao_perigosa, pede_julgamento_de_seguranca, resposta_sem_base, tema_de_risco,
+)
 from app.guardrails import (
     eh_fora_do_escopo,
     limpar_reescrita,
@@ -38,11 +40,13 @@ from app.guardrails.prompts import (
     FALLBACK,
     FALLBACK_IA_INDISPONIVEL,
     FORA_DO_ESCOPO,
+    INSTRUCAO_CLASSIFICAR_RISCO,
     INSTRUCAO_LLM,
     INSTRUCAO_REESCRITA,
     RESPOSTA_BLOQUEADA_ENTRADA,
     RESPOSTA_BLOQUEADA_SAIDA,
     RESPOSTA_FORA_DO_ESCOPO,
+    RESPOSTA_RISCO_CLASSIFICADO,
 )
 from app.db.conexao import ConexoesPorThread
 from app.db.repositorios import CatalogoRepository, LojaRepository
@@ -142,6 +146,21 @@ def perguntar_ao_ollama(pergunta: str, historico: list[Troca] | None = None) -> 
     return _chat_ollama(mensagens, temperatura=0.2)
 
 
+def classificar_risco_com_ollama(pergunta: str) -> bool | None:
+    """G27: True se a pergunta pode envolver risco; None se o Ollama não respondeu (IA indisponível).
+
+    Falha fechado: qualquer resposta que não comece com SEGURO conta como risco.
+    """
+    texto = _chat_ollama(
+        [{"role": "system", "content": INSTRUCAO_CLASSIFICAR_RISCO}, {"role": "user", "content": pergunta}],
+        temperatura=0.0, etapa="classificacao",
+        timeout=min(config.segundos("OLLAMA_TIMEOUT_REESCRITA"), config.segundos("OLLAMA_TIMEOUT")),
+    )
+    if texto is None:
+        return None
+    return not texto.strip().upper().startswith("SEGURO")
+
+
 def reescrever_com_ollama(pergunta: str, historico: list[Troca]) -> str | None:
     """Transforma uma continuação ("e para metal?") numa pergunta independente."""
     contexto = "\n".join(f"Cliente: {t.pergunta}\nAssistente: {t.resposta}" for t in historico)
@@ -176,14 +195,22 @@ class Agente:
         perguntar=perguntar_ao_ollama,
         reescrever=reescrever_com_ollama,
         conexoes: ConexoesPorThread | None = None,
+        classificar=None,
     ):
-        """`con`: conexão única (testes, terminal). Sem `con`, usa uma conexão por thread (servidor, RT-007)."""
+        """`con`: conexão única (testes, terminal). Sem `con`, usa uma conexão por thread (servidor, RT-007).
+
+        `classificar` (G27): função pergunta -> bool (True = risco). Padrão: o classificador do Ollama quando a
+        IA real é usada; com `perguntar` simulado (testes), não classifica, salvo se for passado explicitamente.
+        """
         self._con_fixa = con
         if con is None:
             self._conexoes = conexoes or ConexoesPorThread()
             banco.conectar(self._conexoes.caminho).close()  # migra e popula uma vez, antes de atender
         self.perguntar = perguntar
         self.reescrever = reescrever
+        if classificar is None:
+            classificar = classificar_risco_com_ollama if perguntar is perguntar_ao_ollama else (lambda _p: False)
+        self.classificar = classificar
         self.marcas_catalogo = self.catalogo.marcas()
         self.recarregar()
 
@@ -231,7 +258,8 @@ class Agente:
         else:
             independente = self._interpretar(pergunta, historico)
             resposta = (
-                self._responder_por_dados(independente)
+                self._responder_acao_perigosa(independente)  # G26 antes de tudo: nem catálogo nem IA
+                or self._responder_por_dados(independente)
                 or self._responder_pelo_banco(independente)
                 or self._responder_comercial(independente)
                 or self._responder_risco(independente)
@@ -301,15 +329,33 @@ class Agente:
     # ---- 3) agente de IA ---------------------------------------------------
     # ---- 4) resposta aprendida, ainda não revisada --------------------------
     # ---- 3b) G26: pergunta de risco sem FAQ suficiente -----------------------
+    def _responder_acao_perigosa(self, pergunta: str) -> Resposta | None:
+        """G26: ação perigosa (abrir bateria, travar gatilho, sem máscara...) é tratada antes do catálogo.
+
+        Só responde pela base se houver FAQ de risco ALTO bem próxima (ex.: FAQ-038 "nunca retire a proteção");
+        caso contrário, encaminha. Nunca chama a IA.
+        """
+        if not acao_perigosa(pergunta):
+            return None
+        tema = tema_de_risco(pergunta) or "seguranca"
+        melhores = buscar(pergunta, self.oficiais, limite=1)
+        if melhores and melhores[0].faq.nivel_risco == "alto" and melhores[0].nota >= NOTA_MINIMA:
+            faq = melhores[0].faq
+            return Resposta(faq.resposta + REFORCO_RISCO, faq.id, melhores[0].nota, "banco",
+                            guardrails=[f"G26:acao_perigosa:{tema}"])
+        return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:acao_perigosa:{tema}"])
+
     def _responder_risco(self, pergunta: str) -> Resposta | None:
         """Tema de risco: usa a FAQ mais próxima (nota >= 0,3) com reforço; sem FAQ, encaminha. Nunca chama a IA."""
         tema = tema_de_risco(pergunta)
+        nota_minima = NOTA_MINIMA_RISCO
+        if not tema and pede_julgamento_de_seguranca(pergunta):
+            # "posso...?", "ainda é seguro?" sem tema conhecido: falha fechado, mas só aceita FAQ bem próxima
+            tema, nota_minima = "julgamento", NOTA_MINIMA
         if not tema:
             return None
-        if acao_perigosa(pergunta):  # ex.: abrir bateria de lítio, mexer com energia ligada
-            return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:acao_perigosa:{tema}"])
         candidatos = [r for r in buscar(pergunta, self.oficiais, limite=5)
-                      if r.nota >= NOTA_MINIMA_RISCO and r.faq.nivel_risco in ("medio", "alto")]
+                      if r.nota >= nota_minima and r.faq.nivel_risco in ("medio", "alto")]
         if candidatos:
             melhor = candidatos[0]
             return Resposta(melhor.faq.resposta + REFORCO_RISCO, melhor.faq.id, melhor.nota, "banco",
@@ -341,6 +387,13 @@ class Agente:
     def _responder_pelo_agente(self, pergunta: str, historico: list[Troca], tinha_dados_pessoais: bool = False) -> Resposta:
         if not usar_ollama():
             return Resposta(FALLBACK, None, 0.0, "fallback")
+        if config.ligado("TORK_CLASSIFICAR_RISCO"):  # G27: pergunta classificada como risco não vai para a IA
+            risco = self.classificar(pergunta)
+            if risco is None:
+                return Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
+            if risco:
+                return Resposta(RESPOSTA_RISCO_CLASSIFICADO, None, 0.0, "fallback",
+                                guardrails=["G27:risco_classificado"])
         texto = self.perguntar(pergunta, historico)
         if not texto:
             return Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
