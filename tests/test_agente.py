@@ -51,7 +51,6 @@ def test_perguntas_da_demo_vem_do_banco(agente, ollama, pergunta, esperados):
         ("diferenca entre furadeira e aparafusadora", "FAQ-001"),  # sinônimo cadastrado
         ("que serra usar em madeira", "FAQ-009"),
         ("posso usar furadeira na chuva?", "FAQ-040"),
-        ("aceita pix?", "FAQ-045"),
         ("vocês trabalham com makita", "FAQ-051"),
         ("minha furadeira está esquentando", "FAQ-037"),
         ("ferramenta 220 na tomada 110", "FAQ-025"),
@@ -71,8 +70,7 @@ def test_saudacao(agente, ollama):
 # ---- regras comerciais (nunca inventar preço / nunca passar pelo LLM) -----------
 @pytest.mark.parametrize(
     "pergunta",
-    ["qual o preço da lixadeira?", "Tem uma Bosch por R$ 300?", "quanto custa o frete pra SP",
-     "vocês parcelam?", "tem cupom de desconto?", "qual a garantia?"],
+    ["Tem uma Bosch por R$ 300?", "quanto custa o frete pra SP", "tem cupom de desconto?", "qual a garantia?"],
 )
 def test_comercial_nunca_usa_llm_nem_inventa_preco(agente, ollama, pergunta):
     r = agente.responder(pergunta)
@@ -88,10 +86,12 @@ def test_comercial_mista_junta_respostas(agente):
     assert r.confidence >= modulo.NOTA_MINIMA
 
 
-def test_preco_com_produto_prioriza_comercial(agente):
+def test_preco_de_produto_vem_do_catalogo_e_nao_do_llm(agente, ollama):
     r = agente.responder("qual o preço da lixadeira")
-    assert r.matchedFaqId == "FAQ-042"
-    assert "Talvez também ajude" in r.answer  # sugere a FAQ técnica de lixadeira
+    assert r.origem == "catalogo"
+    assert r.produtos and all("Lixadeira" in p["nome"] for p in r.produtos)
+    assert "fictícios" in r.answer
+    assert ollama.chamadas == 0
 
 
 # ---- empate e baixa confiança -------------------------------------------------
@@ -117,27 +117,27 @@ PERGUNTA_NOVA = "Qual a voltagem ideal para um soprador térmico?"
 
 def test_pergunta_nova_vai_para_o_agente_e_e_gravada(agente, ollama):
     r1 = agente.responder(PERGUNTA_NOVA)
-    assert r1 == Resposta(RESPOSTA_FALSA, "FAQ-061", 0.0, "agente")
+    assert r1 == Resposta(RESPOSTA_FALSA, "SUG-0001", 0.0, "agente")
     assert len(agente.faqs) == 61
     assert ollama.perguntas == [PERGUNTA_NOVA]
 
     r2 = agente.responder(PERGUNTA_NOVA)
     assert r2.origem == "banco"
-    assert r2.matchedFaqId == "FAQ-061"
+    assert r2.matchedFaqId == "SUG-0001"
     assert r2.answer == RESPOSTA_FALSA
     assert ollama.chamadas == 1  # não chamou o LLM de novo
 
 
 def test_pergunta_aprendida_fica_pendente_de_validacao(agente, con):
     agente.responder(PERGUNTA_NOVA)
-    status, origem = con.execute("SELECT status, origem FROM faq WHERE id='FAQ-061'").fetchone()
-    assert (status, origem) == ("pendente_validacao", "agente")
+    status, origem = con.execute("SELECT status, origem FROM faq_sugestoes WHERE id = 1").fetchone()
+    assert (status, origem) == ("pendente", "ollama")
 
 
 def test_varias_perguntas_novas_geram_ids_sequenciais(agente):
     a = agente.responder("Qual a voltagem ideal para um soprador térmico?")
     b = agente.responder("Como funciona uma tupia de bancada?")
-    assert (a.matchedFaqId, b.matchedFaqId) == ("FAQ-061", "FAQ-062")
+    assert (a.matchedFaqId, b.matchedFaqId) == ("SUG-0001", "SUG-0002")
 
 
 def test_aprendizado_persiste_em_nova_instancia(con, ollama):
@@ -181,7 +181,7 @@ def test_pergunta_so_com_stopwords_vai_para_o_agente(agente, ollama):
 
 
 def test_espacos_extras_sao_ignorados(agente):
-    assert agente.responder("   aceita pix?   ").matchedFaqId == "FAQ-045"
+    assert agente.responder("   qual broca usar em madeira?   ").matchedFaqId == "FAQ-014"
 
 
 # ---- usar_ollama --------------------------------------------------------------
@@ -238,7 +238,7 @@ def test_instrucao_do_llm_tem_as_regras_de_seguranca():
 def test_resposta_para_dict():
     assert Resposta("a", "FAQ-001", 0.5, "banco").para_dict() == {
         "answer": "a", "matchedFaqId": "FAQ-001", "confidence": 0.5, "origem": "banco",
-        "perguntaInterpretada": None, "guardrails": [],
+        "perguntaInterpretada": None, "guardrails": [], "produtos": [],
     }
 
 

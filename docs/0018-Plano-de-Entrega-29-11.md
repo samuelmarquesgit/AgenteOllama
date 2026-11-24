@@ -31,12 +31,12 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | # | Item | Origem |
 |---|------|--------|
 | P0.1 | Repositório consolidado: contexto, guardrails e documentação na `main` | T-007 |
-| P0.2 | PostgreSQL 17 via Docker Compose, com **migrações SQL versionadas** (`database/migrations/0001_up.sql` / `0001_down.sql` + um script de execução) | DB §0–2, T-013, T-016 |
-| P0.3 | Tabelas `faq_categorias`, `faq_perguntas` e `faq_variacoes` (DB §2) + `faq_sugestoes` (aprendizado) | DB §2, T-016, T-017 |
+| P0.2 | ✅ ~~PostgreSQL via Docker~~ **SQLite normalizado** (decisão do time, D019) com **migrações SQL versionadas** up/down + executor | DB §0–2, T-016 |
+| P0.3 | ✅ Tabelas da FAQ (DB §2) + `faq_sugestoes`, e também loja, catálogo fictício (300 produtos) e atendimento: 19 tabelas em 3FN | DB §2–5, T-016, T-017 |
 | P0.4 | **150 FAQs + 450 variações** em 8 categorias, em YAML, com seed idempotente e verificador de contagens | DB §6, T-022–T-024, T-026 |
-| P0.5 | Busca **parametrizada** no Postgres (unaccent + ILIKE/trigram) usada pelo Tork; o comportamento atual é mantido | DB §7, T-020 |
-| P0.6 | Testes: os 572 atuais + testes de banco essenciais (FKs, unicidades, contagens, SQL injection, acentos, rollback) | DB §8, T-021 |
-| P0.7 | `docs/db/`: README, DER, dicionário de dados, catálogo do seed, segurança e log de execução | DB §1, §10 |
+| P0.5 | ✅ Busca **parametrizada** (função `norm()` sem acento + LIKE) usada pelo Tork; comportamento mantido | DB §7, T-020 |
+| P0.6 | ✅ 687 testes, incluindo FKs, unicidades, CHECKs, triggers, contagens, SQL injection, acentos e rollback | DB §8, T-021 |
+| P0.7 | ✅ `docs/db/`: README, DER, dicionário de dados (gerado), catálogo do seed, segurança e log de execução | DB §1, §10 |
 | P0.8 | Demo funcionando + **vídeo de reserva** + versão `v0.3.0` | T-052, T-055 |
 
 ### P1 — importante (faz a entrega se destacar)

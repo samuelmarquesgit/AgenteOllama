@@ -87,3 +87,32 @@ como P1, cronograma diário até sábado 28/11, extensão só como reserva e as 
 contexto, banco, IA, aprendizado, curadoria e resposta) e diagramas de componentes, F-TROCA, F-HUMANO, escada de
 fallback, ciclo de vida da resposta, pipeline de dados, fluxo de trabalho e cronograma (Gantt).
 
+## P014 — Banco normalizado e base fake de produtos (2026-11-23)
+**Prompt (resumo):** deixar no SQLite por enquanto (Docker depois); entrega no repositório do GitHub; começar
+imediatamente, com o banco todo normalizado; criar uma base totalmente fake de produtos e preços para apresentação,
+pegando na internet uma lista pronta.
+
+**Resultado:** 19 tabelas em 3FN (4 migrações up/down), seeds idempotentes, repositórios com SQL parametrizado,
+catálogo fictício de 300 produtos com preços e estoque, respostas de produto e loja no chat (com cards), `docs/db/`
+e 687 testes. Não havia lista pronta e licenciada na internet (Mercado Livre exige autenticação; raspar varejistas
+viola os termos), então o catálogo foi gerado com marcas inventadas e preços em faixas realistas (D028).
+
+## P015 — Falha do SonarCloud na PR #2 (2026-11-23)
+**Prompt (resumo):** o último commit falhou no SonarCloud (Security Rating C), mas o Sonar nunca foi configurado no projeto.
+
+**Resultado:** a análise vem do aplicativo SonarQube Cloud instalado na conta do GitHub (não há configuração no
+repositório). O projeto no SonarCloud é privado, então os detalhes exigem login. Endurecidos os dois candidatos mais
+prováveis: ID de conversa com `crypto.getRandomValues` e log de erro sem o caminho bruto da requisição.
+
+
+## P016 — PR do banco fora da main e Quality Gate reprovado (2026-11-23)
+**Prompt (resumo):** não consigo realizar a PR; ler o ambiente do projeto no GitHub e ajudar a resolver.
+
+**Diagnóstico:** a PR #3 (empilhada) foi mergeada na branch `docs/replanejamento-profissionalizacao` depois que a
+#2 já tinha ido para a `main`, então o banco ficou fora da `main` e não havia PR aberta. O SonarQube Cloud (aplicativo
+do GitHub) reprovava por segurança E (falso positivo de SQL injection no executor de migrações, mais SQL montado com
+f-string) e confiabilidade C (regras de PL/SQL/Oracle aplicadas a migrações SQLite).
+
+**Resultado:** PR #4 para a `main` com o banco + correções: SQL parametrizado e validação de arquivo no executor,
+`.sonarcloud.properties` (produção × testes, exclusão dos `.sql`), refatorações de complexidade. Quality Gate aprovado.
+Sugestão: ativar "Automatically delete head branches" para PRs empilhadas apontarem sozinhas para a `main`.

@@ -129,7 +129,8 @@ def test_agente_recebe_historico_e_grava_pergunta_completa(con, ollama):
     assert r.origem == "agente"
     assert ollama.historicos[0] == HISTORICO_BROCA       # o LLM viu a conversa
     assert ollama.perguntas[0] == "Como fazer rebaixo com tupia de bancada?"
-    gravada = con.execute("SELECT pergunta FROM faq WHERE id=?", (r.matchedFaqId,)).fetchone()[0]
+    gravada = con.execute("SELECT pergunta FROM faq_sugestoes WHERE id = ?",
+                          (int(r.matchedFaqId.split("-")[1]),)).fetchone()[0]
     assert gravada == "Como fazer rebaixo com tupia de bancada?"  # nunca "e para fazer rebaixo?"
 
 

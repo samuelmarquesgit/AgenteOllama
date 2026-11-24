@@ -17,7 +17,7 @@ CATEGORIAS = {
     "medicao_eletronica", "soldagem_compressores_limpeza", "uso_manutencao_seguranca",
     "atendimento_comercial", "diagnostico_comparacao",
 }
-CAMPOS = {"id", "categoria", "pergunta", "variacoes", "palavras_chave", "resposta", "fonte", "revisado_em", "status"}
+CAMPOS = {"id", "categoria", "pergunta", "variacoes", "palavras_chave", "resposta", "fonte", "revisado_em", "status", "nivel_risco"}
 
 
 def test_tem_60_faqs():
@@ -38,6 +38,7 @@ def test_campos_obrigatorios(item):
     assert item["palavras_chave"], "toda FAQ precisa de palavras-chave"
     assert isinstance(item["variacoes"], list)
     assert item["status"] in {"rascunho", "pendente_validacao", "validado", "inativo"}
+    assert item["nivel_risco"] in {"baixo", "medio", "alto"}
 
 
 def test_comerciais_estao_pendentes_de_validacao():

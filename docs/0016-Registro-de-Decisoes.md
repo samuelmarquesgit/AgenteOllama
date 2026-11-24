@@ -36,6 +36,19 @@ LLM é verificada por padrões antes de ir ao cliente ou ao banco, e a entrada �
 antes de chegar ao LLM. Tudo fica em `app/guardrails/` com IDs (G01–G19), para ser fácil de
 auditar, testar e evoluir.
 
+## D019 — SQLite normalizado nesta entrega; PostgreSQL depois (2026-11-23)
+Decisão do time: "deixe no SQLite nesse primeiro momento, depois colocaremos em um Docker certinho".
+O banco foi totalmente normalizado (3FN) em SQLite, com migrações SQL portáveis para facilitar a troca futura.
+
+## D008 (revisada) — Migrações em SQL versionado com executor próprio (2026-11-23)
+Em vez do Alembic, arquivos `NNNN_nome.up.sql` / `.down.sql` e um executor de ~100 linhas (`app/db/migracoes.py`).
+É uma das opções do plano de banco (DB §0), não acrescenta dependência e o rollback é testado.
+
+## D028 — Catálogo fictício gerado, não copiado da internet (2026-11-23)
+Não há lista aberta e licenciada de ferramentas com preços em reais; a API do Mercado Livre exige autenticação e
+coletar páginas de varejistas viola os termos de uso. O catálogo é gerado (`SEED=2026`) com marcas inventadas e
+preços em faixas aproximadas do varejo brasileiro, documentado como fictício.
+
 ## Futuro
 Trocar a busca por palavras-chave por embeddings/RAG (MVP 2), painel para
 validar as respostas aprendidas e histórico de conversa.

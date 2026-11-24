@@ -5,6 +5,7 @@
 """
 
 import os
+import shutil
 import sys
 import tempfile
 from pathlib import Path
@@ -48,9 +49,19 @@ def ollama_ligado(monkeypatch):
     monkeypatch.setenv("USAR_OLLAMA", "true")
 
 
+@pytest.fixture(scope="session")
+def banco_modelo(tmp_path_factory):
+    """Banco migrado e populado UMA vez por sessão; cada teste recebe uma cópia."""
+    caminho = tmp_path_factory.mktemp("modelo") / "modelo.db"
+    banco.conectar(caminho).close()
+    return caminho
+
+
 @pytest.fixture
-def con(tmp_path):
-    c = banco.conectar(tmp_path / "teste.db")
+def con(tmp_path, banco_modelo):
+    destino = tmp_path / "teste.db"
+    shutil.copyfile(banco_modelo, destino)
+    c = banco.conectar(destino)
     yield c
     c.close()
 
