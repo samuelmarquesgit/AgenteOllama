@@ -48,6 +48,7 @@ class RespostaChat(BaseModel):
     perguntaInterpretada: str | None = None
     guardrails: list[str] = []
     produtos: list[dict] = []
+    statusConteudo: str | None = None
 
 
 @app.exception_handler(Exception)
@@ -81,8 +82,8 @@ def chat(pergunta: Pergunta):
 
     # Métrica técnica sem guardar o texto do cliente no log.
     log.info(
-        "chat faq=%s nota=%.2f origem=%s contexto=%d reescrita=%s guardrails=%s",
-        resposta.matchedFaqId, resposta.confidence, resposta.origem, len(historico),
+        "chat faq=%s nota=%.2f origem=%s conteudo=%s contexto=%d reescrita=%s guardrails=%s",
+        resposta.matchedFaqId, resposta.confidence, resposta.origem, resposta.statusConteudo, len(historico),
         resposta.perguntaInterpretada is not None, ",".join(resposta.guardrails) or "-",
     )
     return resposta.para_dict()

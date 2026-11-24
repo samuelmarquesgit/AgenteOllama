@@ -307,3 +307,59 @@ Relatório completo da linha de base: [`docs/eval/avaliacao-roteamento-linha-de-
 
 **Revisão humana pendente:** os cenários críticos (catálogo de temas e textos de encaminhamento) precisam ser
 validados por um responsável técnico (T-004/T-025) antes de uso real.
+
+---
+
+## RT-002 — Promoção de conhecimento não revisado
+
+**Data:** 2026-11-24 · **Depende de:** RT-001
+
+**Conclusão da auditoria:** **não existe promoção automática.** Só o seed (arquivo versionado) e a aprovação humana
+(`python -m app.db.revisao aprovar`) inserem na FAQ oficial (teste `test_rt001_unicos_pontos_que_inserem_na_faq_oficial`).
+O risco que existia era outro: sugestões pendentes *servidas* como se fossem FAQ, corrigido na PR #5 e auditado na RT-001.
+
+### Estados
+
+| Estado sugerido na RT-002 | Estado no banco (`faq_sugestoes.status`) | Como chega lá |
+|---------------------------|------------------------------------------|---------------|
+| `PENDENTE` | `pendente` | Gravada pela IA após os guardrails, ou importada da v0.2 |
+| `EM_REVISAO` | — (não criado) | Ver decisão abaixo |
+| `APROVADA` | `aprovada` (+ `faq_pergunta_id` obrigatório, por `CHECK`) | `revisao aprovar` → cria FAQ `FAQ-901+` com status `validado` |
+| `REJEITADA` | `rejeitada` (+ motivo, revisor, data) | `revisao rejeitar` |
+
+**Decisão (D029):** não criar `EM_REVISAO` agora. Com um revisor usando o comando de terminal, a revisão é atômica
+(aprova ou rejeita na hora); o estado só faz sentido com o painel admin (T-050) e vários revisores. Quando necessário:
+migração `0006` recriando a tabela com o novo valor no `CHECK` (o SQLite não altera `CHECK`), mantendo os registros
+existentes (`pendente`/`aprovada`/`rejeitada` mapeiam 1:1).
+
+### Controle adicional
+
+`TORK_SERVIR_SUGESTOES=false` desliga o reaproveitamento de respostas não revisadas: só conteúdo aprovado é servido,
+e perguntas novas voltam a ir para a IA (que grava nova sugestão para revisão). Padrão: `true` (demonstra o
+aprendizado), sempre com selo "aguardando revisão" e **nunca** para temas de risco (G26).
+
+**Testes:** `test_rt002_desligar_sugestoes_serve_so_conteudo_aprovado`, `test_rt003_sugestao_pendente_nao_responde_tema_de_risco`
+e os testes da RT-001.
+
+---
+
+## RT-004 — Origem e incerteza de cada resposta
+
+**Data:** 2026-11-24
+
+**Achado:** a origem já era diferenciada, mas a interface dizia "📚 Banco de dados · **resposta revisada**", e as FAQs
+estão com status `rascunho` (nenhuma revisada por especialista). Era uma afirmação falsa.
+
+**Correção:** cada resposta traz `statusConteudo`, gravado também no log (sem a pergunta do cliente):
+
+| Origem | `statusConteudo` | O que a interface mostra |
+|--------|------------------|--------------------------|
+| `banco` | status da FAQ: `rascunho`, `pendente_validacao` ou `validado` | Selo "📚 Base de conhecimento" + "conteúdo ainda não revisado por especialista" se não for `validado` |
+| `catalogo`, `loja` | `dados_demonstracao` | "dados fictícios de demonstração" |
+| `agente`, `sugestao` | `gerado_por_ia` | "Tork IA · resposta gerada, ainda não revisada" / "aguardando revisão" |
+| `fallback`, `bloqueado`, `saudacao`, `fora_do_escopo` | — | Selo próprio; não é especificação técnica |
+
+**Testes:** `test_rt004_status_do_conteudo_por_origem` (5 origens), `test_rt004_faq_validada_aparece_como_validada`,
+`test_rt004_fallback_e_bloqueio_nao_tem_status_de_conteudo`, `test_rt004_interface_nao_afirma_revisao_que_nao_houve`.
+
+**Arquivos:** `app/agente.py`, `app/main.py`, `static/js/chat.js`, testes.

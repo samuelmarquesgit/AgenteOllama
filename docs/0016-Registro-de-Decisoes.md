@@ -52,3 +52,8 @@ preços em faixas aproximadas do varejo brasileiro, documentado como fictício.
 ## Futuro
 Trocar a busca por palavras-chave por embeddings/RAG (MVP 2), painel para
 validar as respostas aprendidas e histórico de conversa.
+
+## D029 — Estados das sugestões sem EM_REVISAO por enquanto (2026-11-24)
+A RT-002 sugere PENDENTE/EM_REVISAO/APROVADA/REJEITADA. Com um revisor e revisão atômica pelo terminal, o estado
+EM_REVISAO não agrega; entra com o painel admin (T-050) por uma migração que recria a tabela (o SQLite não altera CHECK).
+Os estados atuais mapeiam 1:1. `TORK_SERVIR_SUGESTOES=false` permite servir só conteúdo aprovado.

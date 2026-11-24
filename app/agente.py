@@ -92,6 +92,9 @@ class Resposta:
     perguntaInterpretada: str | None = None   # preenchida quando a pergunta foi reescrita
     guardrails: list[str] = field(default_factory=list)  # guardrails acionados
     produtos: list[dict] = field(default_factory=list)   # cards do catálogo (origem = "catalogo")
+    # RT-004: grau de verificação do conteúdo. "validado" (revisado por especialista) | "rascunho" |
+    # "pendente_validacao" | "dados_demonstracao" (catálogo/loja fictícios) | "gerado_por_ia" | None
+    statusConteudo: str | None = None
 
     def para_dict(self) -> dict:
         d = self.__dict__.copy()
@@ -204,6 +207,14 @@ class Agente:
         oficiais = [f for f in faqs if f.categoria != CATEGORIA_SUGESTAO]
         sugestoes = [f for f in faqs if f.categoria == CATEGORIA_SUGESTAO]
         self.faqs, self.oficiais, self.sugestoes = faqs, oficiais, sugestoes   # oficiais + sugestões (para /faqs e /health)
+        self._status_faq = {f.id: f.status for f in faqs}
+
+    def _status_do_conteudo(self, r: "Resposta") -> str | None:
+        """RT-004: diz ao cliente (e ao log) quanto aquela resposta foi verificada."""
+        if r.origem == "banco":
+            return self._status_faq.get(r.matchedFaqId or "", "rascunho")
+        return {"catalogo": "dados_demonstracao", "loja": "dados_demonstracao",
+                "agente": "gerado_por_ia", "sugestao": "gerado_por_ia"}.get(r.origem)
 
     def responder(self, pergunta: str, historico: list[Troca] | None = None) -> Resposta:
         historico = historico or []
@@ -232,6 +243,7 @@ class Agente:
                 resposta.perguntaInterpretada = independente
 
         resposta.guardrails = acionados + resposta.guardrails
+        resposta.statusConteudo = self._status_do_conteudo(resposta)
         if entrada.dados_pessoais:
             resposta.answer = f"{AVISO_DADOS_PESSOAIS}\n\n{resposta.answer}"
         return resposta
@@ -308,7 +320,10 @@ class Agente:
 
         Sugestões não passaram por revisão humana: não podem "pegar" perguntas parecidas como a
         FAQ oficial faz. Exige nota alta nos dois sentidos (a pergunta cobre a sugestão e vice-versa).
+        RT-002: TORK_SERVIR_SUGESTOES=false desliga o reaproveitamento (só conteúdo aprovado é servido).
         """
+        if os.getenv("TORK_SERVIR_SUGESTOES", "true").lower() in ("0", "false", "nao", "no"):
+            return None
         q = tokens(pergunta)
         melhor, nota_melhor = None, 0.0
         for sug in self.sugestoes:

@@ -8,7 +8,7 @@ const AVATAR_ALERTA = "/static/brand/tork-avatar-alerta.svg";
 
 // origem da resposta -> [classe do selo, texto do selo]
 const SELOS = {
-  banco: ["banco", "📚 Banco de dados · resposta revisada"],
+  banco: ["banco", "📚 Base de conhecimento"],
   catalogo: ["catalogo", "🛒 Catálogo (dados fictícios)"],
   loja: ["loja", "🏬 Dados da loja"],
   agente: ["agente", "🤖 Tork IA · resposta gerada, ainda não revisada"],
@@ -132,6 +132,8 @@ function montarMeta(dados) {
   const partes = [];
   if (dados.perguntaInterpretada) partes.push(`Entendi como: "${dados.perguntaInterpretada}"`);
   if (dados.origem === "banco") partes.push(`${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`);
+  if (dados.origem === "banco" && dados.statusConteudo !== "validado") partes.push("conteúdo ainda não revisado por especialista");
+  if (dados.statusConteudo === "dados_demonstracao") partes.push("dados fictícios de demonstração");
   if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} para revisão humana`);
   if (dados.origem === "sugestao") partes.push(`${dados.matchedFaqId} · ainda não revisada por um especialista`);
   if (dados.guardrails?.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
