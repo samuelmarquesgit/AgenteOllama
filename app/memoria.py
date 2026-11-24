@@ -2,8 +2,10 @@
 
 Cada conversa guarda as últimas trocas (pergunta já interpretada + resposta).
 O número de conversas também é limitado: as mais antigas são descartadas.
+Segura para várias threads do servidor ao mesmo tempo (RT-007).
 """
 
+import threading
 from collections import OrderedDict, deque
 from dataclasses import dataclass
 
@@ -19,24 +21,31 @@ class Memoria:
         self.trocas_por_conversa = trocas_por_conversa
         self.max_conversas = max_conversas
         self._conversas: OrderedDict[str, deque[Troca]] = OrderedDict()
+        self._trava = threading.Lock()
 
     def historico(self, conversa_id: str | None) -> list[Troca]:
-        if not conversa_id or conversa_id not in self._conversas:
+        if not conversa_id:
             return []
-        self._conversas.move_to_end(conversa_id)
-        return list(self._conversas[conversa_id])
+        with self._trava:
+            if conversa_id not in self._conversas:
+                return []
+            self._conversas.move_to_end(conversa_id)
+            return list(self._conversas[conversa_id])
 
     def registrar(self, conversa_id: str | None, pergunta: str, resposta: str) -> None:
         if not conversa_id:
             return
-        trocas = self._conversas.setdefault(conversa_id, deque(maxlen=self.trocas_por_conversa))
-        trocas.append(Troca(pergunta, resposta))
-        self._conversas.move_to_end(conversa_id)
-        while len(self._conversas) > self.max_conversas:
-            self._conversas.popitem(last=False)
+        with self._trava:
+            trocas = self._conversas.setdefault(conversa_id, deque(maxlen=self.trocas_por_conversa))
+            trocas.append(Troca(pergunta, resposta))
+            self._conversas.move_to_end(conversa_id)
+            while len(self._conversas) > self.max_conversas:
+                self._conversas.popitem(last=False)
 
     def esquecer(self, conversa_id: str) -> None:
-        self._conversas.pop(conversa_id, None)
+        with self._trava:
+            self._conversas.pop(conversa_id, None)
 
     def __len__(self) -> int:
-        return len(self._conversas)
+        with self._trava:
+            return len(self._conversas)

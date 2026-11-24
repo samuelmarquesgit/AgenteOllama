@@ -125,3 +125,54 @@ flowchart TD
 | `test_banco.py::test_rejeitar_sugestao_tira_da_busca` / `test_aprovar_sugestao_vira_faq_oficial` | Ciclo de revisão |
 
 **Arquivos:** `app/db/repositorios.py`, `tests/test_banco.py`, `tests/test_agente.py`.
+
+---
+
+## RT-007 — Concorrência no acesso ao SQLite
+
+**Data:** 2026-11-24
+
+### Inspeção
+
+| Recurso compartilhado | Antes | Risco |
+|-----------------------|-------|-------|
+| Conexão SQLite | **Uma única** `sqlite3.Connection` (`check_same_thread=False`) usada por todas as threads do FastAPI | Cursores e cache de comandos interferem entre threads |
+| Listas de FAQ do agente | `recarregar()` reatribuía três listas em sequência | Uma thread poderia ver listas de versões diferentes |
+| Memória de conversas | `OrderedDict` sem trava | `move_to_end`/`popitem` concorrentes |
+
+### Medição (8 threads × 40 operações: gravar sugestão, gravar avaliação, ler catálogo, responder pela FAQ)
+
+| | Antes | Depois |
+|---|---|---|
+| Operações concluídas | 295 / 320 | **960 / 960** (3 rodadas) |
+| Erros | **25** (`InterfaceError: bad parameter or other API misuse` ×17, `IndexError` ×4, `DatabaseError: no more rows available` ×2, `SystemError`, `OperationalError`) | **0** |
+| Avaliações gravadas | 78 de 80 | 240 de 240 |
+| `PRAGMA integrity_check` | ok | ok |
+
+### Correção
+
+- `app/db/conexao.py`: `ConexoesPorThread`, uma conexão por thread para o mesmo arquivo, e `busy_timeout = 5000 ms`
+  (a escrita espera a vez em vez de falhar). O `Agente` do servidor usa o pool; testes e terminal continuam com uma conexão única.
+- `app/agente.py`: repositórios criados por chamada (com a conexão da thread); `recarregar()` monta as listas e as publica de uma vez.
+- `app/memoria.py`: trava (`threading.Lock`) em todas as operações.
+
+### Cenário de carga HTTP (uvicorn, 1 processo, sem LLM, cópia do banco real)
+
+| Usuários simultâneos | Requisições | Vazão | p50 | p95 | Máx | Status |
+|---------------------:|------------:|------:|----:|----:|----:|--------|
+| 10 | 100 | 144 req/s | 32 ms | 173 ms | 200 ms | 80 × 200, 20 × 204 |
+| 30 | 300 | 136 req/s | 61 ms | 667 ms | 1.190 ms | 240 × 200, 60 × 204 |
+
+Mix: 60% `/chat` (FAQ, catálogo, loja), 20% `POST /avaliacoes` (escrita), 20% `GET /produtos`. Avaliações gravadas: 80 de 80; integridade ok.
+
+### Limites operacionais (documentados)
+
+| Limite | Consequência | Recomendação |
+|--------|--------------|--------------|
+| SQLite aceita **um escritor por vez** | Escritas concorrentes esperam até 5 s (`busy_timeout`) | Suficiente para demonstração e loja pequena; PostgreSQL se houver muitas escritas simultâneas (RT-013) |
+| Memória de conversa fica **no processo** | Com mais de um processo (`--workers N`), o contexto se perde entre requisições | Rodar com **1 processo** (padrão); a fase de histórico persistente (B-03) resolve |
+| **Ollama** atende poucas gerações em paralelo | Perguntas novas simultâneas ficam em fila (vários segundos cada) | Respostas do banco não dependem do Ollama; ver RT-010 para os tempos |
+| Busca em Python é CPU-bound | p95 sobe para ~0,7 s com 30 usuários simultâneos | Aceitável para a demo; índice/embeddings só com ganho medido (RT-009) |
+
+**Testes:** `tests/test_concorrencia.py` (leituras e escritas simultâneas sem erro, uma conexão por thread, memória concorrente).
+**Arquivos:** `app/db/conexao.py`, `app/agente.py`, `app/memoria.py`, `tests/test_concorrencia.py`.

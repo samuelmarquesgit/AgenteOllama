@@ -42,6 +42,7 @@ from app.guardrails.prompts import (
     RESPOSTA_BLOQUEADA_SAIDA,
     RESPOSTA_FORA_DO_ESCOPO,
 )
+from app.db.conexao import ConexoesPorThread
 from app.db.repositorios import CatalogoRepository, LojaRepository
 from app.intencoes import detectar_loja, detectar_produto, responder_loja, responder_produto
 from app.memoria import Troca
@@ -153,19 +154,37 @@ class Agente:
         con: sqlite3.Connection | None = None,
         perguntar=perguntar_ao_ollama,
         reescrever=reescrever_com_ollama,
+        conexoes: ConexoesPorThread | None = None,
     ):
-        self.con = con if con is not None else banco.conectar()
+        """`con`: conexão única (testes, terminal). Sem `con`, usa uma conexão por thread (servidor, RT-007)."""
+        self._con_fixa = con
+        if con is None:
+            self._conexoes = conexoes or ConexoesPorThread()
+            banco.conectar(self._conexoes.caminho).close()  # migra e popula uma vez, antes de atender
         self.perguntar = perguntar
         self.reescrever = reescrever
-        self.catalogo = CatalogoRepository(self.con)
-        self.loja = LojaRepository(self.con)
         self.marcas_catalogo = self.catalogo.marcas()
         self.recarregar()
 
+    @property
+    def con(self) -> sqlite3.Connection:
+        return self._con_fixa if self._con_fixa is not None else self._conexoes.atual()
+
+    @property
+    def catalogo(self) -> CatalogoRepository:
+        return CatalogoRepository(self.con)
+
+    @property
+    def loja(self) -> LojaRepository:
+        return LojaRepository(self.con)
+
     def recarregar(self):
-        self.faqs: list[Faq] = montar_faqs(banco.listar(self.con))   # oficiais + sugestões (para /faqs e /health)
-        self.oficiais = [f for f in self.faqs if f.categoria != CATEGORIA_SUGESTAO]
-        self.sugestoes = [f for f in self.faqs if f.categoria == CATEGORIA_SUGESTAO]
+        # Monta as listas novas e só então as publica (troca de referência): threads que estão
+        # respondendo continuam com a versão anterior, sem ver uma lista pela metade.
+        faqs = montar_faqs(banco.listar(self.con))
+        oficiais = [f for f in faqs if f.categoria != CATEGORIA_SUGESTAO]
+        sugestoes = [f for f in faqs if f.categoria == CATEGORIA_SUGESTAO]
+        self.faqs, self.oficiais, self.sugestoes = faqs, oficiais, sugestoes   # oficiais + sugestões (para /faqs e /health)
 
     def responder(self, pergunta: str, historico: list[Troca] | None = None) -> Resposta:
         historico = historico or []
