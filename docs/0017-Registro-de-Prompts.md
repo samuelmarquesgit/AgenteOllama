@@ -144,3 +144,25 @@ adicionado ao `requirements.txt`. Ao configurar `filterwarnings = error` no `pyt
 estavam escondidos: conexões SQLite abertas nos testes e nunca fechadas (`ResourceWarning`). Corrigido com a fixture
 `conexoes`, que fecha tudo ao fim de cada teste. 729 testes sem avisos, inclusive em `python -X dev`.
 
+
+## P020 — Revisão técnica RT-001 a RT-014 (2026-11-24)
+**Prompt (resumo):** seção "Revisão técnica adicional" acrescentada pelo time ao `0007`. Regras: ler tudo, começar pelos diagnósticos (RT-001, RT-005 a RT-008 e RT-010), marcar `[x]` só com evidência, e não migrar banco, trocar o motor de busca nem ampliar o Gate sem autorização.
+
+**Resultado:** as evidências ficam em `docs/0020`. As correções foram: concorrência (conexão por thread), timeout do Ollama, rollback do catálogo, FAQ aprovada sobrescrita pelo seed, G26 (risco), `statusConteudo` e reaproveitamento estrito de sugestões. A avaliação de 100 perguntas foi de 85 para 90 acertos e de 5 para 0 respostas perigosas.
+
+## P021 — "Faça tudo, continue o plano até terminar" (2026-11-24)
+**Prompt (resumo):** pergunta "começo pelas FAQs ou pelo Three.js?" → "Faça tudo, continue o plano até terminar. Leia os .md e planeje e execute todas as tasks".
+
+**Resultado, em commits separados no PR #7:**
+- P0.4: 150 FAQs e 452 variações; avaliação 95/100 com 0 perigosas.
+- P1.6: CI com Ruff, pytest e avaliação.
+- RT-012: `app/config.py` e `.env.example`.
+- RT-011: `/metricas`.
+- P1.4: F-TROCA e F-HUMANO com consentimento G23.
+- P1.7: planilha de revisão humana.
+- RT-009: experimento de embeddings, híbrida 97 contra textual 95, não adotada (D030).
+- RT-013: gatilhos de PostgreSQL e RAG (D031).
+- RT-014: registro do Gate em T-055, com recomendação de "seguir com ajustes".
+- Roteiro `0015`, CHANGELOG 0.5.0 e referência da API atualizados. 1464 testes.
+
+Ficaram para o time: a revisão humana e jurídica, o vídeo de reserva e a tag `v0.5.0` depois dos merges. O Three.js ficou como opcional e não foi feito, para não ampliar o escopo do Gate.

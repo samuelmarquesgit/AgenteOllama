@@ -4,6 +4,7 @@ GET    /                       -> página de chat
 GET    /health                 -> status e quantidade de perguntas no banco
 POST   /chat                   -> {"message": "...", "conversationId": "..."} -> resposta
 DELETE /conversas/{id}         -> esquece o histórico de uma conversa
+GET    /metricas               -> métricas anônimas: origens, fallback, guardrails, latência (RT-011)
 GET    /faqs                   -> perguntas cadastradas (para mostrar a base crescendo na demo)
 GET    /produtos               -> catálogo fictício (filtros: categoria, alimentacao, marca, preco_max, limite)
 GET    /produtos/{sku}         -> detalhes, especificações e estoque por unidade
@@ -18,20 +19,25 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from app import config
 from app.agente import Agente
+from app.fluxos import Fluxos
 from app.guardrails import LIMITE_CARACTERES, mascarar_dados_pessoais
 from app.db.repositorios import AtendimentoRepository, CatalogoRepository, FiltroProdutos, LojaRepository
 from app.intencoes import produto_publico
 from app.memoria import Memoria
+from app.metricas import metricas
 
 PASTA_STATIC = Path(__file__).resolve().parent.parent / "static"
 ORIGENS_COM_CONTEXTO = {"banco", "agente", "catalogo", "loja"}
 
+config.carregar_env()  # .env opcional (RT-012); não sobrescreve o ambiente
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("agente")
-app = FastAPI(title="Agente da loja de ferramentas", version="0.3.0")
+app = FastAPI(title="Agente da loja de ferramentas", version="0.5.0")
 agente = Agente()
 memoria = Memoria()
+fluxos = Fluxos(lambda: agente.con)  # F-TROCA e F-HUMANO (P1.4)
 app.mount("/static", StaticFiles(directory=PASTA_STATIC), name="static")
 
 
@@ -48,6 +54,9 @@ class RespostaChat(BaseModel):
     perguntaInterpretada: str | None = None
     guardrails: list[str] = []
     produtos: list[dict] = []
+    statusConteudo: str | None = None
+    opcoes: list[str] = []  # respostas rápidas sugeridas pelos fluxos guiados
+    fluxoAberto: bool = False  # True enquanto um fluxo guiado espera a próxima resposta
 
 
 @app.exception_handler(Exception)
@@ -71,6 +80,19 @@ def chat(pergunta: Pergunta):
     if not pergunta.message.strip():
         return JSONResponse(status_code=422, content={"detail": "Mensagem vazia."})
 
+    with metricas.cronometro("chat"):
+        dados = _responder(pergunta)
+    metricas.registrar_resposta(dados["origem"], dados["statusConteudo"], dados["guardrails"])
+    return dados
+
+
+def _responder(pergunta: Pergunta) -> dict:
+    # Fluxos guiados (troca, atendente) têm prioridade enquanto estiverem abertos na conversa.
+    fluxo = fluxos.tratar(pergunta.conversationId, pergunta.message)
+    if fluxo:
+        log.info("chat origem=fluxo passo=%s encerrado=%s", fluxo.passo, fluxo.encerrado)
+        return fluxo.para_dict()
+
     historico = memoria.historico(pergunta.conversationId)
     resposta = agente.responder(pergunta.message, historico)
 
@@ -81,11 +103,11 @@ def chat(pergunta: Pergunta):
 
     # Métrica técnica sem guardar o texto do cliente no log.
     log.info(
-        "chat faq=%s nota=%.2f origem=%s contexto=%d reescrita=%s guardrails=%s",
-        resposta.matchedFaqId, resposta.confidence, resposta.origem, len(historico),
+        "chat faq=%s nota=%.2f origem=%s conteudo=%s contexto=%d reescrita=%s guardrails=%s",
+        resposta.matchedFaqId, resposta.confidence, resposta.origem, resposta.statusConteudo, len(historico),
         resposta.perguntaInterpretada is not None, ",".join(resposta.guardrails) or "-",
     )
-    return resposta.para_dict()
+    return {**resposta.para_dict(), "opcoes": [], "fluxoAberto": False}
 
 
 class Avaliacao(BaseModel):
@@ -99,9 +121,16 @@ def avaliar(avaliacao: Avaliacao):
     AtendimentoRepository(agente.con).avaliar(avaliacao.conversationId, avaliacao.util)
 
 
+@app.get("/metricas")
+def ver_metricas():
+    """RT-011: agregados anônimos (origens, status do conteúdo, guardrails, IA e latência por etapa)."""
+    return metricas.resumo()
+
+
 @app.delete("/conversas/{conversa_id}", status_code=204)
 def esquecer_conversa(conversa_id: str):
     memoria.esquecer(conversa_id)
+    fluxos.esquecer(conversa_id)
 
 
 @app.get("/faqs")

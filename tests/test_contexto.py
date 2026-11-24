@@ -124,14 +124,14 @@ def test_ollama_desligado_nao_reescreve(con, ollama, reescreve_metal, monkeypatc
 
 
 def test_agente_recebe_historico_e_grava_pergunta_completa(con, ollama):
-    ag = Agente(con, perguntar=ollama, reescrever=OllamaFalso("Como fazer rebaixo com tupia de bancada?"))
+    ag = Agente(con, perguntar=ollama, reescrever=OllamaFalso("Como fazer rebaixo com rebitadeira?"))
     r = ag.responder("e para fazer rebaixo?", HISTORICO_BROCA)
     assert r.origem == "agente"
     assert ollama.historicos[0] == HISTORICO_BROCA       # o LLM viu a conversa
-    assert ollama.perguntas[0] == "Como fazer rebaixo com tupia de bancada?"
+    assert ollama.perguntas[0] == "Como fazer rebaixo com rebitadeira?"
     gravada = con.execute("SELECT pergunta FROM faq_sugestoes WHERE id = ?",
                           (int(r.matchedFaqId.split("-")[1]),)).fetchone()[0]
-    assert gravada == "Como fazer rebaixo com tupia de bancada?"  # nunca "e para fazer rebaixo?"
+    assert gravada == "Como fazer rebaixo com rebitadeira?"  # nunca "e para fazer rebaixo?"
 
 
 def test_reescrita_maliciosa_e_descartada(con, ollama):

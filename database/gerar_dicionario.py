@@ -4,7 +4,6 @@ Uso:  .venv\\Scripts\\python database\\gerar_dicionario.py
 """
 
 import re
-import sqlite3
 import tempfile
 from pathlib import Path
 

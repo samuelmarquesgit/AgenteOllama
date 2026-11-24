@@ -8,7 +8,7 @@ const AVATAR_ALERTA = "/static/brand/tork-avatar-alerta.svg";
 
 // origem da resposta -> [classe do selo, texto do selo]
 const SELOS = {
-  banco: ["banco", "📚 Banco de dados · resposta revisada"],
+  banco: ["banco", "📚 Base de conhecimento"],
   catalogo: ["catalogo", "🛒 Catálogo (dados fictícios)"],
   loja: ["loja", "🏬 Dados da loja"],
   agente: ["agente", "🤖 Tork IA · resposta gerada, ainda não revisada"],
@@ -17,6 +17,7 @@ const SELOS = {
   fora_do_escopo: ["outro", "⚠️ Fora do assunto"],
   saudacao: ["outro", "👋 Tork"],
   bloqueado: ["bloqueado", "🛡️ Bloqueado por guardrail"],
+  fluxo: ["loja", "🧭 Atendimento guiado"],
 };
 const ORIGENS_ALERTA = new Set(["bloqueado", "fallback", "fora_do_escopo"]);
 const ORIGENS_AVALIAVEIS = new Set(["banco", "catalogo", "loja", "agente", "sugestao"]);
@@ -61,6 +62,7 @@ const indicadorStatus = $("#status");
 
 let conversationId = novoId();
 let enviando = false;
+let fluxoAberto = false; // há um fluxo guiado (troca/atendente) em andamento nesta conversa
 
 // ---------------------------------------------------------------- utilidades
 function novoId() {
@@ -132,6 +134,8 @@ function montarMeta(dados) {
   const partes = [];
   if (dados.perguntaInterpretada) partes.push(`Entendi como: "${dados.perguntaInterpretada}"`);
   if (dados.origem === "banco") partes.push(`${dados.matchedFaqId} · confiança ${Math.round(dados.confidence * 100)}%`);
+  if (dados.origem === "banco" && dados.statusConteudo !== "validado") partes.push("conteúdo ainda não revisado por especialista");
+  if (dados.statusConteudo === "dados_demonstracao") partes.push("dados fictícios de demonstração");
   if (dados.origem === "agente" && dados.matchedFaqId) partes.push(`Gravada como ${dados.matchedFaqId} para revisão humana`);
   if (dados.origem === "sugestao") partes.push(`${dados.matchedFaqId} · ainda não revisada por um especialista`);
   if (dados.guardrails?.length) partes.push(`🛡️ ${dados.guardrails.join(", ")}`);
@@ -194,6 +198,7 @@ async function enviar(texto) {
   if (!texto || enviando) return;
   if (texto.toLowerCase() === "menu") {
     campo.value = "";
+    if (fluxoAberto) encerrarFluxo();
     adicionarCliente(texto);
     mostrarBoasVindas(false);
     return;
@@ -214,6 +219,8 @@ async function enviar(texto) {
     pensando.remove();
     const balao = adicionarTork(dados.answer, { origem: dados.origem, meta: montarMeta(dados) });
     if (dados.produtos?.length) balao.appendChild(montarCards(dados.produtos));
+    fluxoAberto = Boolean(dados.fluxoAberto);
+    if (dados.opcoes?.length) balao.appendChild(montarOpcoes(dados.opcoes));
     if (ORIGENS_AVALIAVEIS.has(dados.origem)) balao.appendChild(montarAvaliacao());
     void atualizarStatus();
   } catch {
@@ -225,6 +232,32 @@ async function enviar(texto) {
     campo.focus();
     rolarParaFim();
   }
+}
+
+// Respostas rápidas dos fluxos guiados (troca, atendente): somem depois do clique.
+function montarOpcoes(opcoes) {
+  const caixa = el("div", "submenu opcoes");
+  caixa.setAttribute("aria-label", "Respostas rápidas");
+  for (const opcao of opcoes) {
+    const b = el("button", "chip", opcao);
+    b.type = "button";
+    b.addEventListener("click", () => {
+      caixa.remove();
+      void enviar(opcao);
+    });
+    caixa.appendChild(b);
+  }
+  return caixa;
+}
+
+// "menu" é tratado no navegador; avisa o servidor para fechar o fluxo aberto nesta conversa.
+function encerrarFluxo() {
+  fluxoAberto = false;
+  fetch(API.chat, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: "cancelar", conversationId }),
+  }).catch(() => {});
 }
 
 // ---------------------------------------------------------------- boas-vindas e menu
@@ -289,7 +322,7 @@ async function atualizarStatus() {
   try {
     const r = await fetch(API.health);
     const d = await r.json();
-    indicadorStatus.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas revisadas`;
+    indicadorStatus.textContent = `Tork online · ${d.faqs - d.aprendidas} respostas na base`;
     indicadorStatus.classList.remove("offline");
   } catch {
     indicadorStatus.textContent = "Tork offline";

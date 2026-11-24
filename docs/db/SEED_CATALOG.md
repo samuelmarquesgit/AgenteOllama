@@ -24,7 +24,7 @@
 | produto_imagens | 300 | placeholder local `/static/produtos/placeholder.svg` |
 | estoques | 600 | 2 unidades × 300 produtos; ~16% zerados |
 
-O plano de banco pede **150 FAQs e 450 variações**: a base atual tem 60 e 77. A complementação de conteúdo é a próxima tarefa do plano de entrega (`0018`, P0.4).
+O plano de banco pede **150 FAQs e 450 variações**: a base tem **150 FAQs e 452 variações** (mínimo 3 por FAQ) desde a ampliação de 2026-11-24 (`0018`, P0.4; script `database/seeds/ampliar_faq_2026_11_24.py`). Distribuição: 33 escolha de ferramentas, 27 atendimento comercial, 21 brocas/discos/acessórios, 20 uso/manutenção/segurança, 15 baterias/alimentação, 13 diagnóstico/comparação, 12 soldagem/compressores/limpeza, 9 medição/eletrônica. Risco: 71 baixo, 38 médio, 41 alto. As 89 novas FAQs (FAQ-062 a FAQ-150) foram redigidas com assistência de IA, sem preços, e estão como `rascunho` (técnicas) ou `pendente_validacao` (comerciais) até a revisão humana (P1.7 / T-025).
 
 ## Como o catálogo foi gerado
 

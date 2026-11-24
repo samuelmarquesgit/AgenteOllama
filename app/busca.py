@@ -39,12 +39,21 @@ def normalizar(texto: str) -> str:
     return " ".join(texto.split())
 
 
+TERMINACOES_VERBAIS = ("ando", "endo", "indo", "ar", "er", "ir", "o")
+
+
 def _radical(palavra: str) -> str:
-    """Stemming bem leve: tira plural simples ("brocas" -> "broca")."""
+    """Stemming leve: plural simples ("brocas" -> "broca") e terminações verbais comuns
+    ("escolho"/"escolher" -> "escolh", "conservo"/"conservar" -> "conserv"). Aplicado igualmente
+    à pergunta do cliente e às FAQs, então só precisa ser consistente, não gramaticalmente perfeito."""
     if len(palavra) > 4 and palavra.endswith("oes"):
-        return palavra[:-3] + "ao"
-    if len(palavra) > 3 and palavra.endswith("s") and not palavra.endswith("ss"):
-        return palavra[:-1]
+        palavra = palavra[:-3] + "ao"
+    elif len(palavra) > 3 and palavra.endswith("s") and not palavra.endswith("ss"):
+        palavra = palavra[:-1]
+    if len(palavra) >= 6 and not palavra[0].isdigit():
+        for fim in TERMINACOES_VERBAIS:
+            if palavra.endswith(fim) and len(palavra) - len(fim) >= 4 and not palavra.endswith("ao"):
+                return palavra[: -len(fim)]
     return palavra
 
 
@@ -87,6 +96,7 @@ class Faq:
     palavras_chave: list[str]
     variacoes: list[str] = field(default_factory=list)
     status: str = "rascunho"
+    nivel_risco: str = "baixo"
     # calculados
     tokens_chave: set[str] = field(default_factory=set)
     tokens_texto: set[str] = field(default_factory=set)

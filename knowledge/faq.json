@@ -5,7 +5,8 @@
     "pergunta": "Qual a diferença entre furadeira e parafusadeira?",
     "variacoes": [
       "furadeira ou parafusadeira",
-      "diferenca entre furadeira e aparafusadora"
+      "diferenca entre furadeira e aparafusadora",
+      "preciso de furadeira ou parafusadeira"
     ],
     "palavras_chave": [
       "furadeira",
@@ -25,7 +26,8 @@
     "pergunta": "Qual a diferença entre furadeira comum e furadeira de impacto?",
     "variacoes": [
       "preciso furar parede",
-      "furadeira com impacto serve para que"
+      "furadeira com impacto serve para que",
+      "para que serve a função impacto da furadeira"
     ],
     "palavras_chave": [
       "furadeira de impacto",
@@ -49,7 +51,8 @@
     "pergunta": "Quando devo usar um martelete?",
     "variacoes": [
       "preciso furar concreto o que uso",
-      "martelete serve para que"
+      "martelete serve para que",
+      "martelete ou furadeira de impacto para concreto"
     ],
     "palavras_chave": [
       "martelete",
@@ -73,7 +76,8 @@
     "pergunta": "Qual é melhor: ferramenta com fio ou a bateria?",
     "variacoes": [
       "melhor com fio ou sem fio",
-      "vale a pena ferramenta sem fio"
+      "vale a pena ferramenta sem fio",
+      "ferramenta a bateria tem a mesma força da com fio"
     ],
     "palavras_chave": [
       "com fio",
@@ -95,7 +99,8 @@
     "pergunta": "Parafusadeira 12V ou 20V: qual escolher?",
     "variacoes": [
       "parafusadeira 12 ou 20 volts",
-      "18v ou 12v"
+      "18v ou 12v",
+      "parafusadeira de baixa voltagem é fraca"
     ],
     "palavras_chave": [
       "12v",
@@ -117,7 +122,8 @@
     "pergunta": "O que significa torque em uma parafusadeira?",
     "variacoes": [
       "o que e torque",
-      "quanto torque preciso"
+      "quanto torque preciso",
+      "para que serve o ajuste de torque da parafusadeira"
     ],
     "palavras_chave": [
       "torque",
@@ -138,7 +144,8 @@
     "pergunta": "O que significa potência em watts?",
     "variacoes": [
       "o que significa watts",
-      "mais watts e melhor"
+      "mais watts e melhor",
+      "potência em watts indica a força da ferramenta"
     ],
     "palavras_chave": [
       "potencia",
@@ -158,7 +165,8 @@
     "pergunta": "Qual ferramenta usar para montar móveis?",
     "variacoes": [
       "ferramenta para montar movel",
-      "o que usar para montar guarda roupa"
+      "o que usar para montar guarda roupa",
+      "qual a melhor ferramenta para montagem de móveis"
     ],
     "palavras_chave": [
       "montar moveis",
@@ -180,7 +188,8 @@
     "pergunta": "Qual ferramenta usar para cortar madeira?",
     "variacoes": [
       "que serra usar em madeira",
-      "serra para madeira"
+      "serra para madeira",
+      "qual serra é melhor para madeira"
     ],
     "palavras_chave": [
       "cortar madeira",
@@ -203,7 +212,8 @@
     "pergunta": "Qual ferramenta usar para cortar metal?",
     "variacoes": [
       "como cortar ferro",
-      "cortar cano de metal"
+      "cortar cano de metal",
+      "qual ferramenta corta chapa de aço"
     ],
     "palavras_chave": [
       "cortar metal",
@@ -226,7 +236,8 @@
     "pergunta": "Qual ferramenta usar para lixar madeira?",
     "variacoes": [
       "lixadeira para madeira",
-      "qual lixadeira comprar"
+      "qual lixadeira comprar",
+      "como dar acabamento liso na madeira"
     ],
     "palavras_chave": [
       "lixar",
@@ -247,7 +258,8 @@
     "pergunta": "Qual ferramenta usar para remover tinta ou ferrugem?",
     "variacoes": [
       "tirar ferrugem",
-      "tirar tinta da parede"
+      "tirar tinta da parede",
+      "como remover ferrugem de metal"
     ],
     "palavras_chave": [
       "remover tinta",
@@ -269,7 +281,8 @@
     "pergunta": "Qual broca usar em concreto?",
     "variacoes": [
       "broca para parede",
-      "broca de concreto"
+      "broca de concreto",
+      "qual broca usar em parede de alvenaria"
     ],
     "palavras_chave": [
       "broca",
@@ -291,7 +304,9 @@
     "categoria": "brocas_discos_acessorios",
     "pergunta": "Qual broca usar em madeira?",
     "variacoes": [
-      "broca para madeira"
+      "broca para madeira",
+      "broca certa para furar madeira",
+      "como furar madeira sem lascar"
     ],
     "palavras_chave": [
       "broca",
@@ -310,7 +325,8 @@
     "pergunta": "Qual broca usar em metal?",
     "variacoes": [
       "broca boa para metal",
-      "broca para ferro"
+      "broca para ferro",
+      "como furar aço sem quebrar a broca"
     ],
     "palavras_chave": [
       "broca",
@@ -332,7 +348,8 @@
     "pergunta": "Posso usar qualquer disco na esmerilhadeira?",
     "variacoes": [
       "que disco usar na esmerilhadeira",
-      "disco serve na lixadeira angular"
+      "disco serve na lixadeira angular",
+      "todo disco serve em qualquer esmerilhadeira"
     ],
     "palavras_chave": [
       "disco",
@@ -351,7 +368,9 @@
     "categoria": "brocas_discos_acessorios",
     "pergunta": "Qual a diferença entre disco de corte e disco de desbaste?",
     "variacoes": [
-      "diferenca disco corte e desbaste"
+      "diferenca disco corte e desbaste",
+      "para que serve disco de desbaste",
+      "posso desbastar com disco de corte"
     ],
     "palavras_chave": [
       "disco de corte",
@@ -372,7 +391,8 @@
     "pergunta": "Como saber se uma bateria serve na minha ferramenta?",
     "variacoes": [
       "bateria serve na minha parafusadeira",
-      "bateria compativel"
+      "bateria compativel",
+      "como saber se a bateria é compatível com a ferramenta"
     ],
     "palavras_chave": [
       "bateria",
@@ -392,7 +412,9 @@
     "categoria": "brocas_discos_acessorios",
     "pergunta": "Bits de parafusadeira são universais?",
     "variacoes": [
-      "ponteira serve em qualquer parafusadeira"
+      "ponteira serve em qualquer parafusadeira",
+      "os bits servem em qualquer marca",
+      "qual bit usar em cada parafuso"
     ],
     "palavras_chave": [
       "bit",
@@ -416,7 +438,8 @@
     "pergunta": "Posso usar adaptadores entre encaixes diferentes?",
     "variacoes": [
       "posso usar adaptador sds",
-      "adaptador de encaixe"
+      "adaptador de encaixe",
+      "adaptador de mandril é seguro"
     ],
     "palavras_chave": [
       "adaptador",
@@ -437,7 +460,8 @@
     "pergunta": "O que significa Ah na bateria?",
     "variacoes": [
       "o que e ah",
-      "bateria 4ah dura mais que 2ah"
+      "bateria 4ah dura mais que 2ah",
+      "para que serve a amperagem da bateria"
     ],
     "palavras_chave": [
       "ah",
@@ -457,7 +481,9 @@
     "categoria": "baterias_alimentacao",
     "pergunta": "Posso usar bateria de maior Ah?",
     "variacoes": [
-      "posso usar bateria 5ah na minha ferramenta"
+      "posso usar bateria 5ah na minha ferramenta",
+      "bateria com mais amperagem serve na minha ferramenta",
+      "posso trocar por bateria de maior capacidade"
     ],
     "palavras_chave": [
       "maior ah",
@@ -477,7 +503,8 @@
     "pergunta": "Quanto tempo dura a bateria?",
     "variacoes": [
       "quanto dura a bateria",
-      "autonomia da bateria"
+      "autonomia da bateria",
+      "a bateria aguenta quanto tempo de uso"
     ],
     "palavras_chave": [
       "duracao",
@@ -499,7 +526,8 @@
     "pergunta": "Posso carregar uma bateria em qualquer carregador?",
     "variacoes": [
       "posso usar outro carregador",
-      "carregador universal"
+      "carregador universal",
+      "posso usar carregador genérico"
     ],
     "palavras_chave": [
       "carregador",
@@ -519,7 +547,8 @@
     "pergunta": "Ferramenta 220V funciona em tomada 127V?",
     "variacoes": [
       "ferramenta 220 na tomada 110",
-      "posso ligar 220v em 127v"
+      "posso ligar 220v em 127v",
+      "ferramenta 220v funciona na tomada 110v"
     ],
     "palavras_chave": [
       "220v",
@@ -541,7 +570,9 @@
     "categoria": "baterias_alimentacao",
     "pergunta": "Como guardar baterias de ferramentas?",
     "variacoes": [
-      "como armazenar bateria"
+      "como armazenar bateria",
+      "como conservar bateria de ferramenta parada",
+      "onde guardar a bateria da parafusadeira"
     ],
     "palavras_chave": [
       "guardar",
@@ -561,7 +592,9 @@
     "categoria": "medicao_eletronica",
     "pergunta": "Qual a diferença entre multímetro e alicate amperímetro?",
     "variacoes": [
-      "multimetro ou alicate amperimetro"
+      "multimetro ou alicate amperimetro",
+      "para que serve o alicate amperímetro",
+      "qual a diferença entre multímetro e alicate"
     ],
     "palavras_chave": [
       "multimetro",
@@ -582,7 +615,8 @@
     "pergunta": "Qual multímetro escolher?",
     "variacoes": [
       "como escolher um multimetro",
-      "qual multimetro comprar"
+      "qual multimetro comprar",
+      "qual multímetro escolher para começar"
     ],
     "palavras_chave": [
       "multimetro",
@@ -601,7 +635,9 @@
     "categoria": "medicao_eletronica",
     "pergunta": "Posso medir tomada com qualquer multímetro?",
     "variacoes": [
-      "como medir tensao da tomada"
+      "como medir tensao da tomada",
+      "é seguro medir a tomada com multímetro",
+      "posso medir a voltagem da tomada sozinho"
     ],
     "palavras_chave": [
       "medir tomada",
@@ -621,7 +657,9 @@
     "categoria": "medicao_eletronica",
     "pergunta": "O que é detector de tensão sem contato?",
     "variacoes": [
-      "caneta detectora de tensao funciona"
+      "caneta detectora de tensao funciona",
+      "caneta de teste de tensão é segura",
+      "detector de tensão sem contato serve pra que"
     ],
     "palavras_chave": [
       "detector de tensao",
@@ -642,7 +680,8 @@
     "pergunta": "Qual a diferença entre solda MIG/MAG, TIG e eletrodo revestido?",
     "variacoes": [
       "qual tipo de solda escolher",
-      "maquina de solda mig ou eletrodo"
+      "maquina de solda mig ou eletrodo",
+      "qual processo de solda usar"
     ],
     "palavras_chave": [
       "solda",
@@ -664,7 +703,9 @@
     "categoria": "soldagem_compressores_limpeza",
     "pergunta": "Qual compressor preciso para pintar?",
     "variacoes": [
-      "compressor para pintura"
+      "compressor para pintura",
+      "compressor para pintura automotiva",
+      "qual vazão de ar preciso para pintar"
     ],
     "palavras_chave": [
       "compressor",
@@ -686,7 +727,8 @@
     "pergunta": "Qual lavadora de alta pressão escolher?",
     "variacoes": [
       "qual lava jato comprar",
-      "lavadora de alta pressao"
+      "lavadora de alta pressao",
+      "como escolher uma lavadora de alta pressão"
     ],
     "palavras_chave": [
       "lavadora",
@@ -707,7 +749,9 @@
     "categoria": "soldagem_compressores_limpeza",
     "pergunta": "Posso usar qualquer detergente na lavadora?",
     "variacoes": [
-      "que sabao usar na lavadora"
+      "que sabao usar na lavadora",
+      "qual produto de limpeza usar na lavadora de alta pressão",
+      "posso usar detergente comum no lava jato"
     ],
     "palavras_chave": [
       "detergente",
@@ -727,7 +771,9 @@
     "categoria": "uso_manutencao_seguranca",
     "pergunta": "Como escolher equipamento para uso profissional?",
     "variacoes": [
-      "ferramenta para trabalhar todo dia"
+      "ferramenta para trabalhar todo dia",
+      "qual ferramenta comprar para uso profissional",
+      "ferramenta para trabalhar todos os dias na obra"
     ],
     "palavras_chave": [
       "profissional",
@@ -747,7 +793,9 @@
     "categoria": "uso_manutencao_seguranca",
     "pergunta": "Como conservar minhas ferramentas?",
     "variacoes": [
-      "como fazer manutencao das ferramentas"
+      "como fazer manutencao das ferramentas",
+      "como cuidar das ferramentas elétricas",
+      "como fazer as ferramentas durarem mais"
     ],
     "palavras_chave": [
       "conservar",
@@ -769,7 +817,8 @@
     "pergunta": "Minha ferramenta está esquentando. É normal?",
     "variacoes": [
       "minha furadeira esta esquentando",
-      "ferramenta com cheiro de queimado"
+      "ferramenta com cheiro de queimado",
+      "ferramenta soltando fumaça o que fazer"
     ],
     "palavras_chave": [
       "esquentando",
@@ -792,7 +841,8 @@
     "pergunta": "Posso retirar a proteção da esmerilhadeira para usar disco maior?",
     "variacoes": [
       "posso colocar disco maior na esmerilhadeira",
-      "tirar a capa da esmerilhadeira"
+      "tirar a capa da esmerilhadeira",
+      "posso usar a esmerilhadeira sem a capa de proteção"
     ],
     "palavras_chave": [
       "retirar protecao",
@@ -812,7 +862,9 @@
     "categoria": "uso_manutencao_seguranca",
     "pergunta": "Qual EPI usar com ferramentas elétricas?",
     "variacoes": [
-      "que equipamento de protecao usar"
+      "que equipamento de protecao usar",
+      "quais equipamentos de proteção usar com ferramentas",
+      "posso usar luva perto de peça girando"
     ],
     "palavras_chave": [
       "epi",
@@ -833,7 +885,9 @@
     "categoria": "uso_manutencao_seguranca",
     "pergunta": "Posso usar ferramenta elétrica na chuva?",
     "variacoes": [
-      "posso usar furadeira na chuva"
+      "posso usar furadeira na chuva",
+      "posso usar ferramenta elétrica em lugar molhado",
+      "furadeira pode molhar"
     ],
     "palavras_chave": [
       "chuva",
@@ -854,7 +908,8 @@
     "pergunta": "Vocês têm esse produto em estoque?",
     "variacoes": [
       "tem em estoque",
-      "voces tem esse produto"
+      "voces tem esse produto",
+      "o produto está disponível para pronta entrega"
     ],
     "palavras_chave": [
       "estoque",
@@ -874,7 +929,8 @@
     "pergunta": "Qual é o preço dessa ferramenta?",
     "variacoes": [
       "quanto custa a furadeira",
-      "qual o valor"
+      "qual o valor",
+      "quanto está custando essa ferramenta"
     ],
     "palavras_chave": [
       "preco",
@@ -897,7 +953,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Vocês fazem entrega?",
     "variacoes": [
-      "voces entregam na minha cidade"
+      "voces entregam na minha cidade",
+      "vocês fazem entrega a domicílio",
+      "entregam em outra cidade"
     ],
     "palavras_chave": [
       "entrega",
@@ -918,7 +976,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Quanto custa o frete?",
     "variacoes": [
-      "qual o valor do frete"
+      "qual o valor do frete",
+      "como calcular o frete",
+      "o frete é grátis"
     ],
     "palavras_chave": [
       "frete",
@@ -938,7 +998,8 @@
     "pergunta": "Quais são as formas de pagamento?",
     "variacoes": [
       "aceita pix",
-      "como posso pagar"
+      "como posso pagar",
+      "quais formas de pagamento a loja aceita"
     ],
     "palavras_chave": [
       "pagamento",
@@ -958,7 +1019,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Vocês parcelam?",
     "variacoes": [
-      "parcela em quantas vezes"
+      "parcela em quantas vezes",
+      "dá para parcelar a compra",
+      "em quantas vezes posso pagar"
     ],
     "palavras_chave": [
       "parcela",
@@ -979,7 +1042,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Vocês têm promoção ou desconto?",
     "variacoes": [
-      "tem cupom de desconto"
+      "tem cupom de desconto",
+      "tem alguma promoção hoje",
+      "vocês dão desconto"
     ],
     "palavras_chave": [
       "promocao",
@@ -1000,7 +1065,8 @@
     "pergunta": "Posso trocar ou devolver um produto?",
     "variacoes": [
       "quero devolver uma compra online",
-      "como faco para trocar"
+      "como faco para trocar",
+      "quero trocar um produto"
     ],
     "palavras_chave": [
       "trocar",
@@ -1008,7 +1074,10 @@
       "devolver",
       "devolucao",
       "arrependimento",
-      "reembolso"
+      "reembolso",
+      "comprado",
+      "site",
+      "pedido online"
     ],
     "resposta": "As condições dependem do tipo de compra, motivo e legislação aplicável. Em compras realizadas fora do estabelecimento, o CDC prevê, em regra, direito de arrependimento em até 7 dias, nas condições legais. Consulte a política da loja para orientações específicas.",
     "fonte": "docs/0003-Requisitos-do-Produto.md",
@@ -1021,7 +1090,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Qual é a garantia da ferramenta?",
     "variacoes": [
-      "quanto tempo de garantia"
+      "quanto tempo de garantia",
+      "a ferramenta tem garantia de fábrica",
+      "quanto tempo de garantia tem a furadeira"
     ],
     "palavras_chave": [
       "garantia",
@@ -1039,7 +1110,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Vocês vendem peças de reposição?",
     "variacoes": [
-      "voces vendem pecas"
+      "voces vendem pecas",
+      "onde compro peça de reposição",
+      "vocês têm peça para minha ferramenta"
     ],
     "palavras_chave": [
       "peca",
@@ -1060,7 +1133,8 @@
     "pergunta": "Vocês trabalham com a marca Bosch/Makita/DeWalt?",
     "variacoes": [
       "voces vendem bosch",
-      "trabalham com makita"
+      "trabalham com makita",
+      "quais marcas vocês vendem"
     ],
     "palavras_chave": [
       "marca",
@@ -1084,7 +1158,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Posso retirar o pedido na loja?",
     "variacoes": [
-      "posso buscar na loja"
+      "posso buscar na loja",
+      "posso comprar pelo site e retirar na loja",
+      "tem retirada na loja"
     ],
     "palavras_chave": [
       "retirar",
@@ -1104,7 +1180,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Como acompanho meu pedido?",
     "variacoes": [
-      "onde esta meu pedido"
+      "onde esta meu pedido",
+      "onde rastreio meu pedido",
+      "como saber onde está minha encomenda"
     ],
     "palavras_chave": [
       "acompanhar pedido",
@@ -1124,7 +1202,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Vocês emitem nota fiscal?",
     "variacoes": [
-      "voces dao nota fiscal"
+      "voces dao nota fiscal",
+      "a compra sai com nota fiscal",
+      "preciso de nota fiscal da compra"
     ],
     "palavras_chave": [
       "nota fiscal",
@@ -1143,7 +1223,9 @@
     "categoria": "atendimento_comercial",
     "pergunta": "Posso falar com um vendedor?",
     "variacoes": [
-      "quero falar com um atendente"
+      "quero falar com um atendente",
+      "como falo com uma pessoa",
+      "quero atendimento humano"
     ],
     "palavras_chave": [
       "vendedor",
@@ -1163,7 +1245,9 @@
     "categoria": "diagnostico_comparacao",
     "pergunta": "Qual a melhor marca de ferramenta?",
     "variacoes": [
-      "qual a marca mais confiavel"
+      "qual a marca mais confiavel",
+      "qual marca de ferramenta é mais confiável",
+      "qual a marca mais durável"
     ],
     "palavras_chave": [
       "melhor marca",
@@ -1181,7 +1265,9 @@
     "categoria": "diagnostico_comparacao",
     "pergunta": "Qual ferramenta tem melhor custo-benefício?",
     "variacoes": [
-      "qual o melhor custo beneficio"
+      "qual o melhor custo beneficio",
+      "qual ferramenta compensa mais",
+      "qual tem o melhor preço pela qualidade"
     ],
     "palavras_chave": [
       "custo beneficio",
@@ -1199,7 +1285,9 @@
     "categoria": "diagnostico_comparacao",
     "pergunta": "Uma ferramenta mais potente é sempre melhor?",
     "variacoes": [
-      "ferramenta mais forte e melhor"
+      "ferramenta mais forte e melhor",
+      "devo comprar a mais potente",
+      "ferramenta mais forte vale a pena"
     ],
     "palavras_chave": [
       "mais potente",
@@ -1218,7 +1306,9 @@
     "categoria": "diagnostico_comparacao",
     "pergunta": "Como comparar duas ferramentas?",
     "variacoes": [
-      "comparar duas furadeiras"
+      "comparar duas furadeiras",
+      "qual a melhor entre duas ferramentas",
+      "me ajuda a comparar dois modelos"
     ],
     "palavras_chave": [
       "comparar",
@@ -1239,7 +1329,8 @@
     "pergunta": "Não sei qual ferramenta comprar. Pode me ajudar?",
     "variacoes": [
       "nao sei qual ferramenta comprar",
-      "me ajuda a escolher"
+      "me ajuda a escolher",
+      "me ajuda a escolher uma ferramenta"
     ],
     "palavras_chave": [
       "nao sei",
@@ -1282,5 +1373,1849 @@
     "revisado_em": null,
     "status": "rascunho",
     "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-062",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Como sei se a tomada da minha casa é 127 V ou 220 V?",
+    "variacoes": [
+      "minha tomada é 110 ou 220",
+      "como descobrir a voltagem da tomada",
+      "qual a voltagem da minha cidade"
+    ],
+    "palavras_chave": [
+      "voltagem",
+      "127v",
+      "220v",
+      "110v",
+      "descobrir",
+      "cidade"
+    ],
+    "resposta": "Confira a etiqueta de um aparelho que já funciona naquela tomada, a identificação no quadro de energia ou consulte a concessionária de energia. A voltagem pode variar dentro da mesma cidade e até entre tomadas da mesma casa. Na dúvida, prefira ferramentas bivolt e nunca teste ligando o equipamento.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-063",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "O que é ferramenta bivolt?",
+    "variacoes": [
+      "ferramenta bivolt funciona em qualquer tomada",
+      "bivolt automático ou com chave",
+      "o que significa bivolt"
+    ],
+    "palavras_chave": [
+      "bivolt",
+      "automatico",
+      "chave seletora",
+      "dupla voltagem"
+    ],
+    "resposta": "Ferramenta bivolt funciona em 127 V e em 220 V. Alguns modelos ajustam a tensão automaticamente; outros têm uma chave seletora que precisa ser posicionada antes de ligar. Confira no manual qual é o caso e verifique a chave sempre que mudar de tomada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-064",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "O que acontece se eu ligar uma ferramenta de 127 V numa tomada de 220 V?",
+    "variacoes": [
+      "liguei a ferramenta 110 no 220",
+      "ferramenta queimou por voltagem errada",
+      "ferramenta 127 ligada no 220"
+    ],
+    "palavras_chave": [
+      "voltagem errada",
+      "queimou",
+      "sobretensao"
+    ],
+    "resposta": "Ligar uma ferramenta de 127 V em 220 V costuma superaquecer e queimar o motor em poucos segundos, com risco de choque e incêndio. Se isso acontecer, desligue imediatamente e não volte a usar antes de uma avaliação na assistência técnica autorizada. Danos por voltagem errada costumam não ser cobertos pela garantia.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-065",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Posso usar extensão elétrica com a ferramenta?",
+    "variacoes": [
+      "extensão serve para furadeira",
+      "qual extensão usar com ferramenta elétrica",
+      "posso ligar a serra numa extensão"
+    ],
+    "palavras_chave": [
+      "extensao",
+      "bitola",
+      "cabo",
+      "comprimento"
+    ],
+    "resposta": "Pode, desde que a extensão seja adequada à potência da ferramenta: cabo com bitola suficiente, em bom estado e sem emendas. Extensões finas ou muito longas esquentam e fazem a ferramenta perder força. Desenrole a extensão por completo e evite benjamins e adaptadores improvisados.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-066",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Transformador de voltagem resolve para usar a ferramenta?",
+    "variacoes": [
+      "posso usar transformador na furadeira",
+      "autotransformador para ferramenta 220",
+      "conversor de voltagem para ferramenta"
+    ],
+    "palavras_chave": [
+      "transformador",
+      "autotransformador",
+      "conversor"
+    ],
+    "resposta": "Um transformador ou autotransformador só funciona bem se tiver potência bem acima da potência da ferramenta, porque motores puxam mais corrente na partida. Equipamentos subdimensionados esquentam e podem danificar a ferramenta. Para uso frequente, o mais seguro é ter a ferramenta na voltagem correta ou bivolt.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-067",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "A bateria de íon-lítio vicia?",
+    "variacoes": [
+      "preciso descarregar a bateria antes de carregar",
+      "bateria de lítio tem efeito memória",
+      "posso carregar a bateria pela metade"
+    ],
+    "palavras_chave": [
+      "vicia",
+      "efeito memoria",
+      "descarregar"
+    ],
+    "resposta": "Baterias de íon-lítio não têm o efeito memória das antigas baterias de níquel: não é preciso descarregar por completo antes de carregar. Evite deixá-las totalmente descarregadas por muito tempo e siga as orientações do fabricante para carga e armazenamento.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-068",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Por que a bateria da minha ferramenta não carrega?",
+    "variacoes": [
+      "bateria não carrega mais",
+      "carregador pisca e não carrega",
+      "bateria nova não segura carga"
+    ],
+    "palavras_chave": [
+      "nao carrega",
+      "carregador pisca",
+      "luz do carregador",
+      "nao segura carga"
+    ],
+    "resposta": "Pode ser bateria muito fria ou quente (o carregador espera a temperatura normalizar), contatos sujos, carregador incompatível ou bateria no fim da vida útil. Confira o significado das luzes no manual do carregador. Bateria inchada, com cheiro ou aquecendo demais não deve ser carregada: leve à assistência autorizada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-069",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Quantos anos dura uma bateria de ferramenta?",
+    "variacoes": [
+      "vida útil da bateria da ferramenta",
+      "bateria perdendo autonomia é normal",
+      "quantos ciclos de carga a bateria aguenta"
+    ],
+    "palavras_chave": [
+      "vida util",
+      "anos",
+      "ciclos",
+      "perdendo autonomia"
+    ],
+    "resposta": "Depende do uso, da temperatura e dos cuidados. Com o tempo, toda bateria perde capacidade de forma gradual. Para prolongar a vida útil, evite calor excessivo, não guarde descarregada por longos períodos e use o carregador indicado pelo fabricante.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-070",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "O que é motor brushless?",
+    "variacoes": [
+      "ferramenta brushless vale a pena",
+      "motor sem escova é melhor",
+      "diferença entre motor com escova e brushless"
+    ],
+    "palavras_chave": [
+      "brushless",
+      "sem escova",
+      "motor"
+    ],
+    "resposta": "Brushless é o motor sem escovas de carvão. Em geral é mais eficiente, esquenta menos, aproveita melhor a bateria e exige menos manutenção, mas costuma custar mais. Para uso frequente ou profissional tende a compensar; para uso doméstico eventual, um motor com escovas pode atender bem.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-071",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Vale a pena comprar um kit com várias ferramentas?",
+    "variacoes": [
+      "kit de ferramentas elétricas compensa",
+      "combo de parafusadeira e furadeira vale a pena",
+      "kit com duas baterias compensa"
+    ],
+    "palavras_chave": [
+      "kit",
+      "combo",
+      "varias ferramentas"
+    ],
+    "resposta": "Kits costumam compensar quando você vai usar mais de uma ferramenta da mesma plataforma de bateria, porque baterias e carregador são compartilhados. Antes de comprar, confira se as ferramentas do kit são as que você realmente vai usar e se a plataforma tem outras ferramentas e acessórios disponíveis.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-072",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual a diferença entre ferramenta doméstica e profissional?",
+    "variacoes": [
+      "ferramenta hobby ou profissional",
+      "linha profissional vale a pena para uso em casa",
+      "diferença entre linha amadora e profissional"
+    ],
+    "palavras_chave": [
+      "domestica",
+      "hobby",
+      "amadora",
+      "linha profissional"
+    ],
+    "resposta": "Ferramentas profissionais são feitas para uso intenso e prolongado, com componentes mais robustos, melhor dissipação de calor e rede de assistência mais ampla. As domésticas atendem tarefas eventuais com custo menor. Considere a frequência de uso: algumas horas por mês é bem diferente de várias horas por dia.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-073",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Como furar azulejo e porcelanato?",
+    "variacoes": [
+      "como furar azulejo sem quebrar",
+      "broca para porcelanato",
+      "furar piso de porcelanato"
+    ],
+    "palavras_chave": [
+      "azulejo",
+      "porcelanato",
+      "ceramica",
+      "broca diamantada"
+    ],
+    "resposta": "Use broca própria para cerâmica ou porcelanato (as diamantadas são indicadas para porcelanato), com a função impacto desligada e rotação baixa no início. Uma fita crepe no ponto ajuda a broca a não escorregar. Faça pausas para a broca não superaquecer e use óculos de proteção.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-074",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Como furar parede sem fazer muita poeira?",
+    "variacoes": [
+      "furar parede sem sujeira",
+      "aspirar o pó ao furar",
+      "truque para pegar a poeira do furo"
+    ],
+    "palavras_chave": [
+      "poeira",
+      "sujeira",
+      "aspirador",
+      "coletor de po"
+    ],
+    "resposta": "Um aspirador posicionado junto ao furo, ou um coletor de pó acoplado à ferramenta quando disponível, reduz bastante a sujeira. Um envelope de papel ou uma dobra de fita colada abaixo do ponto também ajuda. Use óculos e, em alvenaria, máscara contra poeira.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-075",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para cortar madeira em curva?",
+    "variacoes": [
+      "como cortar madeira em curva",
+      "serra para recorte curvo",
+      "como cortar um círculo na madeira"
+    ],
+    "palavras_chave": [
+      "curva",
+      "recorte",
+      "circulo",
+      "corte curvo"
+    ],
+    "resposta": "A serra tico-tico é a mais indicada para curvas e recortes; para furos circulares de diâmetro definido, a serra copo na furadeira é mais prática. Use lâminas próprias para curvas e fixe bem a peça antes de cortar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-076",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para cortar piso e porcelanato?",
+    "variacoes": [
+      "como cortar piso",
+      "serra mármore para porcelanato",
+      "cortador de piso ou serra mármore"
+    ],
+    "palavras_chave": [
+      "cortar piso",
+      "cortador de piso",
+      "cortar porcelanato"
+    ],
+    "resposta": "Para cortes retos, o cortador manual de piso é simples e limpo; a serra mármore com disco diamantado adequado faz cortes retos e alguns recortes, mas exige mais cuidado e EPI. Use disco compatível com o material e com a rotação da máquina e nunca retire a proteção.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-077",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma serra mármore?",
+    "variacoes": [
+      "serra mármore corta o quê",
+      "serra mármore serve para madeira",
+      "para que usar serra mármore"
+    ],
+    "palavras_chave": [
+      "serra marmore",
+      "marmore",
+      "granito",
+      "pedra"
+    ],
+    "resposta": "A serra mármore é uma serra circular compacta usada com discos específicos para cortar pedras, pisos e alvenaria, conforme o disco. É uma ferramenta de alto risco: use sempre o disco indicado, a proteção instalada, óculos, protetor auricular e máscara contra poeira.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-078",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma tupia?",
+    "variacoes": [
+      "tupia serve para quê",
+      "tupia de bancada ou manual",
+      "como fazer acabamento em borda de madeira"
+    ],
+    "palavras_chave": [
+      "tupia",
+      "fresa",
+      "frisos",
+      "borda"
+    ],
+    "resposta": "A tupia faz acabamentos em bordas, rebaixos, encaixes e frisos na madeira, usando fresas de formatos diferentes. Existem modelos manuais e para uso em mesa. Fixe bem a peça, use a fresa adequada e respeite o sentido de avanço indicado no manual.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-079",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma plaina elétrica?",
+    "variacoes": [
+      "plaina elétrica serve para quê",
+      "como desbastar porta que está raspando",
+      "plaina para madeira"
+    ],
+    "palavras_chave": [
+      "plaina",
+      "desbastar",
+      "porta raspando",
+      "nivelar"
+    ],
+    "resposta": "A plaina elétrica desbasta e nivela superfícies de madeira, como portas que raspam no batente ou peças que precisam de ajuste fino. Regule a profundidade de corte aos poucos, mantenha as mãos longe das lâminas e só apoie a ferramenta depois que ela parar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-080",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve um soprador térmico?",
+    "variacoes": [
+      "soprador térmico serve para quê",
+      "pistola de ar quente para quê",
+      "soprador térmico remove tinta"
+    ],
+    "palavras_chave": [
+      "soprador termico",
+      "ar quente",
+      "pistola termica",
+      "termorretratil"
+    ],
+    "resposta": "O soprador térmico produz ar muito quente para remover tintas e adesivos, moldar plásticos e aplicar tubos termorretráteis, entre outras tarefas. Não é um secador de cabelo. Mantenha longe de materiais inflamáveis, não aponte para pessoas e deixe o bico esfriar antes de guardar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-081",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma multiferramenta oscilante?",
+    "variacoes": [
+      "multicortadora oscilante serve para quê",
+      "ferramenta oscilante corta o quê",
+      "como cortar rodapé rente ao piso"
+    ],
+    "palavras_chave": [
+      "oscilante",
+      "multiferramenta",
+      "multicortadora",
+      "corte rente"
+    ],
+    "resposta": "A multiferramenta oscilante faz cortes rentes, recortes em locais apertados, raspagem e lixamento, trocando apenas o acessório. É útil em reformas, como cortar rodapés e batentes no lugar. Use lâminas compatíveis com o material e com o encaixe da ferramenta.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-082",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma serra de esquadria?",
+    "variacoes": [
+      "serra de esquadria ou circular",
+      "como fazer corte em ângulo na madeira",
+      "serra para cortar rodapé em 45 graus"
+    ],
+    "palavras_chave": [
+      "esquadria",
+      "meia esquadria",
+      "45 graus",
+      "angulo"
+    ],
+    "resposta": "A serra de esquadria faz cortes retos e angulados com precisão e repetição, como molduras, rodapés e guarnições em 45°. Para cortes longos em chapas, a serra circular costuma ser mais prática. Prenda bem a peça e espere o disco parar antes de levantar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-083",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para apertar parafusos grandes e porcas?",
+    "variacoes": [
+      "chave de impacto ou parafusadeira",
+      "ferramenta para soltar porca de roda",
+      "parafusadeira de impacto serve para quê"
+    ],
+    "palavras_chave": [
+      "chave de impacto",
+      "parafusadeira de impacto",
+      "porca",
+      "parafuso grande"
+    ],
+    "resposta": "Para parafusos longos e porcas, a parafusadeira de impacto ou a chave de impacto entregam bem mais torque que uma parafusadeira comum. Use soquetes e bits próprios para impacto. Para aperto final com valor definido, como rodas de veículos, confira com torquímetro conforme o manual do veículo.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-084",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Esmerilhadeira e lixadeira angular são a mesma ferramenta?",
+    "variacoes": [
+      "esmerilhadeira e lixadeira angular são iguais",
+      "lixadeira angular serve para cortar",
+      "qual a diferença entre esmerilhadeira e lixadeira angular"
+    ],
+    "palavras_chave": [
+      "lixadeira angular",
+      "mesma ferramenta",
+      "esmerilhadeira angular"
+    ],
+    "resposta": "Na prática, os dois nomes costumam se referir à mesma ferramenta: uma máquina angular que, com o acessório certo, corta, desbasta ou lixa. Muita gente também a chama pelo nome de uma marca. O importante é usar disco compatível com a operação e com a rotação, sempre com a proteção instalada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-085",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual a diferença entre furadeira de bancada e furadeira manual?",
+    "variacoes": [
+      "furadeira de bancada vale a pena",
+      "como furar metal com precisão",
+      "furadeira de coluna serve para quê"
+    ],
+    "palavras_chave": [
+      "furadeira de bancada",
+      "coluna",
+      "precisao",
+      "perpendicular"
+    ],
+    "resposta": "A furadeira de bancada (ou de coluna) fura com mais precisão e perpendicularidade, ideal para repetição e para metal. A manual é portátil e versátil. Na de bancada, prenda a peça com morsa e nunca segure com a mão.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-086",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "O que é encaixe SDS-plus?",
+    "variacoes": [
+      "diferença entre sds plus e sds max",
+      "broca sds serve em furadeira comum",
+      "o que significa sds"
+    ],
+    "palavras_chave": [
+      "sds plus",
+      "sds max",
+      "encaixe sds"
+    ],
+    "resposta": "SDS-plus e SDS-max são sistemas de encaixe de brocas e ponteiras para marteletes, que permitem o movimento de percussão com segurança. O SDS-plus é o mais comum em marteletes leves e médios; o SDS-max, em equipamentos pesados. Brocas SDS não se prendem corretamente em mandris comuns de furadeira.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-087",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual a diferença entre mandril com chave e mandril de aperto rápido?",
+    "variacoes": [
+      "mandril sem chave aperta bem",
+      "mandril de aperto rápido ou com chave",
+      "broca escorregando no mandril"
+    ],
+    "palavras_chave": [
+      "mandril",
+      "aperto rapido",
+      "chave de mandril",
+      "broca escorregando"
+    ],
+    "resposta": "O mandril com chave permite um aperto mais firme, útil em brocas grandes e trabalhos pesados. O de aperto rápido troca a broca sem ferramentas e atende bem a maioria dos usos. Se a broca escorregar, confira se está limpa, bem centralizada e com a haste no diâmetro suportado.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-088",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Como escolher o tamanho da broca para a bucha?",
+    "variacoes": [
+      "broca 6 usa bucha 6",
+      "qual broca para bucha 8",
+      "bucha ficando frouxa na parede"
+    ],
+    "palavras_chave": [
+      "bucha",
+      "tamanho da broca",
+      "frouxa",
+      "diametro da broca"
+    ],
+    "resposta": "Em geral, a broca tem o mesmo diâmetro da bucha (bucha 6, broca 6), mas confira a embalagem da bucha. Em tijolo furado e drywall existem buchas específicas. Se a bucha ficar frouxa, o furo provavelmente ficou maior que o necessário ou a bucha não é adequada ao material.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-089",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Como afiar uma broca?",
+    "variacoes": [
+      "broca cega tem como afiar",
+      "afiador de broca funciona",
+      "broca de aço rápido pode ser afiada"
+    ],
+    "palavras_chave": [
+      "afiar",
+      "broca cega",
+      "afiador",
+      "amolar"
+    ],
+    "resposta": "Brocas de aço rápido (HSS) podem ser afiadas com afiador próprio ou em esmeril, mantendo o ângulo original da ponta, o que exige prática. Brocas de vídea para concreto e brocas muito simples muitas vezes não compensam a afiação. Use óculos de proteção ao afiar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-090",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual disco usar para cortar azulejo e cerâmica?",
+    "variacoes": [
+      "disco para cerâmica",
+      "disco diamantado contínuo ou segmentado",
+      "disco para cortar azulejo"
+    ],
+    "palavras_chave": [
+      "disco diamantado",
+      "continuo",
+      "segmentado",
+      "turbo"
+    ],
+    "resposta": "Para cerâmica e porcelanato, o disco diamantado contínuo (liso) dá acabamento mais limpo; o segmentado corta mais rápido concreto e alvenaria, com acabamento mais grosso. Confira se diâmetro, furo e rotação máxima do disco são compatíveis com a máquina.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-091",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Disco de corte tem validade?",
+    "variacoes": [
+      "disco de corte vence",
+      "data de validade no disco",
+      "disco velho pode quebrar"
+    ],
+    "palavras_chave": [
+      "validade",
+      "vencido",
+      "disco velho",
+      "data de fabricacao"
+    ],
+    "resposta": "Discos abrasivos resinoides (de corte e de desbaste) costumam ter data de validade impressa no rótulo central, porque a resina perde resistência com o tempo e a umidade. Disco vencido, úmido, trincado ou que caiu no chão pode quebrar em uso: descarte e use um novo.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-092",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Que lixa usar em cada etapa do lixamento?",
+    "variacoes": [
+      "qual granulação de lixa usar",
+      "lixa 80, 120 ou 220",
+      "lixa grossa ou fina para madeira"
+    ],
+    "palavras_chave": [
+      "granulacao",
+      "grao",
+      "lixa grossa",
+      "lixa fina"
+    ],
+    "resposta": "Comece com grão mais grosso (números menores, como 60 a 80) para remover material e imperfeições, passe para médio (100 a 150) e termine com fino (180 a 240 ou mais) para acabamento. Não pule muitas etapas de uma vez e limpe o pó entre elas.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-093",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Qual lâmina de serra tico-tico usar?",
+    "variacoes": [
+      "lâmina de tico-tico para madeira ou metal",
+      "lâmina com encaixe T ou U",
+      "quantos dentes deve ter a lâmina"
+    ],
+    "palavras_chave": [
+      "lamina",
+      "encaixe t",
+      "encaixe u",
+      "dentes por polegada"
+    ],
+    "resposta": "Escolha pelo material e pelo acabamento: lâminas com menos dentes por polegada cortam madeira mais rápido; com mais dentes, cortam metal e dão acabamento mais fino. Confira também o tipo de encaixe (T ou U) aceito pela sua serra.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-094",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Como escolher o disco da serra circular?",
+    "variacoes": [
+      "disco de serra circular com quantos dentes",
+      "disco para cortar MDF",
+      "disco de serra para madeira"
+    ],
+    "palavras_chave": [
+      "disco de serra",
+      "dentes",
+      "mdf",
+      "serra circular"
+    ],
+    "resposta": "Discos com menos dentes cortam mais rápido e servem para cortes brutos; com mais dentes, dão melhor acabamento em MDF e compensado. Confira diâmetro, furo central e rotação máxima compatíveis com a máquina e nunca use disco de esmerilhadeira em serra circular.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-095",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Para que serve uma serra copo?",
+    "variacoes": [
+      "serra copo para fechadura",
+      "como fazer furo grande na madeira",
+      "serra copo para caixa de luz"
+    ],
+    "palavras_chave": [
+      "serra copo",
+      "furo grande",
+      "fechadura",
+      "caixa de luz"
+    ],
+    "resposta": "A serra copo faz furos de diâmetro maior, como para fechaduras, passagem de tubos e caixas elétricas, acoplada à furadeira. Existem modelos para madeira, metal e alvenaria. Use rotação adequada, prenda bem a peça e retire o miolo com a ferramenta desligada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-096",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Para que servem a ponteira e a talhadeira do martelete?",
+    "variacoes": [
+      "ponteira de martelete",
+      "talhadeira para quebrar piso",
+      "como quebrar parede com martelete"
+    ],
+    "palavras_chave": [
+      "ponteira",
+      "talhadeira",
+      "quebrar",
+      "rompimento"
+    ],
+    "resposta": "Ponteiras e talhadeiras são acessórios para a função de rompimento do martelete: a ponteira concentra o impacto para quebrar concreto; a talhadeira abre canaletas e remove revestimentos. Use somente na função rompimento, com encaixe compatível, óculos, luvas e protetor auricular.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-097",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Trena a laser é precisa?",
+    "variacoes": [
+      "trena laser substitui a trena comum",
+      "trena digital mede longe",
+      "trena laser funciona no sol"
+    ],
+    "palavras_chave": [
+      "trena a laser",
+      "trena digital",
+      "trena laser"
+    ],
+    "resposta": "Trenas a laser são práticas e precisas para medir distâncias internas, geralmente com variação de poucos milímetros indicada pelo fabricante. Em área externa com sol forte o alcance pode diminuir. Nunca aponte o laser para os olhos.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-098",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Para que serve um nível a laser?",
+    "variacoes": [
+      "nível laser serve para quê",
+      "nível a laser para assentar piso",
+      "nível laser de linhas cruzadas"
+    ],
+    "palavras_chave": [
+      "nivel a laser",
+      "nivel laser",
+      "linhas cruzadas",
+      "prumo"
+    ],
+    "resposta": "O nível a laser projeta linhas retas e niveladas para alinhar azulejos, prateleiras, quadros e instalações. Existem modelos de linhas cruzadas e de 360°. Confira a classe do laser, use em superfície estável e nunca aponte para os olhos.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-099",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Como testar pilha ou bateria com multímetro?",
+    "variacoes": [
+      "medir pilha com multímetro",
+      "testar bateria com multímetro",
+      "como medir a voltagem de uma bateria"
+    ],
+    "palavras_chave": [
+      "testar pilha",
+      "testar bateria",
+      "tensao continua",
+      "vdc"
+    ],
+    "resposta": "Selecione a escala de tensão contínua (VDC) acima da tensão nominal, encoste a ponta vermelha no positivo e a preta no negativo e leia o valor. Uma leitura bem abaixo do nominal indica carga baixa. Medições na rede elétrica exigem outros cuidados e conhecimento técnico.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-100",
+    "categoria": "medicao_eletronica",
+    "pergunta": "O que significa a categoria CAT III no multímetro?",
+    "variacoes": [
+      "cat ii, cat iii e cat iv",
+      "o que é categoria de medição",
+      "multímetro cat iii 600v"
+    ],
+    "palavras_chave": [
+      "cat iii",
+      "cat ii",
+      "cat iv",
+      "categoria de medicao"
+    ],
+    "resposta": "A categoria (CAT II, CAT III, CAT IV) indica em que tipo de circuito o instrumento pode medir com segurança contra surtos de tensão: quanto maior, mais perto da entrada de energia ele pode ser usado. Use sempre instrumento e pontas com categoria e tensão adequadas ao circuito.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-101",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual máquina de solda é indicada para iniciante?",
+    "variacoes": [
+      "primeira máquina de solda",
+      "inversora de solda para iniciante",
+      "solda para pequenos reparos em casa"
+    ],
+    "palavras_chave": [
+      "iniciante",
+      "inversora",
+      "primeira maquina de solda"
+    ],
+    "resposta": "Para iniciantes, inversoras de eletrodo revestido costumam ser as mais simples e acessíveis; a MIG/MAG facilita o aprendizado, mas exige gás ou arame tubular. Mais importante que a máquina é o EPI completo (máscara de solda adequada, luvas e avental) e um treinamento antes de começar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-102",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual máscara de solda usar?",
+    "variacoes": [
+      "máscara de solda automática vale a pena",
+      "tonalidade da máscara de solda",
+      "posso soldar com óculos escuro"
+    ],
+    "palavras_chave": [
+      "mascara de solda",
+      "escurecimento automatico",
+      "tonalidade",
+      "oculos escuro"
+    ],
+    "resposta": "Use máscara de solda com tonalidade adequada ao processo e à corrente, conforme o fabricante; as de escurecimento automático facilitam o trabalho. Óculos escuros comuns não protegem: a radiação do arco causa lesões nos olhos e na pele.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-103",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Precisa de gás para soldar com MIG?",
+    "variacoes": [
+      "solda mig sem gás",
+      "arame tubular dispensa gás",
+      "qual gás usar na mig"
+    ],
+    "palavras_chave": [
+      "gas",
+      "arame tubular",
+      "co2",
+      "gas de protecao"
+    ],
+    "resposta": "A solda MIG/MAG com arame sólido precisa de gás de proteção; com arame tubular próprio (fluxado), algumas máquinas trabalham sem gás. O tipo de gás depende do material e do processo. Confira o manual da máquina e mantenha o local ventilado.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-104",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Como drenar a água do compressor?",
+    "variacoes": [
+      "água no tanque do compressor",
+      "como usar o dreno do compressor",
+      "compressor juntando água"
+    ],
+    "palavras_chave": [
+      "drenar",
+      "dreno",
+      "agua no tanque",
+      "reservatorio"
+    ],
+    "resposta": "A umidade do ar se condensa no reservatório, por isso é preciso abrir o dreno regularmente, conforme o manual, com o compressor desligado e a pressão reduzida. Água acumulada causa corrosão e pode comprometer a segurança do reservatório.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-105",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Compressor com óleo ou isento de óleo: qual escolher?",
+    "variacoes": [
+      "compressor isento de óleo",
+      "compressor sem óleo é bom",
+      "compressor com óleo precisa de manutenção"
+    ],
+    "palavras_chave": [
+      "isento de oleo",
+      "sem oleo",
+      "com oleo",
+      "lubrificado"
+    ],
+    "resposta": "Compressores isentos de óleo exigem menos manutenção e fornecem ar sem resíduo de óleo, mas costumam ser mais ruidosos. Os lubrificados tendem a durar mais em uso intenso, mas exigem verificação e troca do óleo. Escolha pela aplicação, pela vazão e pelo ciclo de trabalho.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-106",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual a diferença entre pressão e vazão na lavadora?",
+    "variacoes": [
+      "bar ou litros por hora",
+      "lavadora com mais pressão ou mais vazão",
+      "o que limpa melhor, pressão ou vazão"
+    ],
+    "palavras_chave": [
+      "vazao",
+      "bar",
+      "litros por hora",
+      "pressao ou vazao"
+    ],
+    "resposta": "Pressão (bar ou psi) é a força do jato; vazão (litros por hora) é a quantidade de água. Pressão ajuda a remover sujeira aderida; vazão ajuda a enxaguar e carregar a sujeira. Para pisos e calçadas, a combinação das duas importa mais que um número isolado.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-107",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Posso usar lavadora de alta pressão no carro?",
+    "variacoes": [
+      "lavar carro com lava jato",
+      "lava jato estraga a pintura do carro",
+      "qual distância do jato na pintura"
+    ],
+    "palavras_chave": [
+      "lavar carro",
+      "pintura do carro",
+      "bico leque",
+      "distancia do jato"
+    ],
+    "resposta": "Pode, com cuidado: use bico em leque, mantenha distância da pintura e evite jato direto em adesivos, borrachas, componentes elétricos e áreas com pintura danificada. Pressão excessiva ou jato concentrado podem danificar acabamentos.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-108",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Quando trocar a escova de carvão da ferramenta?",
+    "variacoes": [
+      "escova de carvão gasta",
+      "motor faiscando muito",
+      "como trocar o carvão da furadeira"
+    ],
+    "palavras_chave": [
+      "escova de carvao",
+      "carvao",
+      "faiscando",
+      "trocar escova"
+    ],
+    "resposta": "Sinais comuns de escova gasta são faíscas excessivas, perda de força e funcionamento intermitente. Em muitos modelos a troca é simples, mas deve ser feita com a ferramenta desconectada e com escovas originais ou compatíveis. Na dúvida, ou se houver faíscas fortes, procure a assistência autorizada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-109",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Minha ferramenta perdeu força. O que pode ser?",
+    "variacoes": [
+      "furadeira fraca",
+      "ferramenta sem força",
+      "parafusadeira perdeu torque"
+    ],
+    "palavras_chave": [
+      "perdeu forca",
+      "sem forca"
+    ],
+    "resposta": "Pode ser bateria fraca ou carregamento incompleto, extensão inadequada, escovas gastas, acessório cego ou ajuste de torque baixo. Teste com bateria carregada e acessório novo. Se houver cheiro de queimado, ruído anormal ou faíscas, pare de usar e procure a assistência.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-110",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como limpar uma ferramenta elétrica?",
+    "variacoes": [
+      "como limpar a furadeira",
+      "posso lavar a ferramenta com água",
+      "soprar a poeira do motor"
+    ],
+    "palavras_chave": [
+      "limpar",
+      "limpeza",
+      "lavar",
+      "ventilacao"
+    ],
+    "resposta": "Com a ferramenta desconectada, remova a poeira das aberturas de ventilação com pincel ou ar comprimido em baixa pressão e limpe a carcaça com pano levemente úmido. Nunca lave com água nem use solventes, e não abra o motor sem orientação do fabricante.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-111",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como guardar ferramentas elétricas corretamente?",
+    "variacoes": [
+      "onde guardar as ferramentas",
+      "ferramenta guardada em garagem úmida",
+      "maleta ou caixa para guardar ferramentas"
+    ],
+    "palavras_chave": [
+      "guardar ferramentas",
+      "garagem",
+      "maleta",
+      "caixa de ferramentas"
+    ],
+    "resposta": "Guarde em local seco, ventilado e protegido do sol, de preferência na maleta original. Retire as baterias, enrole os cabos sem dobrar com força e mantenha fora do alcance de crianças. Umidade causa oxidação de contatos e componentes.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-112",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como evitar o tranco (rebote) da serra circular?",
+    "variacoes": [
+      "serra circular deu tranco",
+      "o que é rebote da serra",
+      "serra circular puxando para trás"
+    ],
+    "palavras_chave": [
+      "rebote",
+      "tranco",
+      "kickback",
+      "puxando para tras"
+    ],
+    "resposta": "O rebote acontece quando o disco prende no material. Para evitar: use disco afiado e adequado, apoie bem a peça dos dois lados do corte, não force o avanço, mantenha a proteção funcionando e posicione o corpo ao lado da linha de corte, segurando a ferramenta com as duas mãos.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-113",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "É preciso usar protetor auricular com ferramentas elétricas?",
+    "variacoes": [
+      "barulho da furadeira faz mal",
+      "protetor auricular para esmerilhadeira",
+      "abafador de ruído serve para quê"
+    ],
+    "palavras_chave": [
+      "protetor auricular",
+      "abafador",
+      "ruido",
+      "audicao"
+    ],
+    "resposta": "Esmerilhadeiras, marteletes e serras produzem ruído capaz de prejudicar a audição com exposição frequente. Use protetor auricular tipo plug ou concha, conforme a avaliação de riscos da atividade e as indicações do manual.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-114",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Qual máscara usar contra poeira ao lixar e cortar?",
+    "variacoes": [
+      "máscara PFF2 para pó de madeira",
+      "poeira de concreto faz mal",
+      "máscara para lixar parede"
+    ],
+    "palavras_chave": [
+      "mascara contra poeira",
+      "pff2",
+      "respirador",
+      "poeira fina"
+    ],
+    "resposta": "Para poeiras finas, como as de lixamento, concreto e MDF, use respirador adequado (por exemplo, tipo PFF2) bem ajustado ao rosto. Poeira com sílica e de madeira tratada exige atenção especial. Trabalhar com aspiração, quando possível, também reduz a exposição.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-115",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como prender a peça antes de cortar ou furar?",
+    "variacoes": [
+      "posso segurar a peça com a mão para furar",
+      "morsa ou grampo para fixar",
+      "peça girando junto com a broca"
+    ],
+    "palavras_chave": [
+      "prender a peca",
+      "fixar",
+      "grampo",
+      "morsa",
+      "sargento"
+    ],
+    "resposta": "Use grampos, sargentos ou morsa para fixar a peça em superfície firme; nunca segure peças pequenas com a mão ao furar ou cortar. Peça solta pode girar, prender a ferramenta ou ser arremessada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-116",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Crianças podem usar ferramentas elétricas?",
+    "variacoes": [
+      "menor de idade pode usar furadeira",
+      "ensinar criança a usar ferramenta",
+      "deixar ferramenta perto de criança"
+    ],
+    "palavras_chave": [
+      "crianca",
+      "menor de idade",
+      "adolescente"
+    ],
+    "resposta": "Ferramentas elétricas devem ser usadas por adultos treinados; os manuais geralmente proíbem o uso por crianças. Guarde ferramentas, baterias e acessórios fora do alcance delas e retire a bateria ou desligue da tomada ao interromper o trabalho.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-117",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Posso usar ferramenta elétrica perto de gás ou combustível?",
+    "variacoes": [
+      "usar esmerilhadeira perto de gasolina",
+      "faísca perto de botijão de gás",
+      "ferramenta em ambiente com vapor inflamável"
+    ],
+    "palavras_chave": [
+      "inflamavel",
+      "combustivel",
+      "gasolina",
+      "botijao",
+      "vapor"
+    ],
+    "resposta": "Não. Motores elétricos e operações de corte e desbaste geram faíscas que podem inflamar gases, vapores e poeiras combustíveis. Trabalhe em área ventilada, longe de inflamáveis, e siga as normas do local.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-118",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "O cabo da ferramenta está danificado. Posso continuar usando?",
+    "variacoes": [
+      "cabo da furadeira descascado",
+      "fio da ferramenta rompido",
+      "posso emendar o cabo da ferramenta"
+    ],
+    "palavras_chave": [
+      "cabo danificado",
+      "fio descascado",
+      "emendar o cabo",
+      "fio rompido"
+    ],
+    "resposta": "Não. Cabo descascado, rompido ou emendado é risco de choque. Pare de usar a ferramenta e providencie a troca do cabo por assistência autorizada ou profissional habilitado. Para evitar danos, enrole sem dobras fortes e nunca puxe a ferramenta pelo fio.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-119",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "A ferramenta está fazendo um barulho estranho. O que fazer?",
+    "variacoes": [
+      "barulho estranho na furadeira",
+      "ferramenta rangendo",
+      "ruído diferente no motor"
+    ],
+    "palavras_chave": [
+      "barulho estranho",
+      "rangendo",
+      "ruido diferente",
+      "vibracao excessiva"
+    ],
+    "resposta": "Ruídos novos, vibração excessiva ou cheiro diferente indicam que algo não vai bem (rolamento, engrenagem, acessório solto ou escovas). Desligue, desconecte e confira se o acessório está bem fixo. Persistindo, não continue usando e procure a assistência autorizada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-120",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Por que a broca está girando torta?",
+    "variacoes": [
+      "broca balançando",
+      "mandril empenado",
+      "furo saindo maior que a broca"
+    ],
+    "palavras_chave": [
+      "broca torta",
+      "balancando",
+      "mandril empenado",
+      "girando torta"
+    ],
+    "resposta": "Pode ser broca empenada, mal presa ou mandril danificado. Teste com outra broca nova e bem centralizada. Se o balanço continuar, o mandril ou o eixo podem precisar de reparo na assistência técnica.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-121",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Por que a parafusadeira está espanando os parafusos?",
+    "variacoes": [
+      "parafuso espanando",
+      "bit escapando do parafuso",
+      "cabeça do parafuso estragando"
+    ],
+    "palavras_chave": [
+      "espanando",
+      "bit escapando",
+      "cabeca do parafuso"
+    ],
+    "resposta": "Geralmente é bit inadequado ou gasto, rotação alta demais, pouca pressão alinhada ao parafuso ou torque mal ajustado. Use o bit certo para a cabeça do parafuso, comece em rotação baixa e ajuste a embreagem para não exagerar no aperto.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-122",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "A bateria está esquentando muito. É normal?",
+    "variacoes": [
+      "bateria muito quente",
+      "bateria aquecendo durante o uso",
+      "bateria esquenta no carregador"
+    ],
+    "palavras_chave": [
+      "bateria quente",
+      "bateria esquentando",
+      "aquecendo"
+    ],
+    "resposta": "Algum aquecimento é normal em uso intenso e durante a carga. Calor excessivo, inchaço, cheiro ou fumaça não são normais: pare de usar, desconecte com segurança, deixe longe de materiais inflamáveis e procure a assistência autorizada. Nunca resfrie a bateria com água.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-123",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Uma parafusadeira a bateria substitui a furadeira em casa?",
+    "variacoes": [
+      "parafusadeira a bateria substitui furadeira",
+      "só uma parafusadeira resolve em casa",
+      "preciso de furadeira se tenho parafusadeira"
+    ],
+    "palavras_chave": [
+      "substitui",
+      "so uma ferramenta",
+      "uso em casa"
+    ],
+    "resposta": "Uma parafusadeira/furadeira a bateria resolve montagens e furos em madeira e metal, mas costuma sofrer em alvenaria e concreto. Para furar paredes com frequência, uma furadeira de impacto ou um martelete complementam melhor. Pense nas tarefas mais comuns da sua casa.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-124",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Como saber se a ferramenta é original?",
+    "variacoes": [
+      "ferramenta falsificada",
+      "como identificar produto pirata",
+      "como evitar comprar ferramenta falsa"
+    ],
+    "palavras_chave": [
+      "original",
+      "falsificada",
+      "pirata",
+      "procedencia"
+    ],
+    "resposta": "Compre em revendedores confiáveis, exija nota fiscal e confira embalagem, manual em português, número de série e selos de certificação aplicáveis. Preços muito abaixo do mercado são sinal de alerta. Produtos falsificados podem ser perigosos e não têm garantia do fabricante.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-125",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Vale mais a pena consertar ou comprar uma ferramenta nova?",
+    "variacoes": [
+      "compensa consertar a furadeira",
+      "orçamento da assistência ficou caro",
+      "trocar ou arrumar a ferramenta"
+    ],
+    "palavras_chave": [
+      "consertar ou comprar",
+      "orcamento da assistencia",
+      "compensa consertar"
+    ],
+    "resposta": "Compare o orçamento da assistência com o valor de uma nova equivalente, considerando a idade da ferramenta, a disponibilidade de peças e a garantia do serviço. Ferramentas profissionais costumam compensar o reparo; modelos de entrada, nem sempre.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-126",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Como faço para acionar a garantia?",
+    "variacoes": [
+      "como acionar a garantia da ferramenta",
+      "ferramenta com defeito dentro da garantia",
+      "o que levar na assistência técnica"
+    ],
+    "palavras_chave": [
+      "acionar garantia",
+      "dentro da garantia",
+      "termo de garantia"
+    ],
+    "resposta": "Separe a nota fiscal e o termo de garantia e leve o produto a uma assistência técnica autorizada do fabricante, ou fale com o atendimento da loja para orientação. Não abra nem tente consertar o produto antes, pois isso pode comprometer a garantia.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-127",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Onde encontro uma assistência técnica autorizada?",
+    "variacoes": [
+      "assistência técnica perto de mim",
+      "lista de assistências autorizadas",
+      "onde consertar ferramenta na garantia"
+    ],
+    "palavras_chave": [
+      "assistencia tecnica",
+      "autorizada",
+      "perto de mim"
+    ],
+    "resposta": "A lista de assistências autorizadas fica no site ou no manual do fabricante. Um atendente da loja também pode ajudar a localizar a mais próxima. Ainda não consulto essa lista por aqui.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-128",
+    "categoria": "atendimento_comercial",
+    "pergunta": "O produto chegou com defeito ou errado. O que faço?",
+    "variacoes": [
+      "produto chegou quebrado",
+      "veio na voltagem errada",
+      "recebi um produto diferente do pedido"
+    ],
+    "palavras_chave": [
+      "chegou com defeito",
+      "chegou quebrado",
+      "produto errado",
+      "veio errado"
+    ],
+    "resposta": "Lamento pelo transtorno. Não use o produto, guarde a embalagem e a nota fiscal, registre fotos e fale com o atendimento da loja o quanto antes para a troca. Produto errado ou com defeito na entrega deve ser tratado com prioridade.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-129",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês vendem para empresas com CNPJ?",
+    "variacoes": [
+      "compra com CNPJ",
+      "orçamento para empresa",
+      "nota fiscal no CNPJ"
+    ],
+    "palavras_chave": [
+      "cnpj",
+      "empresa",
+      "pessoa juridica"
+    ],
+    "resposta": "Compras para empresas são tratadas por um atendente, que confirma as condições e a emissão da nota fiscal. Posso encaminhar você para esse atendimento.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-130",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês fazem orçamento para compra em quantidade?",
+    "variacoes": [
+      "desconto para compra grande",
+      "preço no atacado",
+      "orçamento para obra"
+    ],
+    "palavras_chave": [
+      "quantidade",
+      "atacado",
+      "orcamento",
+      "lote"
+    ],
+    "resposta": "Orçamentos para compras em quantidade são tratados por um atendente, que avalia disponibilidade e condições. Ainda não calculo orçamentos por aqui.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-131",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês têm loja física?",
+    "variacoes": [
+      "tem loja para visitar",
+      "posso ir até a loja",
+      "vocês atendem presencialmente"
+    ],
+    "palavras_chave": [
+      "loja fisica",
+      "visitar",
+      "presencial"
+    ],
+    "resposta": "Sim, a ToolExpert tem unidades físicas (dados de demonstração). Pergunte \"onde fica a loja\" ou \"que horas abre\" para ver endereços e horários.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-132",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês alugam ferramentas?",
+    "variacoes": [
+      "aluguel de martelete",
+      "posso alugar uma ferramenta",
+      "locação de ferramentas"
+    ],
+    "palavras_chave": [
+      "alugar",
+      "aluguel",
+      "locacao"
+    ],
+    "resposta": "Ainda não tenho informações sobre locação de ferramentas por aqui. Um atendente pode informar se a loja oferece esse serviço.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-133",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Posso reservar um produto?",
+    "variacoes": [
+      "como reservar um produto",
+      "separar produto para retirar depois",
+      "guardar um produto para mim"
+    ],
+    "palavras_chave": [
+      "reservar",
+      "reserva",
+      "separar"
+    ],
+    "resposta": "Reservas dependem da política da unidade. Um atendente pode verificar a possibilidade e o prazo. Ainda não faço reservas por aqui.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-134",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Vocês fazem conserto de ferramentas?",
+    "variacoes": [
+      "vocês consertam ferramenta",
+      "tem assistência técnica na loja",
+      "levar furadeira para arrumar"
+    ],
+    "palavras_chave": [
+      "conserto",
+      "consertam",
+      "reparo"
+    ],
+    "resposta": "Os reparos são feitos pela assistência técnica autorizada do fabricante. Um atendente pode orientar sobre o encaminhamento; ainda não verifico esse serviço por aqui.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-135",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Quanto tempo leva a entrega?",
+    "variacoes": [
+      "qual o prazo de entrega",
+      "em quantos dias chega",
+      "a entrega demora"
+    ],
+    "palavras_chave": [
+      "prazo de entrega",
+      "quantos dias",
+      "demora para chegar"
+    ],
+    "resposta": "O prazo depende do CEP, do produto e da modalidade de envio e é informado no fechamento do pedido. Não consigo calcular prazos por aqui.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-136",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Meu pedido está atrasado. O que faço?",
+    "variacoes": [
+      "meu pedido atrasou",
+      "entrega atrasada",
+      "pedido ainda não chegou"
+    ],
+    "palavras_chave": [
+      "atrasado",
+      "atrasou",
+      "nao chegou",
+      "entrega atrasada"
+    ],
+    "resposta": "Lamento pela demora. Confira o rastreamento no canal oficial de pedidos e, se o prazo já passou, fale com um atendente informando o número do pedido (sem enviar dados pessoais por aqui). Posso chamar um atendente.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-137",
+    "categoria": "atendimento_comercial",
+    "pergunta": "Posso cancelar meu pedido?",
+    "variacoes": [
+      "como cancelar o pedido",
+      "desistir do pedido antes de chegar",
+      "quero cancelar o pedido feito"
+    ],
+    "palavras_chave": [
+      "cancelar",
+      "cancelamento",
+      "desistir do pedido"
+    ],
+    "resposta": "O cancelamento depende do status do pedido. Compras feitas fora da loja física têm direito de arrependimento em até 7 dias após o recebimento (art. 49 do CDC). Fale com o atendimento informando o número do pedido.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "pendente_validacao",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-138",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Onde encontro o manual da minha ferramenta?",
+    "variacoes": [
+      "perdi o manual da furadeira",
+      "manual em português da ferramenta",
+      "onde baixar o manual"
+    ],
+    "palavras_chave": [
+      "manual",
+      "perdi o manual",
+      "instrucoes"
+    ],
+    "resposta": "Os manuais costumam estar disponíveis no site do fabricante, pelo modelo da ferramenta. Guarde sempre o manual: ele traz instruções de uso, segurança e manutenção específicas do seu equipamento.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-139",
+    "categoria": "brocas_discos_acessorios",
+    "pergunta": "Como trocar o disco da esmerilhadeira?",
+    "variacoes": [
+      "trocar disco da lixadeira angular",
+      "como soltar o flange do disco",
+      "disco travado na esmerilhadeira"
+    ],
+    "palavras_chave": [
+      "trocar disco",
+      "flange",
+      "trava do eixo",
+      "disco travado"
+    ],
+    "resposta": "Com a ferramenta desconectada, pressione a trava do eixo, solte a porca (flange) com a chave própria, posicione o disco novo no sentido correto e reaperte sem exagero. Confira se o disco é compatível com a máquina e se a proteção está instalada antes de ligar.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-140",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para pintar parede?",
+    "variacoes": [
+      "pistola de pintura para parede",
+      "rolo ou pistola elétrica",
+      "pintar com compressor"
+    ],
+    "palavras_chave": [
+      "pintar parede",
+      "pistola de pintura",
+      "rolo",
+      "airless"
+    ],
+    "resposta": "Para paredes, rolo e pincel resolvem a maioria dos casos. Pistolas de pintura elétricas ou com compressor agilizam áreas grandes, mas exigem diluição correta da tinta, proteção do ambiente e máscara. Siga as recomendações do fabricante da tinta.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-141",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Qual ferramenta usar para podar galhos e cortar lenha?",
+    "variacoes": [
+      "motosserra ou serra sabre",
+      "como podar árvore",
+      "ferramenta para cortar lenha"
+    ],
+    "palavras_chave": [
+      "podar",
+      "galhos",
+      "motosserra",
+      "lenha",
+      "poda"
+    ],
+    "resposta": "Para galhos finos, tesoura de poda ou serra manual; para galhos médios, serra sabre com lâmina para madeira; motosserras são para trabalhos maiores e exigem treinamento e EPI completo. Poda em altura ou perto da rede elétrica deve ser feita por profissional.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-142",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma serra sabre?",
+    "variacoes": [
+      "serra sabre corta o quê",
+      "serra de demolição",
+      "como cortar cano dentro da parede"
+    ],
+    "palavras_chave": [
+      "serra sabre",
+      "demolicao",
+      "cortar cano"
+    ],
+    "resposta": "A serra sabre faz cortes de demolição e recortes em madeira, metal, canos e outros materiais, conforme a lâmina. É útil em reformas e podas. Use lâmina adequada, segure com as duas mãos e verifique se não há fios ou tubulações escondidos antes de cortar paredes.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-143",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve um grampeador pneumático ou elétrico?",
+    "variacoes": [
+      "grampeador para estofado",
+      "pinador pneumático",
+      "grampeador para madeira"
+    ],
+    "palavras_chave": [
+      "grampeador",
+      "pinador",
+      "grampo",
+      "estofado"
+    ],
+    "resposta": "Grampeadores e pinadores fixam tecidos, forros, molduras e pequenas peças de madeira com rapidez. Os pneumáticos exigem compressor com pressão e vazão adequadas. Nunca aponte para pessoas e desconecte do ar ou da energia antes de desobstruir.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-144",
+    "categoria": "escolha_de_ferramentas",
+    "pergunta": "Para que serve uma politriz?",
+    "variacoes": [
+      "politriz para carro",
+      "posso polir o carro com lixadeira",
+      "diferença entre politriz e lixadeira"
+    ],
+    "palavras_chave": [
+      "politriz",
+      "polir",
+      "polimento",
+      "boina"
+    ],
+    "resposta": "A politriz é usada para polir e lustrar superfícies, como pintura automotiva, com boinas e massas próprias. Tem rotação menor e controle mais fino que uma esmerilhadeira. Polimento mal feito pode queimar a pintura: comece em baixa rotação.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-145",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como evitar choque elétrico ao usar ferramentas?",
+    "variacoes": [
+      "como não levar choque da ferramenta",
+      "ferramenta dando choque",
+      "levei choque na furadeira"
+    ],
+    "palavras_chave": [
+      "choque eletrico",
+      "dando choque",
+      "levei choque",
+      "dr"
+    ],
+    "resposta": "Use ferramentas e extensões em bom estado, tomadas adequadas e, quando aplicável, circuitos com dispositivo de proteção (DR). Não use com mãos molhadas ou em locais úmidos e verifique se não há fiação escondida antes de furar paredes. Se a ferramenta der choque, pare imediatamente e procure a assistência autorizada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-146",
+    "categoria": "uso_manutencao_seguranca",
+    "pergunta": "Como saber se há fio ou cano dentro da parede antes de furar?",
+    "variacoes": [
+      "detector de fios na parede",
+      "como evitar furar cano",
+      "posso furar perto do interruptor"
+    ],
+    "palavras_chave": [
+      "detector de fios",
+      "furar cano",
+      "fiacao embutida",
+      "interruptor"
+    ],
+    "resposta": "Evite furar na linha vertical e horizontal de tomadas e interruptores, onde costumam passar eletrodutos, e use um detector de materiais (metais, madeira e fios energizados) quando possível. Na dúvida, desligue o circuito e consulte a planta da instalação.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "alto"
+  },
+  {
+    "id": "FAQ-147",
+    "categoria": "medicao_eletronica",
+    "pergunta": "Qual a diferença entre paquímetro e trena?",
+    "variacoes": [
+      "paquímetro serve para quê",
+      "como medir o diâmetro de um parafuso",
+      "paquímetro digital"
+    ],
+    "palavras_chave": [
+      "paquimetro",
+      "medir diametro",
+      "milimetro"
+    ],
+    "resposta": "A trena mede comprimentos maiores com precisão de milímetros; o paquímetro mede pequenas dimensões, como diâmetros internos e externos e profundidades, com precisão de décimos ou centésimos de milímetro.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "baixo"
+  },
+  {
+    "id": "FAQ-148",
+    "categoria": "soldagem_compressores_limpeza",
+    "pergunta": "Qual a diferença entre solda de estanho e solda de metais?",
+    "variacoes": [
+      "ferro de solda para eletrônica",
+      "soldar fio com estanho",
+      "solda para placa de circuito"
+    ],
+    "palavras_chave": [
+      "estanho",
+      "ferro de solda",
+      "eletronica",
+      "placa"
+    ],
+    "resposta": "A solda de estanho, feita com ferro ou estação de solda, une componentes eletrônicos e fios em temperatura bem menor que a solda de metais (MIG, TIG, eletrodo), que funde as peças. São processos e equipamentos diferentes. Use suporte para o ferro e ventilação contra fumos.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-149",
+    "categoria": "baterias_alimentacao",
+    "pergunta": "Bateria de 18 V serve em ferramenta de 20 V?",
+    "variacoes": [
+      "18v e 20v são iguais",
+      "o que significa 20v max",
+      "diferença entre bateria 18v e 20v"
+    ],
+    "palavras_chave": [
+      "18v",
+      "20v max",
+      "tensao nominal"
+    ],
+    "resposta": "Em muitas marcas, 18 V e 20 V Max descrevem a mesma tensão nominal com nomes diferentes, mas a compatibilidade depende sempre da plataforma do fabricante. Use apenas baterias aprovadas para aquela ferramenta e carregador.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
+  },
+  {
+    "id": "FAQ-150",
+    "categoria": "diagnostico_comparacao",
+    "pergunta": "Por que a ferramenta desliga sozinha durante o uso?",
+    "variacoes": [
+      "ferramenta desliga sozinha",
+      "parafusadeira para no meio do aperto",
+      "furadeira parando sozinha"
+    ],
+    "palavras_chave": [
+      "desliga sozinha",
+      "para sozinha",
+      "protecao termica",
+      "sobrecarga"
+    ],
+    "resposta": "Muitas ferramentas a bateria têm proteções que desligam o motor por sobrecarga, superaquecimento ou bateria fraca. Deixe esfriar, recarregue a bateria e reduza o esforço. Se continuar desligando sem motivo aparente, procure a assistência autorizada.",
+    "fonte": "Redação própria assistida por IA (2026-11-24) — revisar com especialista",
+    "revisado_em": null,
+    "status": "rascunho",
+    "nivel_risco": "medio"
   }
 ]

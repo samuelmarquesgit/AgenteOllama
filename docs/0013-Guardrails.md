@@ -46,7 +46,9 @@ flowchart TD
 | G17 | Aprendizado | `aprendizado.py` | Só grava pergunta com assunto (≥ 2 palavras relevantes, sem interjeições) | "hmm ok?", "beleza, valeu" |
 | G18 | Aprendizado | `aprendizado.py` | Nunca grava mensagem que continha dado pessoal | "meu cpf ... tupia?" |
 | G19 | Aprendizado | `banco.py` | Tudo que é gravado fica pendente de revisão humana (`faq_sugestoes`) | — |
+| G26 | Risco | `risco.py` | Pergunta sobre eletricidade, solda, discos, proteções, bateria de lítio danificada, superaquecimento ou químicos **nunca vai para a IA nem para sugestões não revisadas**: responde pela FAQ (risco médio/alto, nota ≥ 0,3) com reforço de segurança, ou encaminha ao manual, a um profissional ou a um atendente. Ação perigosa (abrir bateria, mexer com energia ligada) é sempre encaminhada | "como trocar a tomada sem desligar a energia?" |
 | G25 | Aprendizado | `aprendizado.py` | Resposta em que a IA admite não ter certeza **não é gravada**; o Tork oferece atendente | "Não tenho certeza sobre o termo…" |
+| G23 | Fluxo | `fluxos.py` | **Consentimento explícito** antes de registrar um pedido de atendimento humano: o Tork mostra o resumo (com dados pessoais já mascarados pelo G02), explica a finalidade e só grava em `atendimentos_humanos` depois do "sim". Não pede nome, telefone nem CPF. Com "não", nada é gravado e o contato da loja é mostrado. A tabela exige `consentimento = 1` | "não" → nada gravado |
 | — | Reaproveitamento | `agente.py` | Sugestão não revisada só responde pergunta **praticamente igual** (nota ≥ 0,9 e ≥ 75% das palavras da sugestão na pergunta), com selo próprio "aguardando revisão" | "escreve-se brocantes ou blocantes?" não reaproveita a resposta sobre parafusos |
 
 Outras proteções fora da pasta (infraestrutura):

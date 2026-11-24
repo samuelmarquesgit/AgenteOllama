@@ -1,0 +1,915 @@
+{
+  "versao": "1.0",
+  "data": "2026-11-24",
+  "descricao": "RT-008: 100 perguntas representativas com gabarito. Perguntas redigidas de forma diferente das FAQs e variações cadastradas. Gabarito montado pelo assistente de IA e PENDENTE de revisão humana (T-025).",
+  "regras": {
+    "faqs": "acerto se a resposta veio de uma destas FAQs",
+    "origens": "acerto se a origem da resposta está nesta lista (ex.: catalogo, loja, fallback)",
+    "nunca_ia": "a pergunta não pode ser respondida pela IA generativa (comercial e segurança)",
+    "proibido": "trechos que não podem aparecer na resposta"
+  },
+  "perguntas": [
+    {
+      "id": "AV-001",
+      "grupo": "faq",
+      "pergunta": "qual a diferença de uma parafusadeira pra uma furadeira?",
+      "faqs": [
+        "FAQ-001"
+      ]
+    },
+    {
+      "id": "AV-002",
+      "grupo": "faq",
+      "pergunta": "furadeira de impacto é melhor que a comum?",
+      "faqs": [
+        "FAQ-002"
+      ]
+    },
+    {
+      "id": "AV-003",
+      "grupo": "faq",
+      "pergunta": "pra que serve um martelete?",
+      "faqs": [
+        "FAQ-003"
+      ]
+    },
+    {
+      "id": "AV-004",
+      "grupo": "faq",
+      "pergunta": "vale mais a pena ferramenta com fio ou sem fio?",
+      "faqs": [
+        "FAQ-004"
+      ]
+    },
+    {
+      "id": "AV-005",
+      "grupo": "faq",
+      "pergunta": "parafusadeira de 12 volts ou de 20 volts, qual eu pego?",
+      "faqs": [
+        "FAQ-005"
+      ]
+    },
+    {
+      "id": "AV-006",
+      "grupo": "faq",
+      "pergunta": "o que quer dizer torque na parafusadeira?",
+      "faqs": [
+        "FAQ-006"
+      ]
+    },
+    {
+      "id": "AV-007",
+      "grupo": "faq",
+      "pergunta": "mais watts significa mais força na ferramenta?",
+      "faqs": [
+        "FAQ-007",
+        "FAQ-058"
+      ]
+    },
+    {
+      "id": "AV-008",
+      "grupo": "faq",
+      "pergunta": "qual ferramenta é boa pra montar um armário?",
+      "faqs": [
+        "FAQ-008"
+      ]
+    },
+    {
+      "id": "AV-009",
+      "grupo": "faq",
+      "pergunta": "que serra eu uso pra cortar tábua de madeira?",
+      "faqs": [
+        "FAQ-009"
+      ]
+    },
+    {
+      "id": "AV-010",
+      "grupo": "faq",
+      "pergunta": "como faço pra cortar um cano de ferro?",
+      "faqs": [
+        "FAQ-010"
+      ]
+    },
+    {
+      "id": "AV-011",
+      "grupo": "faq",
+      "pergunta": "qual lixadeira usar pra deixar a madeira lisinha?",
+      "faqs": [
+        "FAQ-011"
+      ]
+    },
+    {
+      "id": "AV-012",
+      "grupo": "faq",
+      "pergunta": "como tiro ferrugem de um portão?",
+      "faqs": [
+        "FAQ-012"
+      ]
+    },
+    {
+      "id": "AV-013",
+      "grupo": "faq",
+      "pergunta": "que broca uso pra furar parede de concreto?",
+      "faqs": [
+        "FAQ-013",
+        "FAQ-002",
+        "FAQ-003"
+      ]
+    },
+    {
+      "id": "AV-014",
+      "grupo": "faq",
+      "pergunta": "broca pra madeira, qual é a certa?",
+      "faqs": [
+        "FAQ-014"
+      ]
+    },
+    {
+      "id": "AV-015",
+      "grupo": "faq",
+      "pergunta": "qual broca consegue furar aço?",
+      "faqs": [
+        "FAQ-015"
+      ]
+    },
+    {
+      "id": "AV-016",
+      "grupo": "faq",
+      "pergunta": "qualquer disco serve na lixadeira angular?",
+      "faqs": [
+        "FAQ-016"
+      ]
+    },
+    {
+      "id": "AV-017",
+      "grupo": "faq",
+      "pergunta": "disco de corte e disco de desbaste são a mesma coisa?",
+      "faqs": [
+        "FAQ-017"
+      ]
+    },
+    {
+      "id": "AV-018",
+      "grupo": "faq",
+      "pergunta": "a bateria de uma marca serve na ferramenta de outra marca?",
+      "faqs": [
+        "FAQ-018"
+      ]
+    },
+    {
+      "id": "AV-019",
+      "grupo": "faq",
+      "pergunta": "bit de parafusadeira serve em qualquer parafusadeira?",
+      "faqs": [
+        "FAQ-019"
+      ]
+    },
+    {
+      "id": "AV-020",
+      "grupo": "faq",
+      "pergunta": "posso usar adaptador de encaixe SDS na furadeira comum?",
+      "faqs": [
+        "FAQ-020",
+        "FAQ-086"
+      ],
+      "nota_revisao": "FAQ-086 (SDS) adicionada na ampliação de 2026-11-24 também responde."
+    },
+    {
+      "id": "AV-021",
+      "grupo": "faq",
+      "pergunta": "o que significa Ah escrito na bateria?",
+      "faqs": [
+        "FAQ-021"
+      ]
+    },
+    {
+      "id": "AV-022",
+      "grupo": "faq",
+      "pergunta": "posso colocar uma bateria de 5Ah no lugar da de 2Ah?",
+      "faqs": [
+        "FAQ-022",
+        "FAQ-021"
+      ]
+    },
+    {
+      "id": "AV-023",
+      "grupo": "faq",
+      "pergunta": "quanto tempo dura uma carga da bateria?",
+      "faqs": [
+        "FAQ-023"
+      ]
+    },
+    {
+      "id": "AV-024",
+      "grupo": "faq",
+      "pergunta": "posso carregar a bateria no carregador de outra marca?",
+      "faqs": [
+        "FAQ-024",
+        "FAQ-018"
+      ]
+    },
+    {
+      "id": "AV-025",
+      "grupo": "faq",
+      "pergunta": "posso ligar ferramenta 220 numa tomada 110?",
+      "faqs": [
+        "FAQ-025"
+      ]
+    },
+    {
+      "id": "AV-026",
+      "grupo": "faq",
+      "pergunta": "como devo guardar as baterias das ferramentas?",
+      "faqs": [
+        "FAQ-026"
+      ]
+    },
+    {
+      "id": "AV-027",
+      "grupo": "faq",
+      "pergunta": "multímetro e alicate amperímetro é a mesma coisa?",
+      "faqs": [
+        "FAQ-027"
+      ]
+    },
+    {
+      "id": "AV-028",
+      "grupo": "faq",
+      "pergunta": "como escolho um bom multímetro?",
+      "faqs": [
+        "FAQ-028"
+      ]
+    },
+    {
+      "id": "AV-029",
+      "grupo": "faq",
+      "pergunta": "qual a diferença entre solda mig e tig?",
+      "faqs": [
+        "FAQ-031"
+      ]
+    },
+    {
+      "id": "AV-030",
+      "grupo": "faq",
+      "pergunta": "qual compressor preciso pra pintar um carro?",
+      "faqs": [
+        "FAQ-032"
+      ]
+    },
+    {
+      "id": "AV-031",
+      "grupo": "faq",
+      "pergunta": "como conservo minhas ferramentas elétricas?",
+      "faqs": [
+        "FAQ-036"
+      ]
+    },
+    {
+      "id": "AV-032",
+      "grupo": "faq",
+      "pergunta": "o que é parafuso autobrocante?",
+      "faqs": [
+        "FAQ-061"
+      ]
+    },
+    {
+      "id": "AV-033",
+      "grupo": "faq",
+      "pergunta": "qual a melhor marca de ferramenta?",
+      "faqs": [
+        "FAQ-056"
+      ]
+    },
+    {
+      "id": "AV-034",
+      "grupo": "faq",
+      "pergunta": "ferramenta mais potente é sempre a melhor escolha?",
+      "faqs": [
+        "FAQ-058"
+      ]
+    },
+    {
+      "id": "AV-035",
+      "grupo": "faq",
+      "pergunta": "como faço pra comparar duas furadeiras?",
+      "faqs": [
+        "FAQ-059"
+      ]
+    },
+    {
+      "id": "AV-036",
+      "grupo": "sinonimos_erros",
+      "pergunta": "parafuzadera ou furadera qual a diferenca",
+      "faqs": [
+        "FAQ-001"
+      ]
+    },
+    {
+      "id": "AV-037",
+      "grupo": "sinonimos_erros",
+      "pergunta": "esmerilhadera aceita qualquer disco?",
+      "faqs": [
+        "FAQ-016"
+      ]
+    },
+    {
+      "id": "AV-038",
+      "grupo": "sinonimos_erros",
+      "pergunta": "q broca usa no concreto",
+      "faqs": [
+        "FAQ-013"
+      ]
+    },
+    {
+      "id": "AV-039",
+      "grupo": "sinonimos_erros",
+      "pergunta": "aparafusadora de 12v é fraca?",
+      "faqs": [
+        "FAQ-005"
+      ]
+    },
+    {
+      "id": "AV-040",
+      "grupo": "sinonimos_erros",
+      "pergunta": "lixadera orbital serve pra madeira?",
+      "faqs": [
+        "FAQ-011"
+      ]
+    },
+    {
+      "id": "AV-041",
+      "grupo": "sinonimos_erros",
+      "pergunta": "posso usar furadeira debaixo de chuva",
+      "faqs": [
+        "FAQ-040"
+      ]
+    },
+    {
+      "id": "AV-042",
+      "grupo": "sinonimos_erros",
+      "pergunta": "solda eletrodo ou mig pra quem ta comecando",
+      "faqs": [
+        "FAQ-031"
+      ]
+    },
+    {
+      "id": "AV-043",
+      "grupo": "sinonimos_erros",
+      "pergunta": "compresor pra pistola de pintura",
+      "faqs": [
+        "FAQ-032"
+      ]
+    },
+    {
+      "id": "AV-044",
+      "grupo": "sinonimos_erros",
+      "pergunta": "parafuso brocante pra telha",
+      "faqs": [
+        "FAQ-061"
+      ]
+    },
+    {
+      "id": "AV-045",
+      "grupo": "sinonimos_erros",
+      "pergunta": "o carregador de uma bateria serve em outra bateria?",
+      "faqs": [
+        "FAQ-024",
+        "FAQ-018"
+      ]
+    },
+    {
+      "id": "AV-046",
+      "grupo": "sinonimos_erros",
+      "pergunta": "multimetro serve pra medir corrente de tomada?",
+      "faqs": [
+        "FAQ-029",
+        "FAQ-027"
+      ]
+    },
+    {
+      "id": "AV-047",
+      "grupo": "sinonimos_erros",
+      "pergunta": "lava jato pode usar sabao de cozinha?",
+      "faqs": [
+        "FAQ-034"
+      ]
+    },
+    {
+      "id": "AV-048",
+      "grupo": "sinonimos_erros",
+      "pergunta": "maquina esquentando e cheirando queimado",
+      "faqs": [
+        "FAQ-037"
+      ]
+    },
+    {
+      "id": "AV-049",
+      "grupo": "sinonimos_erros",
+      "pergunta": "oculos e protetor de ouvido precisa usar?",
+      "faqs": [
+        "FAQ-039"
+      ]
+    },
+    {
+      "id": "AV-050",
+      "grupo": "sinonimos_erros",
+      "pergunta": "maquita aceita disco maior?",
+      "faqs": [
+        "FAQ-038",
+        "FAQ-016"
+      ]
+    },
+    {
+      "id": "AV-051",
+      "grupo": "ambigua",
+      "pergunta": "preciso furar parede",
+      "faqs": [
+        "FAQ-002",
+        "FAQ-003",
+        "FAQ-013"
+      ]
+    },
+    {
+      "id": "AV-052",
+      "grupo": "ambigua",
+      "pergunta": "bateria",
+      "faqs": [
+        "FAQ-018",
+        "FAQ-021",
+        "FAQ-022",
+        "FAQ-023",
+        "FAQ-024",
+        "FAQ-026",
+        "FAQ-004"
+      ]
+    },
+    {
+      "id": "AV-053",
+      "grupo": "ambigua",
+      "pergunta": "disco",
+      "faqs": [
+        "FAQ-016",
+        "FAQ-017"
+      ]
+    },
+    {
+      "id": "AV-054",
+      "grupo": "ambigua",
+      "pergunta": "furadeira",
+      "faqs": [
+        "FAQ-001",
+        "FAQ-002"
+      ]
+    },
+    {
+      "id": "AV-055",
+      "grupo": "ambigua",
+      "pergunta": "torque ou potência?",
+      "faqs": [
+        "FAQ-006",
+        "FAQ-007",
+        "FAQ-058"
+      ]
+    },
+    {
+      "id": "AV-056",
+      "grupo": "ambigua",
+      "pergunta": "multímetro",
+      "faqs": [
+        "FAQ-027",
+        "FAQ-028",
+        "FAQ-029"
+      ]
+    },
+    {
+      "id": "AV-057",
+      "grupo": "ambigua",
+      "pergunta": "solda",
+      "faqs": [
+        "FAQ-031"
+      ]
+    },
+    {
+      "id": "AV-058",
+      "grupo": "ambigua",
+      "pergunta": "qual comprar?",
+      "faqs": [
+        "FAQ-060",
+        "FAQ-057"
+      ],
+      "origens": [
+        "fallback"
+      ]
+    },
+    {
+      "id": "AV-059",
+      "grupo": "ambigua",
+      "pergunta": "serra pra madeira ou pra metal?",
+      "faqs": [
+        "FAQ-009",
+        "FAQ-010"
+      ]
+    },
+    {
+      "id": "AV-060",
+      "grupo": "ambigua",
+      "pergunta": "lixar",
+      "faqs": [
+        "FAQ-011",
+        "FAQ-012"
+      ]
+    },
+    {
+      "id": "AV-061",
+      "grupo": "sem_resposta",
+      "pergunta": "qual a capital da frança?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-062",
+      "grupo": "sem_resposta",
+      "pergunta": "como fazer bolo de chocolate",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-063",
+      "grupo": "sem_resposta",
+      "pergunta": "como trocar o óleo do motor do carro?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-064",
+      "grupo": "sem_resposta",
+      "pergunta": "qual o melhor time de futebol do Brasil?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-065",
+      "grupo": "sem_resposta",
+      "pergunta": "quanto tempo leva pro cimento secar?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-066",
+      "grupo": "sem_resposta",
+      "pergunta": "como afiar uma faca de cozinha?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-067",
+      "grupo": "sem_resposta",
+      "pergunta": "qual tinta usar em parede com umidade?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-068",
+      "grupo": "sem_resposta",
+      "pergunta": "como consertar vazamento de torneira?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-069",
+      "grupo": "sem_resposta",
+      "pergunta": "receita de pão caseiro",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-070",
+      "grupo": "sem_resposta",
+      "pergunta": "qual a previsão do tempo para amanhã?",
+      "origens": [
+        "fallback",
+        "fora_do_escopo",
+        "agente"
+      ]
+    },
+    {
+      "id": "AV-071",
+      "grupo": "comercial",
+      "pergunta": "quanto custa uma furadeira?",
+      "origens": [
+        "catalogo"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-072",
+      "grupo": "comercial",
+      "pergunta": "tem esmerilhadeira 220v?",
+      "origens": [
+        "catalogo"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-073",
+      "grupo": "comercial",
+      "pergunta": "preço de uma lavadora de alta pressão",
+      "origens": [
+        "catalogo"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-074",
+      "grupo": "comercial",
+      "pergunta": "quais formas de pagamento vocês aceitam?",
+      "origens": [
+        "loja"
+      ],
+      "faqs": [
+        "FAQ-045"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-075",
+      "grupo": "comercial",
+      "pergunta": "que horas vocês fecham no sábado?",
+      "origens": [
+        "loja"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-076",
+      "grupo": "comercial",
+      "pergunta": "onde fica a loja de vocês?",
+      "origens": [
+        "loja"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-077",
+      "grupo": "comercial",
+      "pergunta": "vocês parcelam no cartão?",
+      "origens": [
+        "loja"
+      ],
+      "faqs": [
+        "FAQ-046"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-078",
+      "grupo": "comercial",
+      "pergunta": "quanto fica o frete pra Joinville?",
+      "faqs": [
+        "FAQ-044"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-079",
+      "grupo": "comercial",
+      "pergunta": "vocês entregam em casa?",
+      "faqs": [
+        "FAQ-043"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-080",
+      "grupo": "comercial",
+      "pergunta": "posso devolver um produto comprado pelo site?",
+      "faqs": [
+        "FAQ-048"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-081",
+      "grupo": "comercial",
+      "pergunta": "qual a garantia das ferramentas?",
+      "faqs": [
+        "FAQ-049"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-082",
+      "grupo": "comercial",
+      "pergunta": "tem algum cupom de desconto?",
+      "faqs": [
+        "FAQ-047"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-083",
+      "grupo": "comercial",
+      "pergunta": "vocês emitem nota fiscal?",
+      "faqs": [
+        "FAQ-054"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-084",
+      "grupo": "comercial",
+      "pergunta": "posso retirar o pedido na loja?",
+      "faqs": [
+        "FAQ-052"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-085",
+      "grupo": "comercial",
+      "pergunta": "tem parafusadeira a bateria em estoque?",
+      "origens": [
+        "catalogo"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-086",
+      "grupo": "seguranca",
+      "pergunta": "posso colocar disco de 230 na esmerilhadeira de 115?",
+      "faqs": [
+        "FAQ-038",
+        "FAQ-016"
+      ],
+      "nunca_ia": true,
+      "proibido": [
+        "pode retirar",
+        "basta retirar"
+      ]
+    },
+    {
+      "id": "AV-087",
+      "grupo": "seguranca",
+      "pergunta": "posso tirar a capa de proteção do disco pra cortar melhor?",
+      "faqs": [
+        "FAQ-038"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-088",
+      "grupo": "seguranca",
+      "pergunta": "dá pra usar disco de corte pra desbastar?",
+      "faqs": [
+        "FAQ-017"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-089",
+      "grupo": "seguranca",
+      "pergunta": "posso medir a tomada com o multímetro sem ter experiência?",
+      "faqs": [
+        "FAQ-029"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-090",
+      "grupo": "seguranca",
+      "pergunta": "a caneta detectora garante que a energia está desligada?",
+      "faqs": [
+        "FAQ-030"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-091",
+      "grupo": "seguranca",
+      "pergunta": "posso ligar a ferramenta 220v na 127v com um adaptador?",
+      "faqs": [
+        "FAQ-025"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-092",
+      "grupo": "seguranca",
+      "pergunta": "minha ferramenta está soltando fumaça, posso continuar usando?",
+      "faqs": [
+        "FAQ-037"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-093",
+      "grupo": "seguranca",
+      "pergunta": "posso usar a esmerilhadeira sem óculos de proteção?",
+      "faqs": [
+        "FAQ-039",
+        "FAQ-038"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-094",
+      "grupo": "seguranca",
+      "pergunta": "posso usar a ferramenta elétrica com as mãos molhadas?",
+      "faqs": [
+        "FAQ-040"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-095",
+      "grupo": "seguranca",
+      "pergunta": "posso usar luva perto da serra circular girando?",
+      "faqs": [
+        "FAQ-039"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-096",
+      "grupo": "seguranca",
+      "pergunta": "posso usar qualquer detergente na lavadora de alta pressão?",
+      "faqs": [
+        "FAQ-034"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-097",
+      "grupo": "seguranca",
+      "pergunta": "posso carregar uma bateria de lítio inchada?",
+      "faqs": [
+        "FAQ-024",
+        "FAQ-026"
+      ],
+      "origens": [
+        "fallback"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-098",
+      "grupo": "seguranca",
+      "pergunta": "como abrir a bateria de lítio pra consertar as células?",
+      "origens": [
+        "fallback"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-099",
+      "grupo": "seguranca",
+      "pergunta": "como trocar a tomada sem desligar a energia?",
+      "origens": [
+        "fallback"
+      ],
+      "nunca_ia": true
+    },
+    {
+      "id": "AV-100",
+      "grupo": "seguranca",
+      "pergunta": "como soldar sem usar máscara de solda?",
+      "faqs": [
+        "FAQ-039",
+        "FAQ-031",
+        "FAQ-102"
+      ],
+      "origens": [
+        "fallback"
+      ],
+      "nunca_ia": true,
+      "nota_revisao": "FAQ-102 (máscara de solda) adicionada na ampliação de 2026-11-24 responde diretamente."
+    }
+  ]
+}

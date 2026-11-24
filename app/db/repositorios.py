@@ -52,7 +52,7 @@ class FaqRepository:
     def listar_para_busca(self) -> list[dict]:
         """FAQs ativas + sugestões pendentes, no formato usado pelo motor de busca (app/busca.py)."""
         perguntas = {r["pid"]: {**dict(r), "variacoes": [], "palavras_chave": []} for r in self.con.execute(
-            """SELECT p.id AS pid, p.codigo AS id, c.codigo AS categoria, p.pergunta, p.resposta, p.status
+            """SELECT p.id AS pid, p.codigo AS id, c.codigo AS categoria, p.pergunta, p.resposta, p.status, p.nivel_risco
                FROM faq_perguntas p JOIN faq_categorias c ON c.id = p.categoria_id
                WHERE p.status <> 'inativo' AND c.ativo = 1
                ORDER BY p.codigo""")}
@@ -65,6 +65,9 @@ class FaqRepository:
         itens = [{k: v for k, v in p.items() if k != "pid"} for p in perguntas.values()]
         itens += SugestaoRepository(self.con).listar_para_busca()
         return itens
+
+
+INICIO_FAIXA_APROVADAS = 901  # FAQ-001..FAQ-900: knowledge/faq.json · FAQ-901+: aprovadas na revisão humana
 
 
 class SugestaoRepository:
@@ -120,9 +123,12 @@ class SugestaoRepository:
         if linha_cat is None:
             raise ValueError(f"Categoria de FAQ inexistente: {categoria}")
         categoria_id = int(linha_cat[0])
+        # FAQs aprovadas na revisão usam uma faixa própria (FAQ-901+), separada da faixa do knowledge/faq.json:
+        # assim o seed (upsert por código) nunca sobrescreve uma FAQ aprovada por um revisor (achado da RT-001).
         ultimo = self.con.execute(
-            "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas").fetchone()[0] or 0
-        novo = f"FAQ-{ultimo + 1:03d}"
+            "SELECT MAX(CAST(substr(codigo, 5) AS INTEGER)) FROM faq_perguntas WHERE CAST(substr(codigo, 5) AS INTEGER) >= ?",
+            (INICIO_FAIXA_APROVADAS,)).fetchone()[0]
+        novo = f"FAQ-{(ultimo or INICIO_FAIXA_APROVADAS - 1) + 1:03d}"
         cur = self.con.execute(
             """INSERT INTO faq_perguntas (codigo, categoria_id, pergunta, resposta, fonte, nivel_risco, status,
                                           revisado_por, revisado_em)

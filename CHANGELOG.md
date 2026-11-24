@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.5.0] — 2026-11-24 — Revisão técnica (RT-001 a RT-014) e plano de entrega
+
+### Adicionado
+- **Base de conhecimento ampliada:** 150 FAQs e 452 variações (mínimo de 3 por FAQ), com nível de risco em todas
+  (P0.4). As 89 novas foram redigidas com assistência de IA, sem preços, e estão em rascunho até a revisão humana.
+- **G26, política de risco (RT-003):** perguntas sobre eletricidade, solda, discos, proteções, baterias de lítio,
+  superaquecimento e químicos só são respondidas pela base. Ação perigosa é sempre encaminhada ao manual, a um
+  profissional ou a um atendente.
+- **Fluxos guiados F-TROCA e F-HUMANO (P1.4):** desistência (CDC art. 49), defeito (garantia) e produto errado
+  (atendimento prioritário). Pedido de atendente com resumo mascarado e **consentimento (G23)** antes de gravar.
+  Respostas rápidas no chat e na CLI.
+- `statusConteudo` em toda resposta (RT-004): o chat avisa quando o conteúdo não foi revisado ou é fictício.
+- **Avaliação de roteamento (RT-008):** 100 perguntas com gabarito (`tests/eval/`), relatório em `docs/eval/` e teste
+  de regressão (mínimo de 93 acertos e 0 respostas perigosas).
+- **Observabilidade (RT-011):** `GET /metricas` com agregados anônimos (origens, guardrails, IA ok/falha, latência
+  p50/p95 por etapa).
+- **Configuração centralizada (RT-012):** `app/config.py` e `.env.example`.
+- **CI (P1.6):** GitHub Actions com Ruff, pytest e avaliação, em Python 3.12 e 3.14.
+- **Revisão humana (P1.7):** planilha com 41 FAQs de risco alto + 30 sorteadas e importador
+  (`python -m app.db.planilha_revisao`).
+- Experimento isolado de embeddings (RT-009) e decisões D029–D031 (sugestões, embeddings, gatilhos de PostgreSQL e
+  RAG).
+
+### Corrigido
+- **Concorrência (RT-007):** a conexão SQLite compartilhada falhava sob carga (25 de 320 operações). Agora há uma
+  conexão por thread, `busy_timeout` e memória com trava: 960 de 960 operações sem erro.
+- **Ollama travado (RT-010):** chamadas sem timeout prendiam a requisição para sempre. Agora a resposta tem limite de
+  45 s, a reescrita de 10 s, e uma mensagem clara aparece quando a IA cai.
+- Uma FAQ aprovada na revisão podia ser sobrescrita pelo seed (RT-001). As aprovadas agora usam a faixa FAQ-901+.
+- O rollback da migração do catálogo falhava em banco populado (RT-006).
+- A busca entende terminações verbais ("conservo", "escolher") e o filtro comercial ficou mais preciso.
+- O status do chat dizia "respostas revisadas" para conteúdo ainda não revisado. Agora diz "respostas na base".
+
+### Alterado
+- O roteiro de demonstração (`docs/0015`) foi refeito para a versão atual.
+
+
 ## [0.4.0] — 2026-11-23 — Frontend profissional com a identidade do Tork
 
 ### Adicionado

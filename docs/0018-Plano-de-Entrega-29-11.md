@@ -33,11 +33,11 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P0.1 | Repositório consolidado: contexto, guardrails e documentação na `main` | T-007 |
 | P0.2 | ✅ ~~PostgreSQL via Docker~~ **SQLite normalizado** (decisão do time, D019) com **migrações SQL versionadas** up/down + executor | DB §0–2, T-016 |
 | P0.3 | ✅ Tabelas da FAQ (DB §2) + `faq_sugestoes`, e também loja, catálogo fictício (300 produtos) e atendimento: 19 tabelas em 3FN | DB §2–5, T-016, T-017 |
-| P0.4 | **150 FAQs + 450 variações** em 8 categorias, em YAML, com seed idempotente e verificador de contagens | DB §6, T-022–T-024, T-026 |
+| P0.4 | ✅ **150 FAQs + 452 variações** em 8 categorias, com seed idempotente (sincronização por hash) e verificador de contagens. Mantido em JSON (não YAML), sem nova dependência. Conteúdo novo em rascunho até a revisão (P1.7). Avaliação RT-008: 90 → 95/100, 0 perigosas | DB §6, T-022–T-024, T-026 |
 | P0.5 | ✅ Busca **parametrizada** (função `norm()` sem acento + LIKE) usada pelo Tork; comportamento mantido | DB §7, T-020 |
 | P0.6 | ✅ 687 testes, incluindo FKs, unicidades, CHECKs, triggers, contagens, SQL injection, acentos e rollback | DB §8, T-021 |
 | P0.7 | ✅ `docs/db/`: README, DER, dicionário de dados (gerado), catálogo do seed, segurança e log de execução | DB §1, §10 |
-| P0.8 | Demo funcionando + **vídeo de reserva** + versão `v0.3.0` | T-052, T-055 |
+| P0.8 | 🟡 Demo funcionando (roteiro `0015` atualizado e conferido) + **vídeo de reserva** (time) + versão `v0.5.0` (tag após o merge dos PRs) | T-052, T-055 |
 
 ### P1 — importante (faz a entrega se destacar)
 
@@ -46,10 +46,10 @@ Se não for avaliado, a seção 7 mostra o plano alternativo.
 | P1.1 | ✅ Identidade do Tork aplicada ao chat (cores, avatar, logo, selos, fontes locais, tema claro/escuro) | T-041, T-042 |
 | P1.2 | ✅ Boas-vindas + **menu em botões** com submenu de categorias, sugestões, avaliação 👍/👎 e links diretos `/?q=` | T-043, T-044 |
 | P1.3 | Respostas da loja (horário, endereço, pagamento, trocas) a partir de `loja.yaml` | T-030, T-035 |
-| P1.4 | Fluxo **F-TROCA** (CDC) e **F-HUMANO** simples (registro do pedido de atendimento) | T-032, T-033 |
+| P1.4 | ✅ Fluxo **F-TROCA** (CDC) e **F-HUMANO** (resumo mascarado + consentimento G23 → `atendimentos_humanos`, dentro/fora do horário), na API, no chat (respostas rápidas) e na CLI | T-032, T-033 |
 | P1.5 | **G20** (confirmação de voltagem) | T-037 |
-| P1.6 | CI mínimo: pytest com serviço Postgres + Ruff | T-010 |
-| P1.7 | Revisão humana registrada de uma amostra de **30 FAQs** + todas as de risco alto | T-025 |
+| P1.6 | ✅ CI mínimo: Ruff + pytest + avaliação de roteamento (Python 3.12 e 3.14). ~~Serviço Postgres~~: banco é SQLite (D019) | T-010 |
+| P1.7 | 🟡 Planilha pronta (`docs/revisao/`: 41 de risco alto + 30 sorteadas, importador validado por testes). **Falta a revisão humana em si** (time) | T-025 |
 
 ### P2 — só se sobrar tempo, ou na extensão
 
@@ -76,7 +76,7 @@ uv, mypy, pre-commit, Alembic, Playwright, painel admin, roteador de intenções
 | **Qua 25** | Conteúdo | P0.4 (rascunho das 90 novas + 450 variações, priorizando os temas da pesquisa: voltagem, garantia/CDC, compatibilidade, manutenção); P1.1 | 150/450 no seed, verificador verde; chat com a cara do Tork |
 | **Qui 26** | Revisão e conversa | P1.7 (revisão), P1.2, P1.3, P1.4, P1.5 | Amostra revisada; menu e respostas da loja funcionando |
 | **Sex 27** | Qualidade e documentação | P0.6, P0.7; correções; **congelar funcionalidades às 18h** | Testes verdes; `docs/db/` completo |
-| **Sáb 28** | Entrega | Ensaio da demo, gravar o vídeo de reserva, P0.8 (`v0.3.0`), revisar a documentação, **entregar até 23:00** | Entregue com 1 h de folga |
+| **Sáb 28** | Entrega | Ensaio da demo, gravar o vídeo de reserva, P0.8 (`v0.5.0`), revisar a documentação, **entregar até 23:00** | Entregue com 1 h de folga |
 | *Dom 29 – seg 30* | *Reserva* | *Só correções ou P2, e só se a extensão for confirmada* | *Entrega final até 30/11 20:00 (2 h antes do limite)* |
 
 ### Divisão sugerida (se os 4 estiverem ativos)

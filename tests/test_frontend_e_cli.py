@@ -123,7 +123,7 @@ def test_cli_responde_e_encerra(tmp_path):
 
 
 def test_cli_sem_ollama_usa_fallback(tmp_path):
-    r = _rodar_cli("Como funciona uma tupia de bancada?\nsair\n", tmp_path)
+    r = _rodar_cli("Como funciona uma rebitadeira?\nsair\n", tmp_path)
     assert r.returncode == 0, r.stderr
     assert "sem resposta" in r.stdout
 
@@ -138,3 +138,9 @@ def test_pagina_monta_cards_de_produto_com_seguranca():
 def test_pagina_diferencia_resposta_nao_revisada_do_banco():
     assert 'sugestao: ["sugestao"' in JS
     assert "ainda não revisada" in JS
+
+
+def test_rt004_interface_nao_afirma_revisao_que_nao_houve():
+    assert "resposta revisada" not in JS
+    assert "conteúdo ainda não revisado por especialista" in JS
+    assert "statusConteudo" in JS

@@ -15,14 +15,15 @@ Fluxo de cada pergunta (os guardrails ficam em app/guardrails/):
 """
 
 import logging
-import os
 import sqlite3
 from dataclasses import dataclass, field
 
-from app import banco
-from app.busca import Faq, buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
+from app import banco, config
+from app.metricas import metricas
+from app.busca import buscar, eh_saudacao, montar_faqs, normalizar, nota_combinada, pontuar, tokens
 from app.guardrails.entrada import remover_rotulos
 from app.guardrails.aprendizado import resposta_incerta
+from app.guardrails.risco import NOTA_MINIMA_RISCO, REFORCO_RISCO, acao_perigosa, resposta_sem_base, tema_de_risco
 from app.guardrails import (
     eh_fora_do_escopo,
     limpar_reescrita,
@@ -35,6 +36,7 @@ from app.guardrails.prompts import (
     APRESENTACAO,
     AVISO_DADOS_PESSOAIS,
     FALLBACK,
+    FALLBACK_IA_INDISPONIVEL,
     FORA_DO_ESCOPO,
     INSTRUCAO_LLM,
     INSTRUCAO_REESCRITA,
@@ -42,6 +44,7 @@ from app.guardrails.prompts import (
     RESPOSTA_BLOQUEADA_SAIDA,
     RESPOSTA_FORA_DO_ESCOPO,
 )
+from app.db.conexao import ConexoesPorThread
 from app.db.repositorios import CatalogoRepository, LojaRepository
 from app.intencoes import detectar_loja, detectar_produto, responder_loja, responder_produto
 from app.memoria import Troca
@@ -60,7 +63,9 @@ NOTA_SUGESTAO = 0.9     # sugestões não revisadas só respondem perguntas prat
 COBERTURA_REVERSA_SUGESTAO = 0.75  # ...e que contenham a maior parte das palavras da sugestão
 CATEGORIA_SUGESTAO = "aprendida"
 
-MODELO = os.getenv("OLLAMA_MODELO", "llama3.2")
+# Configuração (modelo, host, timeouts, liga/desliga) vem de app/config.py (RT-012).
+# OLLAMA_TIMEOUT padrão 45 s: a 1ª chamada carrega o modelo na memória (~12 s nesta máquina).
+# OLLAMA_TIMEOUT_REESCRITA padrão 10 s: se passar disso, usa a pergunta original.
 
 # Indícios de que a mensagem depende da anterior ("e para metal?", "e essa?", "quanto dura ela?").
 INICIOS_CONTINUACAO = ("e ", "e se ", "mas ", "entao ", "tambem ", "agora ", "so que ", "ainda ")
@@ -75,7 +80,7 @@ log = logging.getLogger("agente")
 
 
 def usar_ollama() -> bool:
-    return os.getenv("USAR_OLLAMA", "true").lower() in ("1", "true", "sim", "yes")
+    return config.ligado("USAR_OLLAMA")
 
 
 @dataclass
@@ -87,6 +92,9 @@ class Resposta:
     perguntaInterpretada: str | None = None   # preenchida quando a pergunta foi reescrita
     guardrails: list[str] = field(default_factory=list)  # guardrails acionados
     produtos: list[dict] = field(default_factory=list)   # cards do catálogo (origem = "catalogo")
+    # RT-004: grau de verificação do conteúdo. "validado" (revisado por especialista) | "rascunho" |
+    # "pendente_validacao" | "dados_demonstracao" (catálogo/loja fictícios) | "gerado_por_ia" | None
+    statusConteudo: str | None = None
 
     def para_dict(self) -> dict:
         d = self.__dict__.copy()
@@ -103,15 +111,27 @@ def _mensagens_do_historico(historico: list[Troca]) -> list[dict]:
     return mensagens
 
 
-def _chat_ollama(mensagens: list[dict], temperatura: float) -> str | None:
-    """Chama o Ollama; devolve None se ele não estiver disponível ou responder vazio."""
-    try:
-        import ollama
+def _chat_ollama(mensagens: list[dict], temperatura: float, timeout: float | None = None,
+                 etapa: str = "ia") -> str | None:
+    """Chama o Ollama; devolve None se ele não estiver disponível, demorar demais ou responder vazio.
 
-        r = ollama.chat(model=MODELO, messages=mensagens, options={"temperature": temperatura})
-        return r["message"]["content"].strip() or None
-    except Exception:
-        return None
+    RT-010: o cliente do Ollama não tem timeout por padrão; com o serviço travado a requisição
+    ficava pendurada para sempre. Agora há limite de tempo (OLLAMA_TIMEOUT, padrão 45 s).
+    """
+    with metricas.cronometro(etapa):  # RT-011: latência por etapa ("ia" ou "reescrita")
+        try:
+            import ollama
+
+            cliente = ollama.Client(host=config.texto("OLLAMA_HOST") or None,
+                                    timeout=timeout or config.segundos("OLLAMA_TIMEOUT"))
+            r = cliente.chat(model=config.texto("OLLAMA_MODELO"), messages=mensagens,
+                             options={"temperature": temperatura})
+            texto = r["message"]["content"].strip() or None
+        except Exception as erro:  # noqa: BLE001 - qualquer falha do LLM vira fallback seguro
+            log.warning("Ollama indisponível ou lento: %s", type(erro).__name__)
+            texto = None
+    metricas.registrar_ia(texto is not None)
+    return texto
 
 
 def perguntar_ao_ollama(pergunta: str, historico: list[Troca] | None = None) -> str | None:
@@ -131,6 +151,8 @@ def reescrever_com_ollama(pergunta: str, historico: list[Troca]) -> str | None:
             {"role": "user", "content": f"HISTÓRICO:\n{contexto}\n\nÚLTIMA MENSAGEM: {pergunta}"},
         ],
         temperatura=0.0,
+        timeout=config.segundos("OLLAMA_TIMEOUT_REESCRITA"),  # se demorar, segue com a pergunta original
+        etapa="reescrita",
     )
     return limpar_reescrita(texto)
 
@@ -153,19 +175,45 @@ class Agente:
         con: sqlite3.Connection | None = None,
         perguntar=perguntar_ao_ollama,
         reescrever=reescrever_com_ollama,
+        conexoes: ConexoesPorThread | None = None,
     ):
-        self.con = con if con is not None else banco.conectar()
+        """`con`: conexão única (testes, terminal). Sem `con`, usa uma conexão por thread (servidor, RT-007)."""
+        self._con_fixa = con
+        if con is None:
+            self._conexoes = conexoes or ConexoesPorThread()
+            banco.conectar(self._conexoes.caminho).close()  # migra e popula uma vez, antes de atender
         self.perguntar = perguntar
         self.reescrever = reescrever
-        self.catalogo = CatalogoRepository(self.con)
-        self.loja = LojaRepository(self.con)
         self.marcas_catalogo = self.catalogo.marcas()
         self.recarregar()
 
+    @property
+    def con(self) -> sqlite3.Connection:
+        return self._con_fixa if self._con_fixa is not None else self._conexoes.atual()
+
+    @property
+    def catalogo(self) -> CatalogoRepository:
+        return CatalogoRepository(self.con)
+
+    @property
+    def loja(self) -> LojaRepository:
+        return LojaRepository(self.con)
+
     def recarregar(self):
-        self.faqs: list[Faq] = montar_faqs(banco.listar(self.con))   # oficiais + sugestões (para /faqs e /health)
-        self.oficiais = [f for f in self.faqs if f.categoria != CATEGORIA_SUGESTAO]
-        self.sugestoes = [f for f in self.faqs if f.categoria == CATEGORIA_SUGESTAO]
+        # Monta as listas novas e só então as publica (troca de referência): threads que estão
+        # respondendo continuam com a versão anterior, sem ver uma lista pela metade.
+        faqs = montar_faqs(banco.listar(self.con))
+        oficiais = [f for f in faqs if f.categoria != CATEGORIA_SUGESTAO]
+        sugestoes = [f for f in faqs if f.categoria == CATEGORIA_SUGESTAO]
+        self.faqs, self.oficiais, self.sugestoes = faqs, oficiais, sugestoes   # oficiais + sugestões (para /faqs e /health)
+        self._status_faq = {f.id: f.status for f in faqs}
+
+    def _status_do_conteudo(self, r: "Resposta") -> str | None:
+        """RT-004: diz ao cliente (e ao log) quanto aquela resposta foi verificada."""
+        if r.origem == "banco":
+            return self._status_faq.get(r.matchedFaqId or "", "rascunho")
+        return {"catalogo": "dados_demonstracao", "loja": "dados_demonstracao",
+                "agente": "gerado_por_ia", "sugestao": "gerado_por_ia"}.get(r.origem)
 
     def responder(self, pergunta: str, historico: list[Troca] | None = None) -> Resposta:
         historico = historico or []
@@ -186,6 +234,7 @@ class Agente:
                 self._responder_por_dados(independente)
                 or self._responder_pelo_banco(independente)
                 or self._responder_comercial(independente)
+                or self._responder_risco(independente)
                 or self._responder_por_sugestao(independente)
                 or self._responder_pelo_agente(independente, historico, bool(entrada.dados_pessoais))
             )
@@ -193,6 +242,7 @@ class Agente:
                 resposta.perguntaInterpretada = independente
 
         resposta.guardrails = acionados + resposta.guardrails
+        resposta.statusConteudo = self._status_do_conteudo(resposta)
         if entrada.dados_pessoais:
             resposta.answer = f"{AVISO_DADOS_PESSOAIS}\n\n{resposta.answer}"
         return resposta
@@ -242,18 +292,39 @@ class Agente:
         comerciais = [r.faq for r in resultados if not pode_usar_llm(r.faq.categoria) and r.nota >= NOTA_COMERCIAL]
         if not comerciais:
             return None
-        texto = " ".join(f.resposta for f in comerciais[:3])
         nota = nota_combinada(pergunta, comerciais)
+        if nota < NOTA_MINIMA:  # uma palavra solta ("trocar" o óleo do carro) não basta para ser assunto comercial
+            return None
+        texto = " ".join(f.resposta for f in comerciais[:3])
         return Resposta(texto, comerciais[0].id, nota, "banco", guardrails=["escopo:comercial_sem_llm"])
 
     # ---- 3) agente de IA ---------------------------------------------------
     # ---- 4) resposta aprendida, ainda não revisada --------------------------
+    # ---- 3b) G26: pergunta de risco sem FAQ suficiente -----------------------
+    def _responder_risco(self, pergunta: str) -> Resposta | None:
+        """Tema de risco: usa a FAQ mais próxima (nota >= 0,3) com reforço; sem FAQ, encaminha. Nunca chama a IA."""
+        tema = tema_de_risco(pergunta)
+        if not tema:
+            return None
+        if acao_perigosa(pergunta):  # ex.: abrir bateria de lítio, mexer com energia ligada
+            return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:acao_perigosa:{tema}"])
+        candidatos = [r for r in buscar(pergunta, self.oficiais, limite=5)
+                      if r.nota >= NOTA_MINIMA_RISCO and r.faq.nivel_risco in ("medio", "alto")]
+        if candidatos:
+            melhor = candidatos[0]
+            return Resposta(melhor.faq.resposta + REFORCO_RISCO, melhor.faq.id, melhor.nota, "banco",
+                            guardrails=[f"G26:risco:{tema}"])
+        return Resposta(resposta_sem_base(tema), None, 0.0, "fallback", guardrails=[f"G26:risco_sem_base:{tema}"])
+
     def _responder_por_sugestao(self, pergunta: str) -> Resposta | None:
         """Reaproveita uma resposta gerada pela IA SÓ se a pergunta for praticamente a mesma.
 
         Sugestões não passaram por revisão humana: não podem "pegar" perguntas parecidas como a
         FAQ oficial faz. Exige nota alta nos dois sentidos (a pergunta cobre a sugestão e vice-versa).
+        RT-002: TORK_SERVIR_SUGESTOES=false desliga o reaproveitamento (só conteúdo aprovado é servido).
         """
+        if not config.ligado("TORK_SERVIR_SUGESTOES"):
+            return None
         q = tokens(pergunta)
         melhor, nota_melhor = None, 0.0
         for sug in self.sugestoes:
@@ -272,7 +343,7 @@ class Agente:
             return Resposta(FALLBACK, None, 0.0, "fallback")
         texto = self.perguntar(pergunta, historico)
         if not texto:
-            return Resposta(FALLBACK, None, 0.0, "fallback")
+            return Resposta(FALLBACK_IA_INDISPONIVEL, None, 0.0, "fallback", guardrails=["ia:indisponivel"])
         if eh_fora_do_escopo(texto):
             return Resposta(RESPOSTA_FORA_DO_ESCOPO, None, 0.0, "fora_do_escopo", guardrails=["escopo:fora_do_escopo"])
 

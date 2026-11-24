@@ -5,3 +5,4 @@ httpx
 # testes
 pytest
 httpx2  # cliente usado pelo TestClient do Starlette (o httpx está obsoleto para testes)
+ruff  # lint (CI)

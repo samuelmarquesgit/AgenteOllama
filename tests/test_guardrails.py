@@ -268,13 +268,13 @@ def test_g15_reescrita_nao_vaza_dado_pessoal():
 # G16–G18 — aprendizado
 # =============================================================================
 def test_g16_nao_grava_resposta_reprovada():
-    assert not pode_gravar("Como funciona uma tupia de bancada?", resposta_aprovada=False)
+    assert not pode_gravar("Como funciona uma rebitadeira?", resposta_aprovada=False)
 
 
 def test_g17_nao_grava_pergunta_sem_assunto():
     assert not pode_gravar("e ai?", True)
     assert not pode_gravar("ok", True)
-    assert pode_gravar("Como funciona uma tupia de bancada?", True)
+    assert pode_gravar("Como funciona uma rebitadeira?", True)
 
 
 def test_g18_nao_grava_pergunta_com_dado_pessoal():
@@ -317,7 +317,7 @@ def test_remover_rotulos(texto, esperado):
 
 
 def test_g18_nao_grava_quando_a_mensagem_tinha_dado_pessoal():
-    assert not pode_gravar("Como funciona uma tupia de bancada?", True, tinha_dados_pessoais=True)
+    assert not pode_gravar("Como funciona uma rebitadeira?", True, tinha_dados_pessoais=True)
 
 
 # ---- G25: resposta incerta não é gravada ------------------------------------------
@@ -341,3 +341,44 @@ def test_g25_detecta_incerteza(texto):
 ])
 def test_g25_nao_confunde_orientacao_com_incerteza(texto):
     assert not resposta_incerta(texto)
+
+
+# =============================================================================
+# G26 — política de perguntas técnicas de risco (RT-003)
+# =============================================================================
+from app.guardrails.risco import acao_perigosa, tema_de_risco  # noqa: E402
+
+
+@pytest.mark.parametrize("texto, tema", [
+    ("como trocar a tomada da cozinha?", "eletricidade"),
+    ("levei um choque na furadeira", "eletricidade"),
+    ("qual a melhor solda para iniciante?", "solda"),
+    ("posso usar disco maior na esmerilhadeira?", "disco_e_corte"),
+    ("posso trabalhar sem óculos?", "protecao"),
+    ("minha bateria de lítio está inchada", "bateria_litio"),
+    ("a lixadeira está soltando fumaça", "superaquecimento"),
+    ("posso usar thinner para limpar a ferramenta?", "quimicos"),
+])
+def test_g26_detecta_temas_de_risco(texto, tema):
+    assert tema_de_risco(texto) == tema
+
+
+@pytest.mark.parametrize("texto", ["qual broca usar em madeira?", "quanto custa uma furadeira?", "que horas a loja abre?"])
+def test_g26_nao_marca_pergunta_comum_como_risco(texto):
+    assert tema_de_risco(texto) is None
+
+
+@pytest.mark.parametrize("texto", [
+    "como abrir a bateria de lítio pra consertar as células?",
+    "como trocar a tomada sem desligar a energia?",
+    "dá pra mexer no quadro com a energia ligada?",
+    "como retirar a proteção da esmerilhadeira pra usar disco maior?",
+    "como fazer um gato na fiação?",
+])
+def test_g26_detecta_acao_perigosa(texto):
+    assert acao_perigosa(texto)
+
+
+@pytest.mark.parametrize("texto", ["posso retirar a proteção da esmerilhadeira?", "como guardar baterias de lítio?"])
+def test_g26_pergunta_sobre_regra_nao_e_acao_perigosa(texto):
+    assert not acao_perigosa(texto)

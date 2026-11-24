@@ -1,0 +1,7 @@
+# Lint mínimo do CI (P1.6): erros de sintaxe/nomes indefinidos e importações não usadas.
+target-version = "py312"
+line-length = 120
+extend-exclude = ["data", "docs"]
+
+[lint]
+select = ["E9", "F"]
