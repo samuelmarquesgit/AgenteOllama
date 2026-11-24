@@ -1008,7 +1008,10 @@
       "devolver",
       "devolucao",
       "arrependimento",
-      "reembolso"
+      "reembolso",
+      "comprado",
+      "site",
+      "pedido online"
     ],
     "resposta": "As condições dependem do tipo de compra, motivo e legislação aplicável. Em compras realizadas fora do estabelecimento, o CDC prevê, em regra, direito de arrependimento em até 7 dias, nas condições legais. Consulte a política da loja para orientações específicas.",
     "fonte": "docs/0003-Requisitos-do-Produto.md",

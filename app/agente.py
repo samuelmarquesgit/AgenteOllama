@@ -293,8 +293,10 @@ class Agente:
         comerciais = [r.faq for r in resultados if not pode_usar_llm(r.faq.categoria) and r.nota >= NOTA_COMERCIAL]
         if not comerciais:
             return None
-        texto = " ".join(f.resposta for f in comerciais[:3])
         nota = nota_combinada(pergunta, comerciais)
+        if nota < NOTA_MINIMA:  # uma palavra solta ("trocar" o óleo do carro) não basta para ser assunto comercial
+            return None
+        texto = " ".join(f.resposta for f in comerciais[:3])
         return Resposta(texto, comerciais[0].id, nota, "banco", guardrails=["escopo:comercial_sem_llm"])
 
     # ---- 3) agente de IA ---------------------------------------------------

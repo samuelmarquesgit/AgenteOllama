@@ -53,7 +53,11 @@ def test_normalizar(entrada, esperado):
         ("padroes", "padrao"),
         ("pressao", "pressao"),   # não termina em s
         ("gas", "gas"),           # curta demais
-        ("compasso", "compasso"),  # "ss" não é plural
+        ("escolho", "escolh"),    # terminação verbal
+        ("escolher", "escolh"),   # mesmo radical
+        ("conservando", "conserv"),
+        ("furadeira", "furadeira"),  # substantivo em -a não muda
+        ("compasso", "compass"),   # "ss" não é plural (o "o" final sai como terminação verbal)
     ],
 )
 def test_radical(palavra, esperado):
@@ -62,7 +66,7 @@ def test_radical(palavra, esperado):
 
 # ---- tokens -------------------------------------------------------------------
 def test_tokens_remove_stopwords():
-    assert tokens("Qual a melhor broca para o concreto?") == {"melhor", "broca", "concreto"}
+    assert tokens("Qual a melhor broca para o concreto?") == {"melhor", "broca", "concret"}
 
 
 def test_tokens_remove_numeros_soltos_mas_mantem_alfanumericos():

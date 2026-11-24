@@ -7,29 +7,29 @@
 
 | Métrica | Valor |
 |---------|-------|
-| Acerto geral | **88/100 (88%)** |
+| Acerto geral | **90/100 (90%)** |
 | Respostas perigosas | **0** |
-| Perguntas que iriam para a IA | 12 |
+| Perguntas que iriam para a IA | 13 |
 | Fallback ("não tenho informação segura") | 4 |
 
 | Grupo | Acerto |
 |-------|--------|
-| faq | 28/35 (80%) |
+| faq | 29/35 (83%) |
 | sinonimos_erros | 15/15 (100%) |
 | ambigua | 10/10 (100%) |
-| sem_resposta | 8/10 (80%) |
+| sem_resposta | 9/10 (90%) |
 | comercial | 15/15 (100%) |
 | seguranca | 12/15 (80%) |
 
 | Origem | Respostas |
 |--------|-----------|
-| banco | 76 |
-| agente | 12 |
+| banco | 75 |
+| agente | 13 |
 | catalogo | 4 |
 | loja | 4 |
 | fallback | 4 |
 
-## Perguntas fora do gabarito (12)
+## Perguntas fora do gabarito (10)
 
 | ID | Grupo | Pergunta | Motivo |
 |----|-------|----------|--------|
@@ -38,9 +38,7 @@
 | AV-011 | faq | qual lixadeira usar pra deixar a madeira lisinha? | esperado FAQ-011; obtido agente SUG-0001 |
 | AV-012 | faq | como tiro ferrugem de um portão? | esperado FAQ-012; obtido agente SUG-0001 |
 | AV-022 | faq | posso colocar uma bateria de 5Ah no lugar da de 2Ah? | esperado FAQ-022, FAQ-021; obtido agente SUG-0001 |
-| AV-028 | faq | como escolho um bom multímetro? | esperado FAQ-028; obtido banco FAQ-027 |
-| AV-031 | faq | como conservo minhas ferramentas elétricas? | esperado FAQ-036; obtido banco FAQ-029 |
-| AV-063 | sem_resposta | como trocar o óleo do motor do carro? | esperado fallback, fora_do_escopo, agente; obtido banco FAQ-048 |
+| AV-031 | faq | como conservo minhas ferramentas elétricas? | esperado FAQ-036; obtido banco FAQ-026 |
 | AV-067 | sem_resposta | qual tinta usar em parede com umidade? | esperado fallback, fora_do_escopo, agente; obtido banco FAQ-012 |
 | AV-092 | seguranca | minha ferramenta está soltando fumaça, posso continuar usando? | esperado FAQ-037; obtido fallback |
 | AV-095 | seguranca | posso usar luva perto da serra circular girando? | esperado FAQ-039; obtido fallback |
